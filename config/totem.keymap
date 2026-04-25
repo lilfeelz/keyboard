@@ -1,0 +1,300 @@
+//
+//                                                        ▀▀▀▀▀     ▀▀▀▀▀          ▀▀█▀▀
+//                                                        ▄▀▀▀▄  ▄  ▄▀▀▀▄  ▄  ▄▀▀▀▄  █  ▄▀▀▀▄
+//                                                        █   █  █  █   █  █  █   █  █  █   █
+//                                                         ▀▀▀   █   ▀▀▀   █   ▀▀▀   ▀   ▀▀▀
+//                                                               █      ▄▄▄█▄▄▄    █   █  
+//                                                               ▀      █  █  █     █▄█
+//                                                             ▀▀▀▀▀    █  █  █      ▀
+//                                                                      ▀  ▀  ▀
+//
+// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
+
+#define BASE 0
+#define NAV  1
+#define SYM  2
+#define MOO  3
+
+&caps_word { continue-list = <UNDERSCORE BACKSPACE DELETE LEFT_ARROW DOWN_ARROW UP_ARROW RIGHT_ARROW HOME END PAGE_DOWN PAGE_UP>; };
+
+&mt { tapping-term-ms = <150>; };
+
+&sk {
+    quick-release;
+    lazy;
+};
+
+/ {
+    combos {
+        compatible = "zmk,combos";
+
+        clear_bluetooth {
+            bindings = <&bt BT_CLR>;
+            key-positions = <20 31>;
+        };
+
+        delete_word_forward {
+            bindings = <&delete_word>;
+            key-positions = <16 17>;
+            layers = <0>;
+        };
+
+        crbrace {
+            bindings = <&rbrace>;
+            key-positions = <23 24>;
+        };
+
+        csbrace {
+            bindings = <&sbrace>;
+            key-positions = <12 13>;
+            layers = <1>;
+        };
+
+        ccbrace {
+            bindings = <&cbrace>;
+            key-positions = <14 11>;
+            layers = <1>;
+        };
+
+        cabrace {
+            bindings = <&abrace>;
+            key-positions = <22 25>;
+            layers = <1>;
+        };
+    };
+
+    behaviors {
+        double_quote: double_quote {
+            compatible = "zmk,behavior-tap-dance";
+            label = "DOUBLE_QUOTE";
+            #binding-cells = <0>;
+            bindings = <&kp DOUBLE_QUOTES>, <&dquote2>;
+        };
+
+        single_quote: single_quote {
+            compatible = "zmk,behavior-tap-dance";
+            label = "SINGLE_QUOTE";
+            #binding-cells = <0>;
+            bindings = <&kp SINGLE_QUOTE>, <&squote2>;
+        };
+
+        mt_left: mt_left {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MT_LEFT";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "balanced";
+            hold-trigger-on-release;
+            hold-trigger-key-positions = <5 6 7 8 9 15 16 17 18 19 26 27 28 29 30 31 32 33 34 35 37 36>;
+            require-prior-idle-ms = <100>;
+            tapping-term-ms = <250>;
+            quick-tap-ms = <150>;
+        };
+
+        mt_right: mt_right {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MT_RIGHT";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "balanced";
+            hold-trigger-on-release;
+            require-prior-idle-ms = <100>;
+            tapping-term-ms = <250>;
+            hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 22 23 24 25 20 21 32 33 34 35 36 37>;
+            quick-tap-ms = <150>;
+        };
+
+        comma_semicolon: comma_semicolon {
+            compatible = "zmk,behavior-mod-morph";
+            label = "COMMA_SEMICOLON";
+            bindings = <&kp COMMA>, <&kp SEMICOLON>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+            keep-mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        period_colon: period_colon {
+            compatible = "zmk,behavior-mod-morph";
+            label = "PERIOD_COLON";
+            bindings = <&kp PERIOD>, <&kp COLON>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+            keep-mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        cmd_tab: cmd_tab {
+            compatible = "zmk,behavior-mod-morph";
+            label = "CMD_TAB";
+            bindings = <&kp TAB>, <&kp LA(LC(TAB))>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RGUI|MOD_LGUI)>;
+            keep-mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        scmd_tab: scmd_tab {
+            compatible = "zmk,behavior-mod-morph";
+            label = "SCMD_TAB";
+            bindings = <&kp LS(TAB)>, <&kp LA(LC(LS(TAB)))>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RGUI|MOD_LGUI)>;
+        };
+
+        lt_nav_del: lt_nav_del {
+            compatible = "zmk,behavior-mod-morph";
+            label = "LT_NAV_DEL";
+            bindings = <&lt 2 BACKSPACE>, <&lt 2 DELETE>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+            keep-mods = <(MOD_LALT|MOD_LGUI|MOD_LCTL|MOD_RCTL|MOD_RALT|MOD_RGUI)>;
+        };
+
+        quotes: quotes {
+            compatible = "zmk,behavior-mod-morph";
+            label = "QUOTES";
+            bindings = <&mt RCTRL DOUBLE_QUOTES>, <&mt RCTRL SINGLE_QUOTE>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+            keep-mods = <(MOD_LCTL|MOD_LALT|MOD_LGUI|MOD_RCTL|MOD_RALT|MOD_RGUI)>;
+        };
+
+        delete_word: delete_word {
+            compatible = "zmk,behavior-mod-morph";
+            label = "DELETE_WORD";
+            bindings = <&kp LA(BACKSPACE)>, <&kp LA(DELETE)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+    };
+
+    macros {
+        dquote2: dquote {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp DOUBLE_QUOTES &kp DOUBLE_QUOTES &kp LEFT>;
+            label = "DQUOTE";
+        };
+
+        squote2: squote {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp SINGLE_QUOTE &kp SINGLE_QUOTE &kp LEFT>;
+            label = "SQUOTE";
+        };
+
+        rbrace: lbrace {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_PARENTHESIS &kp RIGHT_PARENTHESIS &kp LEFT>;
+            label = "LBRACE";
+        };
+
+        sbrace: rbrace {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_BRACKET &kp RIGHT_BRACKET &kp LEFT>;
+            label = "RBRACE";
+        };
+
+        cbrace: cbrace {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_BRACE &kp RIGHT_BRACE &kp LEFT>;
+            label = "CBRACE";
+        };
+
+        abrace: abrace {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LESS_THAN &kp GREATER_THAN &kp LEFT>;
+            label = "ABRACE";
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
+        base {
+            // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+
+            label = "BASE";
+
+            // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+            //             ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓   ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓
+            //             ┃     Q     ┃     W     ┃     E     ┃     R     ┃     T     ┃   ┃     Z     ┃     U     ┃     I     ┃     O     ┃     P     ┃
+            //             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
+            //             ┃     A     ┃     S     ┃     D     ┃     F     ┃     G     ┃   ┃     H     ┃     J     ┃     K     ┃     L     ┃     -     ┃
+            // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
+            // ┃           ┃     Y     ┃     X     ┃     C     ┃     V     ┃     B     ┃   ┃     N     ┃     M     ┃     ,     ┃     .     ┃    TAB    ┃           ┃
+            // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
+            //                                     ┃  SK SHFT  ┃    MO1    ┃    ESC    ┃   ┃   SPACE   ┃    MO2    ┃   ENTER   ┃
+            //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
+
+            bindings = <
+                &kp Q  &kp W  &kp E  &kp R        &kp T         &kp Y      &kp U         &kp I             &kp O          &kp P
+                &kp A  &kp S  &kp D  &kp F        &kp G         &kp H      &kp J         &kp K             &kp L          &mt LA(LC(LEFT_GUI)) ESCAPE
+&sk LEFT_SHIFT  &kp Z  &kp X  &kp C  &kp V        &kp B         &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                    &sk LEFT_SHIFT
+                              &none  &lt_nav_del  &caps_word    &kp SPACE  &lt 1 RETURN  &none
+            >;
+        };
+
+        symbol {
+            bindings = <
+           &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)     &kp LS(DLLR)       &kp LS(PRCNT)      &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp LS(QMARK)
+           &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp RIGHT_BRACE    &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp SLASH
+&kp TILDE  &kp PIPE       &kp LS(LT)      &kp LS(LPAR)      &kp LS(RPAR)       &kp LS(GT)         &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &trans
+                                          &trans            &lt 3 BACKSPACE    &kp CAPSLOCK       &none          &trans               &none
+            >;
+
+            label = "SYM";
+        };
+
+        navigation {
+            bindings = <
+              &kp N1                      &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7       &kp N8     &kp N9     &kp N0
+              &mt LC(LA(LEFT_GUI)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN     &kp UP     &kp RIGHT  &lt 4 TAB
+&kp LS(HOME)  &kp LG(Z)                   &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN    &kp PG_UP  &kp END    &kp LS(TAB)  &kp LS(END)
+                                                          &none            &trans          &none            &trans    &lt 3 ENTER  &trans
+            >;
+
+            label = "NAV";
+        };
+
+        function {
+            bindings = <
+               &kp F1   &kp F2        &kp F3        &kp F4                 &kp F5     &kp F6   &kp F7      &kp F8             &kp F9        &kp F10
+               &none    &kp C_BRI_DN  &kp C_BRI_UP  &kp C_BRIGHTNESS_AUTO  &none      &none    &kp K_MUTE  &kp C_VOLUME_DOWN  &kp C_VOL_UP  &none
+&kp LG(LC(Q))  &kp F11  &kp F12       &kp F13       &kp F14                &kp F15    &kp F16  &kp F17     &kp F18            &kp F19       &kp F20  &kp LG(LS(Q))
+                                      &trans        &trans                 &trans     &trans   &trans      &trans
+            >;
+
+            label = "FUN";
+        };
+
+        mouse {
+            bindings = <
+        &trans  &trans  &trans  &trans  &trans    &trans           &trans        &trans          &trans          &trans
+        &trans  &trans  &trans  &trans  &trans    &msc SCRL_RIGHT  &msc SCRL_UP  &msc SCRL_DOWN  &msc SCRL_LEFT  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans           &trans        &trans          &trans          &trans  &trans
+                        &trans  &trans  &trans    &mkp LCLK        &mkp MCLK     &mkp RCLK
+            >;
+
+            label = "MOU";
+        };
+    };
+};

@@ -1,2 +1,2 @@
-# ZMK Configuration Template
-Wireless Cyboard keyboard configuration repository template for using ZMK firmware. [Instructions for use are located on our documentation site](https://docs.cyboard.digital/user-manual/quick-start/configure-layout).
+# TOTEM ZMK Configuration
+ZMK user config for the TOTEM keyboard, targeting the `xiao_ble//zmk` board with `totem_left`, `totem_right`, and `settings_reset` builds.
