@@ -246,10 +246,10 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                &kp Q  &kp W  &kp E  &kp R        &kp T         &kp Y      &kp U         &kp I             &kp O          &kp P
-                &kp A  &kp S  &kp D  &kp F        &kp G         &kp H      &kp J         &kp K             &kp L          &mt LA(LC(LEFT_GUI)) ESCAPE
-&sk LEFT_SHIFT  &kp Z  &kp X  &kp C  &kp V        &kp B         &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                    &sk LEFT_SHIFT
-                              &none  &lt_nav_del  &caps_word    &kp SPACE  &lt 1 RETURN  &none
+                &kp Q  &kp W  &kp E       &kp R        &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
+                &kp A  &kp S  &kp D       &kp F        &kp G        &kp H      &kp J         &kp K             &kp L          &mt LA(LC(LEFT_GUI)) ESCAPE
+&sk LEFT_SHIFT  &kp Z  &kp X  &kp C       &kp V        &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                    &sk LEFT_SHIFT
+                              &caps_word  &lt_nav_del  &kp SPACE    &kp SPACE  &lt 1 RETURN  &kp CAPS
             >;
         };
 
@@ -258,7 +258,7 @@
            &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)     &kp LS(DLLR)       &kp LS(PRCNT)      &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp LS(QMARK)
            &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp RIGHT_BRACE    &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp SLASH
 &kp TILDE  &kp PIPE       &kp LS(LT)      &kp LS(LPAR)      &kp LS(RPAR)       &kp LS(GT)         &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &trans
-                                          &trans            &lt 3 BACKSPACE    &kp CAPSLOCK       &none          &trans               &none
+                                          &trans            &lt 3 LS(RET)      &trans             &none          &trans               &none
             >;
 
             label = "SYM";
