@@ -255,10 +255,10 @@
 
         symbol {
             bindings = <
-           &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)     &kp LS(DLLR)       &kp LS(PRCNT)      &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp LS(QMARK)
-           &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp RIGHT_BRACE    &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp SLASH
-&kp TILDE  &kp PIPE       &kp LS(LT)      &kp LS(LPAR)      &kp LS(RPAR)       &kp LS(GT)         &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &trans
-                                          &kp CAPSLOCK      &lt 3 LS(RET)      &trans             &none          &trans               &none
+           &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)         &kp LS(DLLR)           &kp LS(PRCNT)       &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp LS(QMARK)
+           &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp RIGHT_BRACE     &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp SLASH
+&kp TILDE  &kp PIPE       &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &trans
+                                          &kp CAPSLOCK          &lt 3 LS(RET)          &trans              &none          &trans               &none
             >;
 
             label = "SYM";
