@@ -266,10 +266,10 @@
 
         navigation {
             bindings = <
-              &kp N1                      &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7               &kp N8      &kp N9     &kp N0
-              &mt LC(LA(LEFT_GUI)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN             &kp UP      &kp RIGHT  &cmd_tab
-&kp LS(HOME)  &kp LG(Z)                   &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN            &kp PG_UP   &kp END    &scmd_tab  &kp LS(END)
-                                                          &none            &trans          &none            &trans    &lt 3 LA(BACKSPACE)  &caps_word
+              &kp N1                      &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7               &kp N8        &kp N9     &kp N0
+              &mt LC(LA(LEFT_GUI)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN             &kp UP        &kp RIGHT  &cmd_tab
+&kp LS(HOME)  &kp LG(Z)                   &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN            &kp PG_UP     &kp END    &scmd_tab  &kp LS(END)
+                                                          &none            &trans          &none            &trans    &lt 3 LA(BACKSPACE)  &kp CAPSLOCK
             >;
 
             label = "NAV";
