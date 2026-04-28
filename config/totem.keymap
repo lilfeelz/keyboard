@@ -39,7 +39,7 @@
         };
 
         delete_word_forward {
-            bindings = <&delete_word>;
+            bindings = <&kp RC(B)>;
             key-positions = <16 17>;
             layers = <0>;
         };
