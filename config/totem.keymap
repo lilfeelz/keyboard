@@ -249,7 +249,7 @@
                 &kp Q  &kp W  &kp E       &kp R        &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
                 &kp A  &kp S  &kp D       &kp F        &kp G        &kp H      &kp J         &kp K             &kp L          &mt LA(LC(LEFT_GUI)) ESCAPE
 &sk LEFT_SHIFT  &kp Z  &kp X  &kp C       &kp V        &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                    &sk LEFT_SHIFT
-                              &caps_word  &lt_nav_del  &kp SPACE    &kp SPACE  &lt 1 RETURN  &kp CAPS
+                              &caps_word  &lt_nav_del  &kp SPACE    &kp SPACE  &lt 1 RETURN  &caps_word
             >;
         };
 
@@ -258,7 +258,7 @@
            &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)     &kp LS(DLLR)       &kp LS(PRCNT)      &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp LS(QMARK)
            &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp RIGHT_BRACE    &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp SLASH
 &kp TILDE  &kp PIPE       &kp LS(LT)      &kp LS(LPAR)      &kp LS(RPAR)       &kp LS(GT)         &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &trans
-                                          &trans            &lt 3 LS(RET)      &trans             &none          &trans               &none
+                                          &kp CAPSLOCK      &lt 3 LS(RET)      &trans             &none          &trans               &none
             >;
 
             label = "SYM";
@@ -266,10 +266,10 @@
 
         navigation {
             bindings = <
-              &kp N1                      &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7               &kp N8     &kp N9     &kp N0
-              &mt LC(LA(LEFT_GUI)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN             &kp UP     &kp RIGHT  &cmd_tab
-&kp LS(HOME)  &kp LG(Z)                   &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN            &kp PG_UP  &kp END    &scmd_tab  &kp LS(END)
-                                                          &none            &trans          &none            &trans    &lt 3 LA(BACKSPACE)  &trans
+              &kp N1                      &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7               &kp N8      &kp N9     &kp N0
+              &mt LC(LA(LEFT_GUI)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN             &kp UP      &kp RIGHT  &cmd_tab
+&kp LS(HOME)  &kp LG(Z)                   &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN            &kp PG_UP   &kp END    &scmd_tab  &kp LS(END)
+                                                          &none            &trans          &none            &trans    &lt 3 LA(BACKSPACE)  &caps_word
             >;
 
             label = "NAV";
