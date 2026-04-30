@@ -81,7 +81,6 @@
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
-            keep-mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         period_colon: period_colon {
@@ -91,7 +90,6 @@
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
-            keep-mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         cmd_tab: cmd_tab {
@@ -111,68 +109,6 @@
 
             #binding-cells = <0>;
             mods = <(MOD_RGUI|MOD_LGUI)>;
-        };
-
-        slash_pipe: slash_pipe {
-            compatible = "zmk,behavior-mod-morph";
-            label = "SLASH_PIPE";
-            bindings = <&kp SLASH>, <&kp PIPE>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        slash_hold: slash_hold {
-            compatible = "zmk,behavior-hold-tap";
-            label = "SLASH_HOLD";
-            bindings = <&kp>, <&slash_pipe>;
-
-            #binding-cells = <2>;
-            tapping-term-ms = <100>;
-        };
-    };
-
-    macros {
-        dquote2: dquote {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp DOUBLE_QUOTES &kp DOUBLE_QUOTES &kp LEFT>;
-            label = "DQUOTE";
-        };
-
-        squote2: squote {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp SINGLE_QUOTE &kp SINGLE_QUOTE &kp LEFT>;
-            label = "SQUOTE";
-        };
-
-        rbrace: lbrace {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LEFT_PARENTHESIS &kp RIGHT_PARENTHESIS &kp LEFT>;
-            label = "LBRACE";
-        };
-
-        sbrace: rbrace {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LEFT_BRACKET &kp RIGHT_BRACKET &kp LEFT>;
-            label = "RBRACE";
-        };
-
-        cbrace: cbrace {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LEFT_BRACE &kp RIGHT_BRACE &kp LEFT>;
-            label = "CBRACE";
-        };
-
-        abrace: abrace {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LESS_THAN &kp GREATER_THAN &kp LEFT>;
-            label = "ABRACE";
         };
     };
 
