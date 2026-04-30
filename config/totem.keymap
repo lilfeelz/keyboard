@@ -69,20 +69,6 @@
     };
 
     behaviors {
-        double_quote: double_quote {
-            compatible = "zmk,behavior-tap-dance";
-            label = "DOUBLE_QUOTE";
-            #binding-cells = <0>;
-            bindings = <&kp DOUBLE_QUOTES>, <&dquote2>;
-        };
-
-        single_quote: single_quote {
-            compatible = "zmk,behavior-tap-dance";
-            label = "SINGLE_QUOTE";
-            #binding-cells = <0>;
-            bindings = <&kp SINGLE_QUOTE>, <&squote2>;
-        };
-
         mt_left: mt_left {
             compatible = "zmk,behavior-hold-tap";
             label = "MT_LEFT";
@@ -150,30 +136,10 @@
             mods = <(MOD_RGUI|MOD_LGUI)>;
         };
 
-        lt_nav_del: lt_nav_del {
+        slash_pipe: slash_pipe {
             compatible = "zmk,behavior-mod-morph";
-            label = "LT_NAV_DEL";
-            bindings = <&lt 2 BACKSPACE>, <&lt 2 DELETE>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-            keep-mods = <(MOD_LALT|MOD_LGUI|MOD_LCTL|MOD_RCTL|MOD_RALT|MOD_RGUI)>;
-        };
-
-        quotes: quotes {
-            compatible = "zmk,behavior-mod-morph";
-            label = "QUOTES";
-            bindings = <&mt RCTRL DOUBLE_QUOTES>, <&mt RCTRL SINGLE_QUOTE>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-            keep-mods = <(MOD_LCTL|MOD_LALT|MOD_LGUI|MOD_RCTL|MOD_RALT|MOD_RGUI)>;
-        };
-
-        delete_word: delete_word {
-            compatible = "zmk,behavior-mod-morph";
-            label = "DELETE_WORD";
-            bindings = <&kp LA(BACKSPACE)>, <&kp LA(DELETE)>;
+            label = "SLASH_PIPE";
+            bindings = <&kp SLASH>, <&kp PIPE>;
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
