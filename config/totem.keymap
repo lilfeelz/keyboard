@@ -109,6 +109,24 @@
             #binding-cells = <0>;
             mods = <(MOD_RGUI|MOD_LGUI)>;
         };
+
+        bs_del: bs_del {
+            compatible = "zmk,behavior-mod-morph";
+            label = "BS_DEL";
+            bindings = <&kp BACKSPACE>, <&kp DEL>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+    };
+
+    macros {
+        sticky_delete: sticky_delete {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&sl 4 &sticky_delete>;
+            label = "STICKY_DELETE";
+        };
     };
 
     keymap {
@@ -182,6 +200,15 @@
             >;
 
             label = "MOU";
+        };
+
+        delete {
+            bindings = <
+       &none  &none  &none  &none  &none    &none  &none    &none  &none  &none
+       &none  &none  &none  &none  &none    &none  &bs_del  &none  &none  &none
+&none  &none  &none  &none  &none  &none    &none  &none    &none  &none  &none  &none
+                     &none  &none  &none    &none  &none    &none
+            >;
         };
     };
 };
