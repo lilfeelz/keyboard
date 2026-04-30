@@ -144,6 +144,15 @@
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+
+        slash_hold: slash_hold {
+            compatible = "zmk,behavior-hold-tap";
+            label = "SLASH_HOLD";
+            bindings = <&kp>, <&slash_pipe>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <100>;
+        };
     };
 
     macros {
@@ -213,18 +222,18 @@
 
             bindings = <
             &kp Q  &kp W  &kp E       &kp R        &kp T             &kp Y            &kp U        &kp I             &kp O          &kp P
-            &kp A  &kp S  &kp D       &kp F        &kp G             &kp H            &kp J        &kp K             &kp L          &mt LA(LC(LEFT_GUI)) LA(BACKSPACE)
-&kp ESCAPE  &kp Z  &kp X  &kp C       &kp V        &kp B             &kp N            &kp M        &comma_semicolon  &period_colon  &kp MINUS                           &kp ENTER
+            &kp A  &kp S  &kp D       &kp F        &kp G             &kp H            &kp J        &kp K             &kp L          &slash_hold RC(RA(RIGHT_GUI)) 0
+&kp ESCAPE  &kp Z  &kp X  &kp C       &kp V        &kp B             &kp N            &kp M        &comma_semicolon  &period_colon  &kp MINUS                        &kp ENTER
                           &caps_word  &lt 3 SPACE  &sk LEFT_SHIFT    &sk RIGHT_SHIFT  &lt 1 SPACE  &caps_word
             >;
         };
 
         symbol {
             bindings = <
-           &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)         &kp LS(DLLR)           &kp LS(PRCNT)       &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp LS(QMARK)
-           &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp RIGHT_BRACE     &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp SLASH
-&kp TILDE  &kp PIPE       &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &trans
-                                          &kp CAPSLOCK          &lt 4 ESCAPE           &trans              &none          &trans               &none
+       &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)         &kp LS(DLLR)           &kp LS(PRCNT)       &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp LS(QMARK)
+       &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp RIGHT_BRACE     &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp TILDE
+&none  &kp PIPE       &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &none
+                                      &kp CAPSLOCK          &lt 4 ESCAPE           &trans              &none          &trans               &none
             >;
 
             label = "SYM";
