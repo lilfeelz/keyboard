@@ -124,7 +124,7 @@
         sticky_delete: sticky_delete {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&sl 4 &sticky_delete>;
+            bindings = <&kp RET &sl 4>;
             label = "STICKY_DELETE";
         };
     };
@@ -163,7 +163,7 @@
            &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)         &kp LS(DLLR)           &kp LS(PRCNT)       &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp QUESTION
            &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp RIGHT_BRACE     &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp SLASH
 &kp TILDE  &kp PIPE       &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &none
-                                          &kp CAPSLOCK          &lt 3 BACKSPACE        &kp UNDERSCORE      &none          &trans               &none
+                                          &kp CAPSLOCK          &lt 3 BACKSPACE        &none               &none          &trans               &none
             >;
 
             label = "SYM";
@@ -202,10 +202,10 @@
             label = "MOU";
         };
 
-        delete {
+        one-shot {
             bindings = <
        &none  &none  &none  &none  &none    &none  &none    &none  &none  &none
-       &none  &none  &none  &none  &none    &none  &bs_del  &none  &none  &none
+       &none  &none  &none  &none  &none    &none  &kp RET  &none  &none  &none
 &none  &none  &none  &none  &none  &none    &none  &none    &none  &none  &none  &none
                      &none  &none  &none    &none  &none    &none
             >;
