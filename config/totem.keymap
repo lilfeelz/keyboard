@@ -43,29 +43,6 @@
             key-positions = <16 17>;
             layers = <0>;
         };
-
-        crbrace {
-            bindings = <&rbrace>;
-            key-positions = <23 24>;
-        };
-
-        csbrace {
-            bindings = <&sbrace>;
-            key-positions = <12 13>;
-            layers = <1>;
-        };
-
-        ccbrace {
-            bindings = <&cbrace>;
-            key-positions = <14 11>;
-            layers = <1>;
-        };
-
-        cabrace {
-            bindings = <&abrace>;
-            key-positions = <22 25>;
-            layers = <1>;
-        };
     };
 
     behaviors {
@@ -230,9 +207,9 @@
 
         symbol {
             bindings = <
-       &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)         &kp LS(DLLR)           &kp LS(PRCNT)       &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp TILDE
-       &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp RIGHT_BRACE     &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp LA(BACKSPACE)
-&none  &kp PIPE       &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)      &none
+       &kp LS(EXCL)   &kp LS(AT)      &kp LS(POUND)         &kp LS(DLLR)           &kp LS(PRCNT)       &kp LS(CARET)  &kp LS(AMPS)         &kp LS(STAR)             &kp PLUS               &kp MINUS
+       &kp BACKSLASH  &kp LEFT_BRACE  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp RIGHT_BRACE     &kp EQUAL      &mt RIGHT_GUI GRAVE  &mt LCTRL DOUBLE_QUOTES  &mt LALT SINGLE_QUOTE  &kp TILDE
+&none  &kp PIPE       &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &kp LG(N)      &kp LG(M)            &kp LG(COMMA)            &kp LG(PERIOD)         &kp LG(SLASH)  &none
                                       &kp CAPSLOCK          &lt 4 BACKSPACE        &trans              &none          &trans               &none
             >;
 
