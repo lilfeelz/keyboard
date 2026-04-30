@@ -38,10 +38,9 @@
             key-positions = <20 31>;
         };
 
-        delete_word_forward {
-            bindings = <&kp RC(B)>;
+        enter {
+            bindings = <&kp RC(RET)>;
             key-positions = <16 17>;
-            layers = <0>;
         };
     };
 
@@ -134,10 +133,10 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-            &kp Q  &kp W  &kp E       &kp R        &kp T             &kp Y            &kp U        &kp I             &kp O          &kp P
-            &kp A  &kp S  &kp D       &kp F        &kp G             &kp H            &kp J        &kp K             &kp L          &mt RC(RA(RIGHT_GUI)) SLASH
-&kp ESCAPE  &kp Z  &kp X  &kp C       &kp V        &kp B             &kp N            &kp M        &comma_semicolon  &period_colon  &kp SLASH                    &kp ENTER
-                          &caps_word  &lt 2 SPACE  &sk LEFT_SHIFT    &sk RIGHT_SHIFT  &lt 1 SPACE  &caps_word
+       &kp Q  &kp W  &kp E       &kp R        &kp T             &kp Y            &kp U        &kp I             &kp O          &kp P
+       &kp A  &kp S  &kp D       &kp F        &kp G             &kp H            &kp J        &kp K             &kp L          &mt RC(RA(RIGHT_GUI)) ESCAPE
+&none  &kp Z  &kp X  &kp C       &kp V        &kp B             &kp N            &kp M        &comma_semicolon  &period_colon  &kp SLASH                     &none
+                     &caps_word  &lt 2 SPACE  &sk LEFT_SHIFT    &sk RIGHT_SHIFT  &lt 1 SPACE  &caps_word
             >;
         };
 
