@@ -155,10 +155,10 @@
 
         navigation {
             bindings = <
-       &trans  &trans  &trans  &trans  &trans    &trans    &trans     &kp TAB    &kp LS(TAB)  &none
-       &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN   &kp UP     &kp RIGHT    &trans
-&none  &trans  &trans  &trans  &trans  &trans    &kp HOME  &kp PG_DN  &kp PG_UP  &kp END      &none   &none
-                       &trans  &trans  &trans    &trans    &trans     &trans
+        &trans  &trans  &trans  &trans  &trans    &trans    &trans     &kp TAB    &kp LS(TAB)  &none
+        &trans  &trans  &trans  &trans  &trans    &kp LEFT  &kp DOWN   &kp UP     &kp RIGHT    &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &kp HOME  &kp PG_DN  &kp PG_UP  &kp END      &none   &trans
+                        &trans  &trans  &trans    &trans    &trans     &trans
             >;
         };
 
