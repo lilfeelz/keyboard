@@ -32,7 +32,7 @@
         compatible = "zmk,combos";
 
         enter {
-            bindings = <&sticky_hold RET 0>;
+            bindings = <&kp RET>;
             key-positions = <16 17>;
         };
     };
@@ -94,9 +94,9 @@
             keep-mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        scmd_tab: scmd_tab {
+        cmd_stb: cmd_stb {
             compatible = "zmk,behavior-mod-morph";
-            label = "SCMD_TAB";
+            label = "CMD_STB";
             bindings = <&kp LS(TAB)>, <&kp F22>;
 
             #binding-cells = <0>;
@@ -110,17 +110,6 @@
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        sticky_hold: sticky_hold {
-            compatible = "zmk,behavior-hold-tap";
-            label = "STICKY_HOLD";
-            bindings = <&kp>, <&sl>;
-
-            #binding-cells = <2>;
-            hold-trigger-key-positions = <16 17>;
-            tapping-term-ms = <150>;
-            hold-while-undecided;
         };
     };
 
