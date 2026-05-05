@@ -117,7 +117,7 @@
         sticky_bs: sticky_bs {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp BACKSPACE &sl 4>;
+            bindings = <&bs_del &sl 4>;
             label = "STICKY_BS";
         };
     };
@@ -155,7 +155,7 @@
             bindings = <
        &kp N1                  &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7           &kp N8     &kp N9     &kp N0
        &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN         &kp UP     &kp RIGHT  &cmd_tab
-&none  &kp LG(Y)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Y))    &kp HOME  &kp PG_DN        &kp PG_UP  &kp END    &cmd_tab  &none
+&none  &kp LG(Y)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Y))    &kp HOME  &kp PG_DN        &kp PG_UP  &kp END    &cmd_stb  &none
                                                &none            &trans          &none            &trans    &lt 3 LG(SPACE)  &trans
             >;
         };
@@ -180,10 +180,10 @@
 
         backspace {
             bindings = <
-       &none  &none  &none  &none  &none             &none  &none       &none  &none  &none
-       &none  &none  &none  &none  &none             &none  &sticky_bs  &to 0  &none  &to 0
-&none  &none  &none  &none  &none  &none             &none  &none       &none  &none  &none  &none
-                     &none  &none  &sk LEFT_SHIFT    &none  &none       &none
+       &none  &none         &none  &none  &none             &none  &none       &none  &none  &none
+       &none  &kp LEFT_ALT  &none  &none  &none             &none  &sticky_bs  &to 0  &none  &none
+&none  &none  &none         &none  &none  &none             &none  &none       &none  &none  &none  &none
+                            &none  &none  &sk LEFT_SHIFT    &none  &none       &none
             >;
         };
     };
