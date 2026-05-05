@@ -144,37 +144,37 @@
 
         navigation {
             bindings = <
-        &trans  &trans  &trans  &trans  &trans    &kp LG(Z)  &kp LS(LG(Z))  &kp TAB    &kp LS(TAB)  &none
-        &trans  &trans  &trans  &trans  &trans    &kp LEFT   &kp DOWN       &kp UP     &kp RIGHT    &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &kp HOME   &kp PG_DN      &kp PG_UP  &kp END      &none   &trans
-                        &trans  &trans  &trans    &trans     &trans         &trans
+       &trans  &trans  &trans  &trans  &trans    &kp LG(Z)  &kp LS(LG(Z))  &kp TAB    &kp LS(TAB)  &none
+       &trans  &trans  &trans  &trans  &trans    &kp LEFT   &kp DOWN       &kp UP     &kp RIGHT    &trans
+&none  &trans  &trans  &trans  &trans  &trans    &kp HOME   &kp PG_DN      &kp PG_UP  &kp END      &none   &none
+                       &trans  &trans  &trans    &trans     &trans         &trans
             >;
         };
 
         symbol-left {
             bindings = <
-               &trans     &trans     &trans     &trans     &trans           &trans     &trans                  &trans         &trans          &trans
-               &trans     &trans     &trans     &trans     &trans           &kp EQUAL  &mt RGUI DOUBLE_QUOTES  &mt RCTRL SQT  &mt RALT GRAVE  &kp LG(LC(LALT))
-&kp LG(LCTRL)  &kp LG(Y)  &kp LG(X)  &kp LG(C)  &kp LG(V)  &kp LS(LG(Y))    &trans     &trans                  &trans         &trans          &trans            &trans
-                                     &none      &trans     &none            &trans     &lt 4 SPACE             &trans
+       &trans     &trans     &trans     &trans     &trans           &trans     &trans                  &trans         &trans          &trans
+       &trans     &trans     &trans     &trans     &trans           &kp EQUAL  &mt RGUI DOUBLE_QUOTES  &mt RCTRL SQT  &mt RALT GRAVE  &kp LG(LC(LALT))
+&none  &kp LG(Y)  &kp LG(X)  &kp LG(C)  &kp LG(V)  &kp LS(LG(Y))    &trans     &trans                  &trans         &trans          &trans            &none
+                             &none      &trans     &none            &trans     &lt 4 SPACE             &trans
             >;
         };
 
         symbol-right {
             bindings = <
-        &trans                  &trans          &trans                &trans                 &trans              &trans  &trans  &trans  &trans  &trans
-        &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)       &mt LGUI LG(F)         &kp LG(G)           &none   &trans  &trans  &trans  &trans
-&trans  &kp PIPE                &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &trans  &trans  &trans  &trans  &trans  &trans
-                                                &trans                &lt 4 SPACE            &trans              &none   &trans  &none
+       &trans                  &trans          &trans                &trans                 &trans              &trans  &trans  &trans  &trans  &trans
+       &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)       &mt LGUI LG(F)         &kp LG(G)           &trans  &trans  &trans  &trans  &trans
+&none  &kp PIPE                &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &trans  &trans  &trans  &trans  &trans  &none
+                                               &trans                &lt 4 SPACE            &trans              &none   &trans  &none
             >;
         };
 
         function {
             bindings = <
-        &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-        &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans    &trans  &trans  &trans
+       &kp F1   &kp F2   &kp F3   &kp F4   &kp F5     &kp F6   &kp F7   &kp F8   &kp F9   &kp F10
+       &trans   &trans   &trans   &trans   &trans     &trans   &trans   &trans   &trans   &trans
+&none  &kp F11  &kp F12  &kp F13  &kp F14  &kp F15    &kp F16  &kp F17  &kp F18  &kp F19  &kp F20  &none
+                         &none    &trans   &none      &none    &trans   &none
             >;
         };
 
