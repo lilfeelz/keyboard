@@ -32,7 +32,7 @@
         compatible = "zmk,combos";
 
         enter {
-            bindings = <&sticky_bs>;
+            bindings = <&sk LA(LC(LEFT_GUI))>;
             key-positions = <16 17>;
         };
     };
@@ -113,15 +113,6 @@
         };
     };
 
-    macros {
-        sticky_bs: sticky_bs {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LA(BACKSPACE) &sl 4>;
-            label = "STICKY_BS";
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -154,8 +145,8 @@
         left {
             bindings = <
        &kp N1                  &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7           &kp N8     &kp N9     &kp N0
-       &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN         &kp UP     &kp RIGHT  &kp TAB
-&none  &kp LG(Y)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Y))    &kp HOME  &kp PG_DN        &kp PG_UP  &kp END    &kp LS(TAB)  &none
+       &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN         &kp UP     &kp RIGHT  &cmd_tab
+&none  &kp LG(Y)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Y))    &kp HOME  &kp PG_DN        &kp PG_UP  &kp END    &cmd_tab  &none
                                                &none            &trans          &none            &trans    &lt 3 LG(SPACE)  &trans
             >;
         };
@@ -175,15 +166,6 @@
        &mt LS(LA(LC(LEFT_GUI))) LG(LC(LA(A)))  &kp LS(LEFT_ALT)  &kp LS(LEFT_CONTROL)  &kp LS(LEFT_GUI)  &none      &none    &kp RS(RIGHT_GUI)  &kp RS(RCTRL)  &kp RS(RIGHT_ALT)  &kp LC(LA(LS(LEFT_GUI)))
 &none  &kp F11                                 &kp F12           &kp F13               &kp F14           &kp F15    &kp F16  &kp F17            &kp F18        &kp F19            &kp F20                   &none
                                                                  &none                 &trans            &none      &none    &trans             &none
-            >;
-        };
-
-        oneshot {
-            bindings = <
-       &none  &none  &none  &none  &none    &none  &none       &none  &none  &none
-       &none  &none  &none  &none  &none    &none  &sticky_bs  &none  &none  &none
-&none  &none  &none  &none  &none  &none    &none  &none       &none  &none  &none  &none
-                     &none  &none  &none    &none  &none       &none
             >;
         };
     };
