@@ -162,7 +162,7 @@
 
         right {
             bindings = <
-       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET          &kp LS(AMPS)       &kp LS(STAR)             &kp PLUS               &kp QUESTION
+       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET          &kp LS(AMPS)       &kp LS(STAR)             &kp PLUS               &none
        &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL          &mt RGUI GRAVE     &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT           &mt LG(LC(LALT)) TILDE
 &none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(LC(LA(N)))  &kp LG(LC(LA(M)))  &kp LG(LC(LA(COMMA)))    &kp LG(LC(LA(COMMA)))  &kp LG(LC(LA(DOT)))     &none
                                     &trans                &lt 3 SPACE            &trans                 &none              &trans             &none
@@ -180,10 +180,10 @@
 
         backspace {
             bindings = <
-       &none  &none  &none  &none  &none    &none  &none       &none  &none  &none
-       &none  &none  &none  &none  &none    &none  &sticky_bs  &to 0  &none  &none
-&none  &none  &none  &none  &none  &none    &none  &none       &none  &none  &none  &none
-                     &none  &none  &none    &none  &none       &none
+       &none  &none  &none  &none  &none             &none  &none       &none  &none  &none
+       &none  &none  &none  &none  &none             &none  &sticky_bs  &to 0  &none  &to 0
+&none  &none  &none  &none  &none  &none             &none  &none       &none  &none  &none  &none
+                     &none  &none  &sk LEFT_SHIFT    &none  &none       &none
             >;
         };
     };
