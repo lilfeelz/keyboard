@@ -153,19 +153,19 @@
 
         symbol-left {
             bindings = <
-        &trans     &trans     &trans     &trans     &trans           &trans  &trans       &trans  &trans  &trans
-        &trans     &trans     &trans     &trans     &trans           &trans  &trans       &trans  &trans  &trans
-&trans  &kp LG(Y)  &kp LG(X)  &kp LG(C)  &kp LG(V)  &kp LS(LG(Y))    &none   &trans       &trans  &trans  &trans  &trans
-                              &none      &trans     &none            &trans  &lt 4 SPACE  &trans
+               &trans     &trans     &trans     &trans     &trans           &trans     &trans                  &trans         &trans          &trans
+               &trans     &trans     &trans     &trans     &trans           &kp EQUAL  &mt RGUI DOUBLE_QUOTES  &mt RCTRL SQT  &mt RALT GRAVE  &kp LG(LC(LALT))
+&kp LG(LCTRL)  &kp LG(Y)  &kp LG(X)  &kp LG(C)  &kp LG(V)  &kp LS(LG(Y))    &trans     &trans                  &trans         &trans          &trans            &trans
+                                     &none      &trans     &none            &trans     &lt 4 SPACE             &trans
             >;
         };
 
         symbol-right {
             bindings = <
-        &trans    &trans         &trans                &trans                 &trans              &trans  &trans  &trans  &trans  &trans
-        &trans    &trans         &trans                &trans                 &trans              &trans  &trans  &trans  &trans  &trans
-&trans  &kp PIPE  &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &trans  &trans  &trans  &trans  &trans  &trans
-                                 &trans                &lt 4 SPACE            &trans              &none   &trans  &none
+        &trans                  &trans          &trans                &trans                 &trans              &trans  &trans  &trans  &trans  &trans
+        &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)       &mt LGUI LG(F)         &kp LG(G)           &none   &trans  &trans  &trans  &trans
+&trans  &kp PIPE                &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &trans  &trans  &trans  &trans  &trans  &trans
+                                                &trans                &lt 4 SPACE            &trans              &none   &trans  &none
             >;
         };
 
