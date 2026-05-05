@@ -153,10 +153,10 @@
 
         symbol {
             bindings = <
-        &trans  &trans  &trans  &trans       &trans    &trans  &trans       &trans  &trans  &trans
-        &trans  &trans  &trans  &trans       &trans    &trans  &trans       &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans       &trans    &trans  &trans       &trans  &trans  &trans  &trans
-                        &trans  &lt 3 SPACE  &trans    &trans  &lt 3 SPACE  &trans
+        &trans    &trans         &trans                &trans                 &trans              &trans  &trans       &trans  &trans  &trans
+        &trans    &trans         &trans                &trans                 &trans              &trans  &trans       &trans  &trans  &trans
+&trans  &kp PIPE  &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &trans  &trans       &trans  &trans  &trans  &trans
+                                 &trans                &lt 3 SPACE            &trans              &trans  &lt 3 SPACE  &trans
             >;
         };
 
