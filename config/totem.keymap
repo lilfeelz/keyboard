@@ -171,10 +171,10 @@
 
         pinky {
             bindings = <
-        &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-        &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans    &trans  &trans  &trans
+       &trans            &trans    &trans     &trans    &trans    &kp RG(Z)  &kp LG(LS(Z))  &cmd_tab   &cmd_stb   &none
+       &kp LG(LC(LALT))  &kp LALT  &kp LCTRL  &kp LGUI  &trans    &kp LEFT   &kp DOWN       &kp UP     &kp RIGHT  &trans
+&none  &trans            &trans    &trans     &trans    &trans    &kp HOME   &kp PG_DN      &kp PG_UP  &kp END    &none   &none
+                                   &trans     &trans    &trans    &trans     &trans         &trans
             >;
         };
     };
