@@ -32,7 +32,7 @@
         compatible = "zmk,combos";
 
         enter {
-            bindings = <&sk LA(LC(LEFT_GUI))>;
+            bindings = <&sticky_bs>;
             key-positions = <16 17>;
         };
     };
@@ -113,6 +113,15 @@
         };
     };
 
+    macros {
+        sticky_bs: sticky_bs {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp BACKSPACE &sl 4>;
+            label = "STICKY_BS";
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -166,6 +175,15 @@
        &mt LS(LA(LC(LEFT_GUI))) LG(LC(LA(A)))  &kp LS(LEFT_ALT)  &kp LS(LEFT_CONTROL)  &kp LS(LEFT_GUI)  &none      &none    &kp RS(RIGHT_GUI)  &kp RS(RCTRL)  &kp RS(RIGHT_ALT)  &mt LC(LA(LS(LEFT_GUI))) LA(LC(LG(SLASH)))
 &none  &kp F11                                 &kp F12           &kp F13               &kp F14           &kp F15    &kp F16  &kp F17            &kp F18        &kp F19            &kp F20                                     &none
                                                                  &none                 &trans            &none      &none    &trans             &none
+            >;
+        };
+
+        backspace {
+            bindings = <
+       &none  &none  &none  &none  &none    &none  &none       &none  &none  &none
+       &none  &none  &none  &none  &none    &none  &sticky_bs  &to 0  &none  &none
+&none  &none  &none  &none  &none  &none    &none  &none       &none  &none  &none  &none
+                     &none  &none  &none    &none  &none       &none
             >;
         };
     };
