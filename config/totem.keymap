@@ -136,45 +136,36 @@
 
             bindings = <
             &kp Q  &kp W  &kp E       &kp R        &kp T             &kp Z            &kp U        &kp I             &kp O          &kp P
-            &kp A  &kp S  &kp D       &kp F        &kp G             &kp H            &kp J        &kp K             &kp L          &lt 1 ESCAPE
-&kp ESCAPE  &kp Y  &kp X  &kp C       &kp V        &kp B             &kp N            &kp M        &comma_semicolon  &period_colon  &kp MINUS     &kp ENTER
-                          &caps_word  &lt 2 SPACE  &sk LEFT_SHIFT    &sk RIGHT_SHIFT  &lt 3 SPACE  &caps_word
-            >;
-        };
-
-        navigation {
-            bindings = <
-       &kp LG(LC(LA(Q)))               &kp LG(LC(LA(W)))       &kp LG(LC(LA(E)))        &kp LG(LC(LA(R)))           &kp LG(LC(LA(T)))    &kp LG(Z)  &kp LS(LG(Z))  &kp TAB    &kp LS(TAB)  &none
-       &mt LG(LC(LALT)) LA(LC(LG(A)))  &mt LALT LA(LG(LC(S)))  &mt LCTRL LA(LC(LG(D)))  &mt LEFT_GUI LA(LC(LG(F)))  &kp LA(LG(LC(G)))    &kp LEFT   &kp DOWN       &kp UP     &kp RIGHT    &trans
-&none  &kp LG(LC(LA(Z)))               &kp LG(LC(LA(X)))       &kp LG(LC(LA(C)))        &kp LG(LC(LA(C)))           &kp LG(LC(LA(V)))    &kp HOME   &kp PG_DN      &kp PG_UP  &kp END      &none   &none
-                                                               &trans                   &trans                      &trans               &trans     &trans         &trans
+            &kp A  &kp S  &kp D       &kp F        &kp G             &kp H            &kp J        &kp K             &kp L          &mt LA(LC(LEFT_GUI)) SLASH
+&kp ESCAPE  &kp Y  &kp X  &kp C       &kp V        &kp B             &kp N            &kp M        &comma_semicolon  &period_colon  &kp MINUS                   &kp ENTER
+                          &caps_word  &lt 1 SPACE  &sk LEFT_SHIFT    &sk RIGHT_SHIFT  &lt 2 SPACE  &caps_word
             >;
         };
 
         left {
             bindings = <
-       &trans            &trans     &trans     &trans     &trans           &trans  &trans       &trans  &trans  &trans
-       &kp LG(LC(LALT))  &kp LALT   &kp LCTRL  &kp LGUI   &trans           &trans  &trans       &trans  &trans  &trans
-&none  &kp LG(Y)         &kp LG(X)  &kp LG(C)  &kp LG(V)  &kp LS(LG(Y))    &trans  &trans       &trans  &trans  &trans  &none
-                                    &none      &trans     &none            &trans  &lt 4 SPACE  &trans
+       &kp N1                  &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7       &kp N8     &kp N9     &kp N0
+       &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN     &kp UP     &kp RIGHT  &kp TAB
+&none  &kp LG(Y)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Y))    &kp HOME  &kp PG_DN    &kp PG_UP  &kp END    &kp LS(TAB)  &none
+                                               &none            &trans          &none            &trans    &lt 3 SPACE  &trans
             >;
         };
 
         right {
             bindings = <
        &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET          &kp LS(AMPS)       &kp LS(STAR)             &none                  &none
-       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &trans             &mt RGUI GRAVE     &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT           &kp LG(LC(LALT))
-&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(LC(LA(N)))  &kp LG(LC(LA(M)))  &kp LG(LC(LA(COMMA)))    &kp LG(LC(LA(COMMA)))  &kp LG(LC(LA(DOT)))  &none
-                                    &trans                &lt 4 SPACE            &trans                 &none              &trans             &none
+       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &trans             &mt RGUI GRAVE     &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT           &mt LG(LC(LALT)) TILDE
+&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(LC(LA(N)))  &kp LG(LC(LA(M)))  &kp LG(LC(LA(COMMA)))    &kp LG(LC(LA(COMMA)))  &kp LG(LC(LA(DOT)))     &none
+                                    &trans                &lt 3 SPACE            &trans                 &none              &trans             &none
             >;
         };
 
         function {
             bindings = <
-       &kp F1                    &kp F2            &kp F3                &kp F4            &kp F5     &kp F6   &kp F7             &kp F8         &kp F9             &kp F10
-       &kp LS(LA(LC(LEFT_GUI)))  &kp LS(LEFT_ALT)  &kp LS(LEFT_CONTROL)  &kp LS(LEFT_GUI)  &trans     &trans   &kp RS(RIGHT_GUI)  &kp RS(RCTRL)  &kp RS(RIGHT_ALT)  &kp LC(LA(LS(LEFT_GUI)))
-&none  &kp F11                   &kp F12           &kp F13               &kp F14           &kp F15    &kp F16  &kp F17            &kp F18        &kp F19            &kp F20                   &none
-                                                   &none                 &trans            &none      &none    &trans             &none
+       &kp F1                                  &kp F2            &kp F3                &kp F4            &kp F5     &kp F6   &kp F7             &kp F8         &kp F9             &kp F10
+       &mt LS(LA(LC(LEFT_GUI))) LG(LC(LA(A)))  &kp LS(LEFT_ALT)  &kp LS(LEFT_CONTROL)  &kp LS(LEFT_GUI)  &trans     &trans   &kp RS(RIGHT_GUI)  &kp RS(RCTRL)  &kp RS(RIGHT_ALT)  &kp LC(LA(LS(LEFT_GUI)))
+&none  &kp F11                                 &kp F12           &kp F13               &kp F14           &kp F15    &kp F16  &kp F17            &kp F18        &kp F19            &kp F20                   &none
+                                                                 &none                 &trans            &none      &none    &trans             &none
             >;
         };
     };
