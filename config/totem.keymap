@@ -32,8 +32,18 @@
         compatible = "zmk,combos";
 
         enter {
-            bindings = <&sticky_bs>;
+            bindings = <&kp RET>;
             key-positions = <16 17>;
+        };
+
+        escape {
+            bindings = <&kp ESCAPE>;
+            key-positions = <12 17>;
+        };
+
+        escapeescape {
+            bindings = <&double_escape>;
+            key-positions = <12 13>;
         };
     };
 
@@ -111,14 +121,32 @@
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+
+        mt_bs_del: mt_bs_del {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MT_BS_DEL";
+            bindings = <&mo>, <&bs_del>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <300>;
+        };
+
+        caps: caps {
+            compatible = "zmk,behavior-mod-morph";
+            label = "CAPS";
+            bindings = <&caps_word>, <&kp CAPSLOCK>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
     };
 
     macros {
-        sticky_bs: sticky_bs {
+        double_escape: double_escape {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&bs_del &sl 4>;
-            label = "STICKY_BS";
+            bindings = <&kp ESCAPE &kp ESCAPE>;
+            label = "DOUBLE_ESCAPE";
         };
     };
 
@@ -144,46 +172,37 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-            &kp Q  &kp W  &kp E       &kp R        &kp T             &kp Z            &kp U        &kp I             &kp O          &kp P
-            &kp A  &kp S  &kp D       &kp F        &kp G             &kp H            &kp J        &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
-&kp ESCAPE  &kp Y  &kp X  &kp C       &kp V        &kp B             &kp N            &kp M        &comma_semicolon  &period_colon  &kp MINUS                   &kp ENTER
-                          &caps_word  &lt 1 SPACE  &sk LEFT_SHIFT    &sk RIGHT_SHIFT  &lt 2 SPACE  &caps_word
+                &kp Q  &kp W  &kp E       &kp R           &kp T        &kp Y      &kp U        &kp I             &kp O          &kp P
+                &kp A  &kp S  &kp D       &kp F           &kp G        &kp H      &kp J        &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
+&sk LEFT_SHIFT  &kp Y  &kp X  &kp C       &kp V           &kp B        &kp N      &kp M        &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
+                              &caps_word  &mt_bs_del 1 0  &kp SPACE    &kp SPACE  &lt 2 LC(B)  &caps_word
             >;
         };
 
         left {
             bindings = <
-       &kp N1                  &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7           &kp N8     &kp N9     &kp N0
-       &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN         &kp UP     &kp RIGHT  &cmd_tab
-&none  &kp LG(Y)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Y))    &kp HOME  &kp PG_DN        &kp PG_UP  &kp END    &cmd_stb  &none
-                                               &none            &trans          &none            &trans    &lt 3 LG(SPACE)  &trans
+       &kp N1                  &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7               &kp N8     &kp N9     &kp N0
+       &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN             &kp UP     &kp RIGHT  &cmd_tab
+&none  &kp LG(Z)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN            &kp PG_UP  &kp END    &cmd_stb  &none
+                                               &none            &trans          &none            &trans    &lt 3 LA(BACKSPACE)  &trans
             >;
         };
 
         right {
             bindings = <
-       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET          &kp LS(AMPS)       &kp LS(STAR)             &kp PLUS               &none
-       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL          &mt RGUI GRAVE     &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT           &mt LG(LC(LALT)) TILDE
-&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(LC(LA(N)))  &kp LG(LC(LA(M)))  &kp LG(LC(LA(COMMA)))    &kp LG(LC(LA(COMMA)))  &kp LG(LC(LA(DOT)))     &none
-                                    &trans                &lt 3 SPACE            &trans                 &none              &trans             &none
+       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET          &kp LS(AMPS)       &kp LS(STAR)             &kp PLUS             &none
+       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL          &mt RGUI GRAVE     &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT         &mt LG(LC(LALT)) TILDE
+&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(LC(LA(N)))  &kp LG(LC(LA(M)))  &kp LG(LC(LA(COMMA)))    &kp LG(LC(LA(DOT)))  &kp LG(LC(LA(SLASH)))   &none
+                                    &trans                &mt_bs_del 3 0         &trans                 &none              &trans             &none
             >;
         };
 
         middle {
             bindings = <
-       &kp F1                                  &kp F2            &kp F3                &kp F4            &kp F5     &kp F6   &kp F7             &kp F8         &kp F9             &kp F10
-       &mt LS(LA(LC(LEFT_GUI))) LG(LC(LA(A)))  &kp LS(LEFT_ALT)  &kp LS(LEFT_CONTROL)  &kp LS(LEFT_GUI)  &none      &none    &kp RS(RIGHT_GUI)  &kp RS(RCTRL)  &kp RS(RIGHT_ALT)  &mt LC(LA(LS(LEFT_GUI))) LA(LC(LG(SLASH)))
-&none  &kp F11                                 &kp F12           &kp F13               &kp F14           &kp F15    &kp F16  &kp F17            &kp F18        &kp F19            &kp F20                                     &none
-                                                                 &none                 &trans            &none      &none    &trans             &none
-            >;
-        };
-
-        backspace {
-            bindings = <
-       &none  &none         &none  &none  &none             &none  &none       &none  &none  &none
-       &none  &kp LEFT_ALT  &none  &none  &none             &none  &sticky_bs  &to 0  &none  &none
-&none  &none  &none         &none  &none  &none             &none  &none       &none  &none  &none  &none
-                            &none  &none  &sk LEFT_SHIFT    &none  &none       &none
+       &kp F1                                  &kp F2            &kp F3                                 &kp F4                             &kp F5     &kp F6   &kp F7                           &kp F8                  &kp F9                    &kp F10
+       &mt LS(LA(LC(LEFT_GUI))) LG(LC(LA(A)))  &kp LS(LEFT_ALT)  &mt LS(LEFT_CONTROL) C_BRIGHTNESS_DEC  &mt LS(LEFT_GUI) C_BRIGHTNESS_INC  &none      &none    &mt RS(RIGHT_GUI) C_VOLUME_DOWN  &mt RS(RCTRL) C_VOL_UP  &mt RS(RIGHT_ALT) K_MUTE  &mt LC(LA(LS(LEFT_GUI))) LA(LC(LG(SLASH)))
+&none  &kp F11                                 &kp F12           &kp F13                                &kp F14                            &kp F15    &kp F16  &kp F17                          &kp F18                 &kp F19                   &kp F20                                     &none
+                                                                 &none                                  &trans                             &none      &none    &trans                           &none
             >;
         };
     };
