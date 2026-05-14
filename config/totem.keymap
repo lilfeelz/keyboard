@@ -36,13 +36,13 @@
             key-positions = <16 17>;
         };
 
-        escape {
+        c-b {
             bindings = <&kp LC(B)>;
             key-positions = <12 17>;
         };
 
-        escapeescape {
-            bindings = <&kp RET>;
+        escape {
+            bindings = <&mm_escape>;
             key-positions = <12 13>;
         };
     };
@@ -139,6 +139,15 @@
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+
+        mm_escape: mm_escape {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MM_ESCAPE";
+            bindings = <&kp ESCAPE>, <&double_escape>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
     };
 
     macros {
@@ -172,10 +181,10 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                &kp Q  &kp W  &kp E       &kp R           &kp T        &kp Y      &kp U             &kp I             &kp O          &kp P
-                &kp A  &kp S  &kp D       &kp F           &kp G        &kp H      &kp J             &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
-&sk LEFT_SHIFT  &kp Y  &kp X  &kp C       &kp V           &kp B        &kp N      &kp M             &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
-                              &caps_word  &mt_bs_del 1 0  &kp SPACE    &kp SPACE  &lt 2 LC(ESCAPE)  &caps
+                &kp Q  &kp W  &kp E       &kp R           &kp T        &kp Y      &kp U           &kp I             &kp O          &kp P
+                &kp A  &kp S  &kp D       &kp F           &kp G        &kp H      &kp J           &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
+&sk LEFT_SHIFT  &kp Y  &kp X  &kp C       &kp V           &kp B        &kp N      &kp M           &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
+                              &caps_word  &mt_bs_del 1 0  &kp SPACE    &kp SPACE  &mt_bs_del 2 0  &caps
             >;
         };
 
