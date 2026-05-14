@@ -148,6 +148,24 @@
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+
+        bwd_dwd: bwd_dwd {
+            compatible = "zmk,behavior-mod-morph";
+            label = "BWD_DWD";
+            bindings = <&kp LA(BACKSPACE)>, <&kp LA(DEL)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mt_bwd_dwd: mt_bwd_dwd {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MT_BWD_DWD";
+            bindings = <&mo>, <&bwd_dwd>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <300>;
+        };
     };
 
     macros {
@@ -181,19 +199,19 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                &kp Q  &kp W  &kp E       &kp R           &kp T        &kp Y      &kp U           &kp I             &kp O          &kp P
-                &kp A  &kp S  &kp D       &kp F           &kp G        &kp H      &kp J           &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
-&sk LEFT_SHIFT  &kp Y  &kp X  &kp C       &kp V           &kp B        &kp N      &kp M           &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
-                              &caps_word  &mt_bs_del 1 0  &kp SPACE    &kp SPACE  &mt_bs_del 2 0  &caps
+                &kp Q  &kp W  &kp E  &kp R           &kp T        &kp Y      &kp U           &kp I             &kp O          &kp P
+                &kp A  &kp S  &kp D  &kp F           &kp G        &kp H      &kp J           &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
+&sk LEFT_SHIFT  &kp Z  &kp X  &kp C  &kp V           &kp B        &kp N      &kp M           &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
+                              &caps  &mt_bs_del 1 0  &kp SPACE    &kp SPACE  &mt_bs_del 2 0  &caps
             >;
         };
 
         left {
             bindings = <
-        &kp N1                  &kp N2          &kp N3           &kp N4          &kp N5           &kp N6     &kp N7               &kp N8     &kp N9     &kp N0
-        &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT   &kp DOWN             &kp UP     &kp RIGHT  &cmd_tab
-&trans  &kp LG(Z)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME   &kp PG_DN            &kp PG_UP  &kp END    &cmd_stb  &none
-                                                &none            &trans          &none            &kp SPACE  &lt 3 LA(BACKSPACE)  &trans
+        &kp N1                  &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7           &kp N8     &kp N9     &kp N0
+        &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN         &kp UP     &kp RIGHT  &cmd_tab
+&trans  &kp LG(Z)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN        &kp PG_UP  &kp END    &cmd_stb  &none
+                                                &none            &trans          &none            &trans    &mt_bwd_dwd 3 0  &trans
             >;
         };
 
@@ -202,16 +220,16 @@
        &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET          &kp LS(AMPS)       &kp LS(STAR)             &kp PLUS             &kp GLOBE
        &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL          &mt RGUI GRAVE     &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT         &mt LG(LC(LALT)) TILDE
 &none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(LC(LA(N)))  &kp LG(LC(LA(M)))  &kp LG(LC(LA(COMMA)))    &kp LG(LC(LA(DOT)))  &kp LG(LC(LA(SLASH)))   &none
-                                    &trans                &mt_bs_del 3 0         &kp SPACE              &none              &trans             &none
+                                    &trans                &mt_bwd_dwd 3 0        &trans                 &none              &trans             &none
             >;
         };
 
         middle {
             bindings = <
-       &kp F1                                  &kp F2                             &kp F3                          &kp F4                               &kp F5     &kp F6   &kp F7                           &kp F8                  &kp F9                    &kp F10
-       &mt LS(LA(LC(LEFT_GUI))) LG(LC(LA(A)))  &mt LS(LEFT_ALT) C_BRIGHTNESS_DEC  &mt LS(LEFT_CONTROL) C_BRI_INC  &mt LS(LEFT_GUI) LA(LC(LG(ESCAPE)))  &none      &none    &mt RS(RIGHT_GUI) C_VOLUME_DOWN  &mt RS(RCTRL) C_VOL_UP  &mt RS(RIGHT_ALT) K_MUTE  &mt LC(LA(LS(LEFT_GUI))) LA(LC(LG(SLASH)))
-&none  &kp F11                                 &kp F12                            &kp F13                         &kp F14                              &kp F15    &kp F16  &kp F17                          &kp F18                 &kp F19                   &kp F20                                     &none
-                                                                                  &none                           &trans                               &none      &none    &trans                           &none
+       &kp F1                                  &kp F2                             &kp F3                          &kp F4                            &kp F5     &kp F6   &kp F7                           &kp F8                  &kp F9                    &kp F10
+       &mt LS(LA(LC(LEFT_GUI))) LG(LC(LA(A)))  &mt LS(LEFT_ALT) C_BRIGHTNESS_DEC  &mt LS(LEFT_CONTROL) C_BRI_INC  &mt LS(LEFT_GUI) LA(LC(LG(TAB)))  &none      &none    &mt RS(RIGHT_GUI) C_VOLUME_DOWN  &mt RS(RCTRL) C_VOL_UP  &mt RS(RIGHT_ALT) K_MUTE  &mt LC(LA(LS(LEFT_GUI))) LA(LC(LG(SLASH)))
+&none  &kp F11                                 &kp F12                            &kp F13                         &kp F14                           &kp F15    &kp F16  &kp F17                          &kp F18                 &kp F19                   &kp F20                                     &none
+                                                                                  &none                           &trans                            &none      &none    &trans                           &none
             >;
         };
     };
