@@ -21,15 +21,9 @@ jobs:
         with:
           node-version: 20
 
-      - run: |
-          ls -la
-          echo "---"
-          npx --yes honkit build ./docs ./_build
-          echo "---"
-          ls -la
-          echo "---"
-          ls -la _build/ 2>/dev/null || echo "_build not found"
-          ls -la docs/_build/ 2>/dev/null || echo "docs/_build not found"
+      - run: npx --yes honkit build ./docs ./site/docs
+
+      - run: cp index.html ./site/
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
