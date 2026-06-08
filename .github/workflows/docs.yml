@@ -21,9 +21,9 @@ jobs:
         with:
           node-version: 20
 
-      - run: npx --yes honkit build ./docs ./site/docs
+      - run: npx --yes honkit build ./docs
 
-      - run: cp index.html ./site/
+      - run: mkdir -p site && mv _book site/docs && cp index.html site/
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
