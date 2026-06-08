@@ -21,12 +21,13 @@ jobs:
         with:
           node-version: 20
 
-      - run: npx --yes honkit build ./docs ./_book/docs
+      - run: npx --yes honkit build ./docs ./site/docs
 
-      - run: cp index.html ./_book/
+      - run: cp index.html ./site/
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_book
+          publish_dir: ./site
           force_orphan: true
+          cname: docs.lilfeelz.org
