@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 20
 
-      - run: npx --yes honkit build ./docs ./site/docs && ls -la && file ./site && ls -laR ./site || echo "site not a dir"
+      - run: npx --yes honkit build ./docs ./site/docs && ls -la && ls -la docs/
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
