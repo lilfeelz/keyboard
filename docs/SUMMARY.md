@@ -4,3 +4,4 @@
 - [Hardware](hardware.md)
 - [Building & Flashing](flashing.md)
 - [Keymap](keymap.md)
+- [Visual Editor](editor.md)
