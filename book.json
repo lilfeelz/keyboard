@@ -1,5 +1,7 @@
 {
   "root": "./docs",
   "title": "TOTEM ZMK Configuration",
-  "plugins": ["-theme-default", "honkit-plugin-theme-darkening"]
+  "styles": {
+    "website": "styles/website.css"
+  }
 }

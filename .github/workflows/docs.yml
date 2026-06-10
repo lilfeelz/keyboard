@@ -28,7 +28,7 @@ jobs:
           keymap parse -z config/totem.keymap -o /tmp/keymap.yaml
           keymap draw /tmp/keymap.yaml -n '133333+3 3+333331' -o docs/images/keymap.svg
 
-      - run: npx --yes -p honkit -p honkit-plugin-theme-darkening -c 'honkit build ./docs ./temp'
+      - run: npx --yes honkit build ./docs ./temp
 
       - run: mv docs/temp site
 
