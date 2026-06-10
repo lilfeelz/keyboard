@@ -4,13 +4,7 @@ on:
     paths:
       - docs/**
       - book.json
-      - index.html
   workflow_dispatch:
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
 
 jobs:
   docs:
@@ -21,13 +15,16 @@ jobs:
         with:
           node-version: 20
 
-      - run: npx --yes honkit build ./docs site
+      - run: npx --yes honkit build ./docs ./temp
 
-      - run: mkdir -p site && mv docs/site site/docs && cp index.html site/
+      - run: mv docs/temp site
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.GH_DEPLOY_KEY }}
+          external_repository: lilfeelz/lilfeelz.github.io
           publish_dir: ./site
-          force_orphan: true
-          cname: docs.lilfeelz.org
+          destination_dir: zmk
+          keep_files: true
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
