@@ -2,6 +2,6 @@
   "root": "./docs",
   "title": "TOTEM ZMK Configuration",
   "styles": {
-    "website": "styles/website.css"
+    "website": "dark.css"
   }
 }
