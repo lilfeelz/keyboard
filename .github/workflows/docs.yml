@@ -4,6 +4,8 @@ on:
     paths:
       - docs/**
       - book.json
+      - index.html
+      - config/totem.keymap
   workflow_dispatch:
 
 jobs:
@@ -15,17 +17,18 @@ jobs:
         with:
           node-version: 20
 
+      - name: Generate keymap SVG
+        run: |
+          pip install keymap-drawer
+          keymap parse -z config/totem.keymap | \
+            keymap draw -n '34333+3 3+33343' -o docs/images/keymap.svg
+
       - run: npx --yes honkit build ./docs ./temp
 
       - run: mv docs/temp site
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
-          deploy_key: ${{ secrets.GH_DEPLOY_KEY }}
-          external_repository: lilfeelz/lilfeelz.github.io
-          publish_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
-          destination_dir: zmk
-          keep_files: true
-          user_name: github-actions[bot]
-          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          force_orphan: true
