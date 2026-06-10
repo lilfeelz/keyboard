@@ -1,7 +1,6 @@
 {
   "private": true,
   "devDependencies": {
-    "honkit": "^5",
     "honkit-plugin-theme-darkening": "^1"
   }
 }
