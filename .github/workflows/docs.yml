@@ -30,7 +30,7 @@ jobs:
 
       - run: npm install
 
-      - run: npx --yes honkit build ./docs ./temp
+      - run: ./node_modules/.bin/honkit build ./docs ./temp
 
       - run: mv docs/temp site
 
