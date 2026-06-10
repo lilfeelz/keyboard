@@ -23,10 +23,11 @@ jobs:
 
       - name: Generate keymap SVG
         run: |
-          pip install keymap-drawer
+          pip install keymap-drawer pyyaml
           mkdir -p docs/images
           keymap parse -z config/totem.keymap -o /tmp/keymap.yaml
-          keymap draw /tmp/keymap.yaml -n '133333+3 3+333331' -o docs/images/keymap.svg
+          python3 docs/reorder_keymap.py /tmp/keymap.yaml /tmp/keymap_reordered.yaml
+          keymap draw /tmp/keymap_reordered.yaml -n '133333+3 3+333331' -o docs/images/keymap.svg
 
       - run: npx --yes honkit build ./docs ./temp
 
