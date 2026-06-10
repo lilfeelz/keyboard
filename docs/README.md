@@ -2,14 +2,15 @@
 
 ZMK firmware configuration for the [TOTEM](https://github.com/GEIGEIGEIST/TOTEM) keyboard — a 36-key split column-staggered keyboard powered by Seeed XIAO BLE.
 
-## Features
+## Keymap
 
-- Mirrored keymap (base, nav, sym, mouse layers)
-- Smart combos (Enter on `T`+`B`, Escape on `Y`+`X`, Ctrl+B)
-- Layered homerow mods
-- Per-key RGB underglow via WS2812
-- ZMK Studio support for live key remapping
+![Keymap](images/keymap.svg)
 
-## Layout
+## Layer Scheme
 
-![TOTEM layout](images/TOTEM_layout.svg)
+| Layer | Trigger | Purpose |
+|---|---|---|
+| BASE (0) | default | Alpha keys |
+| NAV (1) | hold left thumb | Navigation, media, F-keys, Bluetooth |
+| SYM (2) | hold right thumb | Symbols, numbers, brightness |
+| MOO (3) | hold both thumbs | Mouse keys |
