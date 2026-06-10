@@ -23,6 +23,7 @@ jobs:
         with:
           deploy_key: ${{ secrets.GH_DEPLOY_KEY }}
           external_repository: lilfeelz/lilfeelz.github.io
+          publish_branch: main
           publish_dir: ./site
           destination_dir: zmk
           keep_files: true
