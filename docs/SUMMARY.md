@@ -6,4 +6,3 @@
     - [Hardware](totem/hardware.md)
     - [Building & Flashing](totem/flashing.md)
     - [Keymap](totem/keymap.md)
-    - [Visual Editor](totem/editor.md)
