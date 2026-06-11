@@ -5,6 +5,7 @@ on:
       - docs/**
       - book.json
       - package.json
+      - keymap_drawer.config.yaml
       - index.html
       - config/totem.keymap
   workflow_dispatch:
@@ -25,8 +26,8 @@ jobs:
         run: |
           pip install keymap-drawer
           mkdir -p docs/images
-          keymap parse -z config/totem.keymap -o /tmp/keymap.yaml
-          keymap draw /tmp/keymap.yaml -o docs/images/keymap.svg
+          keymap parse -c keymap_drawer.config.yaml -z config/totem.keymap -o /tmp/keymap.yaml
+          keymap draw -c keymap_drawer.config.yaml /tmp/keymap.yaml -o docs/images/keymap.svg
 
       - run: npx --yes honkit build ./docs ./temp
 

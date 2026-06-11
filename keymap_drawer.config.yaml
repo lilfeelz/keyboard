@@ -1,0 +1,23 @@
+draw_config:
+  dark_mode: true
+
+parse_config:
+  sticky_label: "⇧"
+  toggle_label: "⟳"
+  raw_binding_map:
+    "&caps_word": "⇪"
+    "&mt_bs_del 1 0": "⌫"
+    "&comma_semicolon": ", ;"
+    "&period_colon": ". :"
+    "&kp MINUS": "-"
+    "&kp SPACE": "␣"
+    "&kp TAB": "↹"
+  modifier_fn_map:
+    left_ctrl: "⌃"
+    right_ctrl: "⌃"
+    left_shift: "⇧"
+    right_shift: "⇧"
+    left_alt: "⌥"
+    right_alt: "⌥"
+    left_gui: "◆"
+    right_gui: "◆"
