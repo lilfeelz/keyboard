@@ -2,7 +2,7 @@
 
 ## Base Layer
 
-![Keymap](images/keymap.svg)
+![Keymap](totem/images/keymap.svg)
 
 ## Layer Scheme
 

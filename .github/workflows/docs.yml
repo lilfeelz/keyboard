@@ -25,9 +25,9 @@ jobs:
       - name: Generate keymap SVG
         run: |
           pip install keymap-drawer
-          mkdir -p docs/images
+          mkdir -p docs/totem/images
           keymap -c keymap_drawer.config.yaml parse -z config/totem.keymap -o /tmp/keymap.yaml
-          keymap -c keymap_drawer.config.yaml draw /tmp/keymap.yaml -o docs/images/keymap.svg
+          keymap -c keymap_drawer.config.yaml draw /tmp/keymap.yaml -o docs/totem/images/keymap.svg
 
       - run: npx --yes honkit build ./docs ./temp
 
