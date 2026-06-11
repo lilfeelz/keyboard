@@ -38,11 +38,6 @@
             bindings = <&kp LC(B)>;
             key-positions = <12 17>;
         };
-
-        escape {
-            bindings = <&mm_escape>;
-            key-positions = <12 13>;
-        };
     };
 
     behaviors {
