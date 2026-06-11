@@ -26,8 +26,8 @@ jobs:
         run: |
           pip install keymap-drawer
           mkdir -p docs/images
-          keymap parse -c keymap_drawer.config.yaml -z config/totem.keymap -o /tmp/keymap.yaml
-          keymap draw -c keymap_drawer.config.yaml /tmp/keymap.yaml -o docs/images/keymap.svg
+          keymap -c keymap_drawer.config.yaml parse -z config/totem.keymap -o /tmp/keymap.yaml
+          keymap -c keymap_drawer.config.yaml draw /tmp/keymap.yaml -o docs/images/keymap.svg
 
       - run: npx --yes honkit build ./docs ./temp
 
