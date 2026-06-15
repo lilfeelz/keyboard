@@ -3,5 +3,10 @@
   "title": "lilfeelz ZMK Configuration",
   "styles": {
     "website": "dark.css"
+  },
+  "links": {
+    "sidebar": {
+      "GitHub": "https://github.com/lilfeelz/zmk"
+    }
   }
 }
