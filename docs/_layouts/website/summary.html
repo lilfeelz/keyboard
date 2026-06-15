@@ -39,13 +39,11 @@
 
     <li class="divider"></li>
 
-    {% if config.links.sidebar  %}
-    {% for linkTitle, link in config.links.sidebar  %}
     <li>
-        <a href="{{ link }}" target="_blank" class="custom-link">{{ linkTitle }}</a>
+        <a href="https://github.com/lilfeelz/zmk" target="_blank" class="custom-link">
+            <img src="https://img.shields.io/badge/GitHub-lilfeelz%2Fzmk-181717?style=flat&logo=github" alt="GitHub">
+        </a>
     </li>
-    {% endfor %}
-    {% endif %}
 
     <li>
         <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
