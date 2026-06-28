@@ -307,8 +307,8 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g class="combo combopos-1">
 <rect rx="6" ry="6" x="228" y="85" width="28" height="26" class="combo"/>
-<text x="242" y="98" class="combo tap">⌫</text>
-<text x="242" y="87" class="combo shifted">DEL</text>
+<text x="242" y="98" class="combo tap">⌥+⌫</text>
+<text x="242" y="87" class="combo shifted">⌥+DEL</text>
 </g>
 <g class="combo combopos-2">
 <path d="M611,119 l-71,1" class="combo"/>
@@ -489,8 +489,8 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g class="combo combopos-1">
 <rect rx="6" ry="6" x="228" y="85" width="28" height="26" class="combo"/>
-<text x="242" y="98" class="combo tap">⌫</text>
-<text x="242" y="87" class="combo shifted">DEL</text>
+<text x="242" y="98" class="combo tap">⌥+⌫</text>
+<text x="242" y="87" class="combo shifted">⌥+DEL</text>
 </g>
 <g class="combo combopos-2">
 <path d="M611,119 l-71,1" class="combo"/>
@@ -666,8 +666,8 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g class="combo combopos-1">
 <rect rx="6" ry="6" x="228" y="85" width="28" height="26" class="combo"/>
-<text x="242" y="98" class="combo tap">⌫</text>
-<text x="242" y="87" class="combo shifted">DEL</text>
+<text x="242" y="98" class="combo tap">⌥+⌫</text>
+<text x="242" y="87" class="combo shifted">⌥+DEL</text>
 </g>
 <g class="combo combopos-2">
 <path d="M611,119 l-71,1" class="combo"/>
@@ -844,8 +844,8 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g class="combo combopos-1">
 <rect rx="6" ry="6" x="228" y="85" width="28" height="26" class="combo"/>
-<text x="242" y="98" class="combo tap">⌫</text>
-<text x="242" y="87" class="combo shifted">DEL</text>
+<text x="242" y="98" class="combo tap">⌥+⌫</text>
+<text x="242" y="87" class="combo shifted">⌥+DEL</text>
 </g>
 <g class="combo combopos-2">
 <path d="M611,119 l-71,1" class="combo"/>
@@ -1034,8 +1034,8 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g class="combo combopos-1">
 <rect rx="6" ry="6" x="228" y="85" width="28" height="26" class="combo"/>
-<text x="242" y="98" class="combo tap">⌫</text>
-<text x="242" y="87" class="combo shifted">DEL</text>
+<text x="242" y="98" class="combo tap">⌥+⌫</text>
+<text x="242" y="87" class="combo shifted">⌥+DEL</text>
 </g>
 <g class="combo combopos-2">
 <path d="M611,119 l-71,1" class="combo"/>
