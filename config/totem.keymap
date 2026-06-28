@@ -165,6 +165,27 @@
             bindings = <&kp ESCAPE &kp ESCAPE>;
             label = "DOUBLE_ESCAPE";
         };
+
+        leq: leq {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LESS_THAN &kp EQUAL>;
+            label = "LEQ";
+        };
+
+        geq: geq {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EQUAL &kp GREATER_THAN>;
+            label = "GEQ";
+        };
+
+        colon_equals: colon_equals {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp COLON &kp EQUAL>;
+            label = "COLON_EQUALS";
+        };
     };
 
     keymap {
@@ -209,7 +230,7 @@
             bindings = <
            &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET          &kp LS(AMPS)       &kp LS(STAR)             &kp PLUS             &kp GLOBE
            &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL          &mt RGUI GRAVE     &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT         &mt LG(LC(LALT)) TILDE
-&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(LC(LA(N)))  &kp LG(LC(LA(M)))  &kp LG(LC(LA(COMMA)))    &kp LG(LC(LA(DOT)))  &kp LG(LC(LA(SLASH)))   &none
+&none  &kp RIGHT     &leq           &kp LEFT              &geq                    &kp GREATER_THAN       &kp LG(LC(LA(N)))  &kp LG(LC(LA(M)))  &kp LG(LC(LA(COMMA)))    &kp LG(LC(LA(DOT)))  &colon_equals           &none
                                         &trans                &lt 3 LG(RETURN)        &trans                 &none              &trans             &none
             >;
         };
