@@ -9,7 +9,7 @@ west build -b xiao_ble -d build/right -s zmk/app -- -DSHIELD=totem_right
 
 ## GitHub Actions
 
-This repo uses the [ZMK Build Action](https://github.com/zmkfirmware/zmk-build-action). Push to `main` to trigger a build. Firmware artifacts are available under Actions.
+This repo uses the [ZMK Build Action](https://github.com/zmkfirmware/zmk-build-action). Push to `main` to trigger a build. Firmware artifacts available under [Actions](https://github.com/lilfeelz/zmk/actions/workflows/build.yml).
 
 ## Flashing
 
