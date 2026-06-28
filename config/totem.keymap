@@ -36,8 +36,15 @@
         };
 
         bs_df {
+            bindings = <&bs_del>;
+            key-positions = <12 13>;
+            layers = <BASE>;
+        };
+
+        bs_df_nav {
             bindings = <&bwd_dwd>;
             key-positions = <12 13>;
+            layers = <NAV>;
         };
 
         left_right {
