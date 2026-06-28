@@ -6,6 +6,9 @@ parse_config:
   toggle_label: "⟳"
   raw_binding_map:
     "&caps_word": "⇪"
+    "&leq": "≤"
+    "&geq": "≥"
+    "&colon_equals": ":="
     "&kp LS(EXCL)": "!"
     "&kp LS(AT)": "@"
     "&kp LS(POUND)": "#"
