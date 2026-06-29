@@ -203,39 +203,39 @@
             label = "GEQ";
         };
 
-        left_arrow: new_macro {
+        left_arrow: left_arrow {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp LESS_THAN &kp MINUS>;
-            label = "NEW_MACRO";
+            label = "left_arrow";
         };
 
-        right_arrow: new_macro {
+        right_arrow: right_arrow {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp MINUS &kp GREATER_THAN>;
-            label = "NEW_MACRO";
+            label = "right_arrow";
         };
 
-        colon_equals: new_macro {
+        colon_equals: colon_equals {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp COLON &kp EQUAL>;
-            label = "NEW_MACRO";
+            label = "colon_equals";
         };
 
-        yank_inner_word: new_macro {
+        yank_inner_word: yank_inner_word {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp ESCAPE &kp Y &kp I &kp W &kp I>;
-            label = "NEW_MACRO";
+            label = "yank_inner_word";
         };
 
-        yank_line: new_macro {
+        yank_line: yank_line {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp ESCAPE &kp LS(V) &kp Y &kp I>;
-            label = "NEW_MACRO";
+            label = "yank_line";
         };
     };
 
