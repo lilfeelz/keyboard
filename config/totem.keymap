@@ -262,28 +262,28 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                &kp Q  &kp W  &kp E         &kp R         &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
-                &kp A  &kp S  &kp D         &kp F         &kp G        &kp H      &kp J         &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
-&sk LEFT_SHIFT  &kp Z  &kp X  &kp C         &kp V         &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
-                              &lt_caps 4 0  &lt 1 RETURN  &kp SPACE    &kp SPACE  &lt 2 ESCAPE  &lt_caps 4 0
+                &kp Q  &kp W  &kp E         &kp R            &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
+                &kp A  &kp S  &kp D         &kp F            &kp G        &kp H      &kp J         &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
+&sk LEFT_SHIFT  &kp Z  &kp X  &kp C         &kp V            &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
+                              &lt_caps 4 0  &lt 1 BACKSPACE  &kp SPACE    &kp SPACE  &lt 2 ESCAPE  &lt_caps 4 0
             >;
         };
 
         left {
             bindings = <
-       &kp N1                  &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7            &kp N8     &kp N9     &kp N0
-       &mt LG(LC(LALT)) LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN          &kp UP     &kp RIGHT  &cmd_tab
-&none  &kp LG(Z)               &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN         &kp PG_UP  &kp END    &cmd_stb  &none
-                                               &none            &kp ESCAPE      &none            &trans    &lt 3 LG(ESCAPE)  &trans
+       &kp N1           &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7            &kp N8     &kp N9     &kp N0
+       &mt GLOBE LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN          &kp UP     &kp RIGHT  &cmd_tab
+&none  &kp LG(Z)        &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN         &kp PG_UP  &kp END    &cmd_stb  &none
+                                        &none            &trans          &none            &trans    &lt 3 LG(ESCAPE)  &trans
             >;
         };
 
         right {
             bindings = <
        &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET    &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS      &kp GLOBE
-       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL    &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT  &mt LG(LC(LALT)) TILDE
-&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &left_arrow  &leq            &geq                     &right_arrow  &colon_equals           &none
-                                    &trans                &lt 3 LG(RETURN)       &trans                 &none        &trans          &none
+       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL    &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT  &mt GLOBE TILDE
+&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &left_arrow  &leq            &geq                     &right_arrow  &colon_equals    &none
+                                    &trans                &lt 3 LG(BACKSPACE)    &trans                 &none        &trans          &none
             >;
         };
 
