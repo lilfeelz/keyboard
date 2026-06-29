@@ -204,25 +204,39 @@
             label = "GEQ";
         };
 
-        colon_equals: colon_equals {
+        left_arrow: new_macro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LESS_THAN &kp MINUS>;
+            label = "NEW_MACRO";
+        };
+
+        right_arrow: new_macro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp MINUS &kp GREATER_THAN>;
+            label = "NEW_MACRO";
+        };
+
+        colon_equals: new_macro {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp COLON &kp EQUAL>;
-            label = "COLON_EQUALS";
+            label = "NEW_MACRO";
         };
 
-        yank_inner_word: yank_inner_word {
+        yank_inner_word: new_macro {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp ESCAPE &kp Y &kp I &kp W &kp I>;
-            label = "YIW";
+            label = "NEW_MACRO";
         };
 
-        yank_line: yank_line {
+        yank_line: new_macro {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp ESCAPE &kp LS(V) &kp Y &kp I>;
-            label = "YANK_LINE";
+            label = "NEW_MACRO";
         };
     };
 
@@ -266,19 +280,19 @@
 
         right {
             bindings = <
-       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET  &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS      &kp GLOBE
-       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL  &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT  &mt LG(LC(LALT)) TILDE
-&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LEFT   &leq            &geq                     &kp RIGHT     &colon_equals           &none
-                                    &trans                &lt 3 LG(RETURN)       &trans                 &none      &trans          &none
+       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET    &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS      &kp GLOBE
+       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL    &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT  &mt LG(LC(LALT)) TILDE
+&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &left_arrow  &leq            &geq                     &right_arrow  &colon_equals           &none
+                                    &trans                &lt 3 LG(RETURN)       &trans                 &none        &trans          &none
             >;
         };
 
         middle {
             bindings = <
-        &kp F1                &kp F2        &kp F3         &kp F4        &kp F5     &kp F6   &kp F7        &kp F8         &kp F9        &kp F10
-        &sk LS(LG(LC(LALT)))  &sk LS(LALT)  &sk LS(LCTRL)  &sk LS(LGUI)  &trans     &trans   &sk RS(RGUI)  &sk RS(RCTRL)  &sk RS(RALT)  &sk RS(LG(LC(LALT)))
-&trans  &kp F11               &kp F12       &kp F13        &kp F14       &kp F15    &kp F16  &kp F17       &kp F18        &kp F19       &kp F20               &trans
-                                            &none          &trans        &none      &none    &trans        &none
+        &kp F1         &kp F2        &kp F3         &kp F4        &kp F5     &kp F6   &kp F7        &kp F8         &kp F9        &kp F10
+        &sk LS(GLOBE)  &sk LS(LALT)  &sk LS(LCTRL)  &sk LS(LGUI)  &trans     &trans   &sk RS(RGUI)  &sk RS(RCTRL)  &sk RS(RALT)  &sk RS(GLOBE)
+&trans  &kp F11        &kp F12       &kp F13        &kp F14       &kp F15    &kp F16  &kp F17       &kp F18        &kp F19       &kp F20        &trans
+                                     &none          &trans        &none      &none    &trans        &none
             >;
         };
 
