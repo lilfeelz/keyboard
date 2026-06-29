@@ -1,8 +1,20 @@
 on:
   push:
     branches: [main]
+    paths:
+      - config/**
+      - boards/**
+      - build.yaml
+      - zephyr/**
+      - .github/workflows/build.yml
   pull_request:
     branches: [main]
+    paths:
+      - config/**
+      - boards/**
+      - build.yaml
+      - zephyr/**
+      - .github/workflows/build.yml
   workflow_dispatch:
 
 concurrency:

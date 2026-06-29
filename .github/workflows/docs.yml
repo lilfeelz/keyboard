@@ -8,6 +8,7 @@ on:
       - keymap_drawer.config.yaml
       - index.html
       - config/totem.keymap
+      - .github/workflows/docs.yml
   workflow_dispatch:
 
 concurrency:
