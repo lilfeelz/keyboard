@@ -10,5 +10,5 @@ concurrency:
 
 jobs:
   release-please:
-    uses: JakobMelbard/.github/.github/workflows/release.yml@main
+    uses: JakobMelchard/.github/.github/workflows/release.yml@main
     secrets: inherit
