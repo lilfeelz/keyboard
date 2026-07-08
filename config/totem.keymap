@@ -52,6 +52,12 @@
             key-positions = <16 17>;
             layers = <1>;
         };
+
+        del {
+            bindings = <&mo 5>;
+            key-positions = <12 13>;
+            layers = <0>;
+        };
     };
 
     behaviors {
@@ -167,13 +173,6 @@
     };
 
     macros {
-        double_escape: double_escape {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp ESCAPE &kp ESCAPE>;
-            label = "DOUBLE_ESCAPE";
-        };
-
         leq: leq {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -286,6 +285,15 @@
        &none         &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &bt BT_CLR      &kp C_MUTE    &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &none         &none
 &none  &none         &none         &none          &none                 &none           &none         &none              &none            &none         &none         &none
                                    &trans         &none                 &none           &none         &none              &trans
+            >;
+        };
+
+        del {
+            bindings = <
+       &none  &none  &none  &none          &none    &none  &none         &none         &none             &none
+       &none  &none  &none  &none          &none    &none  &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(UP_ARROW)  &kp LS(RIGHT)
+&none  &none  &none  &none  &none          &none    &none  &none         &none         &none             &none          &none
+                     &none  &kp BACKSPACE  &none    &none  &none         &none
             >;
         };
     };
