@@ -54,7 +54,7 @@
         };
 
         del {
-            bindings = <&mo 5>;
+            bindings = <&lt 5 LA(BACKSPACE)>;
             key-positions = <12 13>;
             layers = <0>;
         };
