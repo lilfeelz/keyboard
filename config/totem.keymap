@@ -287,10 +287,10 @@
 
         del {
             bindings = <
-       &none  &none         &none          &none              &none    &none         &none         &none             &none          &none
-       &none  &kp LEFT_ALT  &kp BACKSPACE  &kp LA(BACKSPACE)  &none    &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(UP_ARROW)  &kp LS(RIGHT)  &none
-&none  &none  &none         &none          &none              &none    &none         &none         &none             &none          &none  &none
-                            &none          &to 0              &none    &none         &to 0         &none
+       &none  &none         &none       &none          &none    &none         &none         &none             &none          &none
+       &none  &kp LEFT_ALT  &kp DELETE  &kp BACKSPACE  &none    &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(UP_ARROW)  &kp LS(RIGHT)  &none
+&none  &none  &none         &none       &none          &none    &none         &none         &none             &none          &none  &none
+                            &none       &to 0          &none    &none         &to 0         &none
             >;
         };
     };
