@@ -290,10 +290,10 @@
 
         del {
             bindings = <
-       &none  &none  &none  &none              &none    &none  &none         &none         &none             &none
-       &none  &none  &none  &none              &none    &none  &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(UP_ARROW)  &kp LS(RIGHT)
-&none  &none  &none  &none  &none              &none    &none  &none         &none         &none             &none          &none
-                     &none  &kp LA(BACKSPACE)  &none    &none  &none         &none
+       &none  &none  &none  &none              &none    &none         &none         &none             &none          &none
+       &none  &none  &none  &none              &none    &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(UP_ARROW)  &kp LS(RIGHT)  &none
+&none  &none  &none  &none  &none              &none    &none         &none         &none             &none          &none  &none
+                     &none  &kp LA(BACKSPACE)  &none    &none         &none         &none
             >;
         };
     };
