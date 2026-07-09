@@ -242,10 +242,10 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                &kp Q  &kp W  &kp E         &kp R                &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
-                &kp A  &kp S  &kp D         &kp F                &kp G        &kp H      &kp J         &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
-&sk LEFT_SHIFT  &kp Z  &kp X  &kp C         &kp V                &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
-                              &lt_caps 4 0  &sk_mo 1 LEFT_SHIFT  &kp SPACE    &kp SPACE  &lt 2 ESCAPE  &lt_caps 4 0
+                &kp Q  &kp W  &kp E         &kp R               &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
+                &kp A  &kp S  &kp D         &kp F               &kp G        &kp H      &kp J         &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
+&sk LEFT_SHIFT  &kp Z  &kp X  &kp C         &kp V               &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                   &sk RIGHT_SHIFT
+                              &lt_caps 4 0  &sk_mo 1 BACKSPACE  &kp SPACE    &kp SPACE  &lt 2 ESCAPE  &lt_caps 4 0
             >;
         };
 
