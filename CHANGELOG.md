@@ -1,0 +1,58 @@
+# Changelog
+
+## 1.0.0 (2026-07-04)
+
+
+### Features
+
+* **config:** add peripheral vars ([a871a21](https://github.com/lilfeelz/zmk/commit/a871a21e3a9e599c57c406503aa00603ab833707))
+* **docs:** add dark theme, deploy to umbrella repo via deploy key ([1f7fd26](https://github.com/lilfeelz/zmk/commit/1f7fd26331742930be9142ca19e62a8ee1d5768b))
+* **docs:** concise key labels with symbols, dark SVG, config file ([08746ac](https://github.com/lilfeelz/zmk/commit/08746ac8f8b7ecebf8881c0984bd23692c0b66c0))
+* **docs:** deploy to own gh-pages, generate keymap SVG ([5b5639e](https://github.com/lilfeelz/zmk/commit/5b5639ee77f4ce131369bbee807c3854811e0910))
+* idle timeout ([7a112fa](https://github.com/lilfeelz/zmk/commit/7a112fa630650d53c1add814adbf2f2659877bcd))
+* **keymap:** bs/del on base D/F, opt-bs/del on nav D/F, vim macros on arrow combos ([eb27b6e](https://github.com/lilfeelz/zmk/commit/eb27b6e9e50495dc5eaa1c89560e432e0fe9e412))
+* **keymap:** reconfigure thumbs, fun layer, drop ctrl+b ([8971317](https://github.com/lilfeelz/zmk/commit/897131762118f80ecf30ce0ca69db8ba6f26ce54))
+* **keymap:** rework sym layer bottom row with arrows and macros ([4a263cf](https://github.com/lilfeelz/zmk/commit/4a263cf91638be0a3baf288f15055bebe6c28ba5))
+* make svg ci only ([d7098ba](https://github.com/lilfeelz/zmk/commit/d7098ba2ed1a720be3f7cd971baca02d4d372377))
+* **totem:** split middle and fun layers ([ce9681c](https://github.com/lilfeelz/zmk/commit/ce9681c6dc3560461c401c7ae612d625780637c1))
+
+
+### Bug Fixes
+
+* **ci:** correct org name in reusable workflow reference ([c45d972](https://github.com/lilfeelz/zmk/commit/c45d972295bb14c67f26287a5b770123bbaf9f74))
+* **ci:** grant contents:write and pull-requests:write to release job ([0bdb20a](https://github.com/lilfeelz/zmk/commit/0bdb20ad94746b859c64eea3e564431b3df0ece0))
+* **docs:** add contents: write permission for gh-pages push ([3ee86e1](https://github.com/lilfeelz/zmk/commit/3ee86e16da441c25517a124616c9d52bb0eb0eae))
+* **docs:** build to default _book then restructure ([9eefe14](https://github.com/lilfeelz/zmk/commit/9eefe148400e411754504b8b6442ceb24cf7454f))
+* **docs:** build to site/ inside docs/, then move to repo root ([4b75587](https://github.com/lilfeelz/zmk/commit/4b75587edacb05ababb8b3e4f0240a6ca84dd9be))
+* **docs:** check docs/ dir after build ([2aa3d50](https://github.com/lilfeelz/zmk/commit/2aa3d507d1f845623ecf8187ed3725ee96ec4b53))
+* **docs:** comprehensive key symbol mappings for all layers ([2567920](https://github.com/lilfeelz/zmk/commit/256792019baaf83bc8a1974560eb4a274a29c8bd))
+* **docs:** correct keymap layout with v modifiers, remove deprecated sidebar link, move badge ([3a84880](https://github.com/lilfeelz/zmk/commit/3a8488089ebd657199a80aa6cd30de3360be6b10))
+* **docs:** correct layout notation, add package.json for dark theme, split editor to own page ([2cea4b6](https://github.com/lilfeelz/zmk/commit/2cea4b6c9cb72728535f3273be20c69e8b7a30a2))
+* **docs:** debug honkit output path ([38e849e](https://github.com/lilfeelz/zmk/commit/38e849ef9edb641d1489b83a0c4116fc9d517a1b))
+* **docs:** debug site/ after honkit build ([1d89f25](https://github.com/lilfeelz/zmk/commit/1d89f251a856fca901b7de2cd7dc9b813f8f6501))
+* **docs:** debug where honkit outputs files ([bcd53f2](https://github.com/lilfeelz/zmk/commit/bcd53f2bb949b887718a0c8802042f8368337623))
+* **docs:** deploy to umbrella main branch, not gh-pages ([dcb2d9b](https://github.com/lilfeelz/zmk/commit/dcb2d9b871f40c904d19b87831c721a24053d087))
+* **docs:** disable theme-default so darkening plugin takes over ([009a458](https://github.com/lilfeelz/zmk/commit/009a4583e80b6819e4502ea740b6879f32c26b0d))
+* **docs:** drop _book dir, add cname for docs.lilfeelz.org ([89609ff](https://github.com/lilfeelz/zmk/commit/89609ff724aab1775b2084826f29e9f1d59199f4))
+* **docs:** drop root from book.json so output paths work, use site/ ([2137d1c](https://github.com/lilfeelz/zmk/commit/2137d1cf6e7ebb8683e0c64cb0f2392b115f92f8))
+* **docs:** install plugin via npm, use npx --yes for honkit ([f9ce98e](https://github.com/lilfeelz/zmk/commit/f9ce98e9a62794c8baaeca00cb68dfdce3670f04))
+* **docs:** remove hacky reorder script, use raw keymap-drawer ([aabe34f](https://github.com/lilfeelz/zmk/commit/aabe34f1d72760e89f53c7717c1e505e0b6c6cf8))
+* **docs:** reorder keymap YAML to fix visual layout, sticky shifts on home row edges ([89a467f](https://github.com/lilfeelz/zmk/commit/89a467fbfea7b82f531a4db2815492baf6c52156))
+* **docs:** replace darkening plugin with custom dark CSS via honkit styles ([52cd3cd](https://github.com/lilfeelz/zmk/commit/52cd3cda0772265ab6eb92e1aa226a4a097236ed))
+* **docs:** replace verbose styles with simple dark.css ([a8d6a8c](https://github.com/lilfeelz/zmk/commit/a8d6a8c12845f7481c573f2fb5971cbacb8fedf3))
+* **docs:** restore root in book.json, use site/ output with ./ prefix ([2390b1f](https://github.com/lilfeelz/zmk/commit/2390b1fa57f730f957de4257ac81a10913903549))
+* **docs:** use _book output dir to avoid build conflict ([7177708](https://github.com/lilfeelz/zmk/commit/7177708ab3b7cacec48968cea79cff01deb582ae))
+* **docs:** use ../site/docs relative to source so output lands at repo root ([155f0b0](https://github.com/lilfeelz/zmk/commit/155f0b01dd9a2016c301da21ee5f4e61529284f9))
+* **docs:** use built-in totem extra layout instead of -n notation ([2296f00](https://github.com/lilfeelz/zmk/commit/2296f000fbf69028e20cfb2213a78117f2480d25))
+* **docs:** use contents: write for gh-pages push permission ([62d50ed](https://github.com/lilfeelz/zmk/commit/62d50ed1c6a7cb7a664a2f8f32197fbf83aeeae1))
+* **docs:** use explicit output dir name, avoid _book ambiguity ([58bf7c1](https://github.com/lilfeelz/zmk/commit/58bf7c1516b90808083ed12ffea4f0e096b7859b))
+* **docs:** use global -c for config, add zmk_keycode_map for concise labels ([e4b5368](https://github.com/lilfeelz/zmk/commit/e4b536816aac05a8b3c180b762a9dc48a20da631))
+* **docs:** use local honkit binary so darkening plugin is found ([f024333](https://github.com/lilfeelz/zmk/commit/f024333c8ed1252628d70462b2d5d413dacc0128))
+* **docs:** use npx multi-package for honkit + darkening plugin ([4b9e047](https://github.com/lilfeelz/zmk/commit/4b9e04744594977287ebb06afb10a7d21d2ccd09))
+* **docs:** use temp file for keymap draw, mkdir docs/images ([f2a1ece](https://github.com/lilfeelz/zmk/commit/f2a1ecef8dc0a4a5ee02d5bda7bdd47ee3a16e1a))
+* drop soft_off/bt_clr from left/right; render GitHub badge in sidebar ([966a75c](https://github.com/lilfeelz/zmk/commit/966a75c724aaebdb794d56e1ec51ea1754a71307))
+* **fun:** correct thumb row; docs: move sidebar GitHub link to bottom ([568fa1a](https://github.com/lilfeelz/zmk/commit/568fa1ab5e4465208f8642f77d72b0357dfcbf38))
+* **keymap:** keep D/F as individual keys, add D+F combo for bs/del ([c5d7b79](https://github.com/lilfeelz/zmk/commit/c5d7b79b26b53ac84b88a1a81f5075c236a7cd0e))
+* **keymap:** layer-specific D+F combos — bs on base, opt+bs on nav ([62e2235](https://github.com/lilfeelz/zmk/commit/62e223509c5c0da55b4cab57254609f5a0b544f1))
+* **keymap:** restore sym layer left side, add arrows and macros on right ([18ad29d](https://github.com/lilfeelz/zmk/commit/18ad29d87d7e9b122489999ad35839d7944b60e1))
+* **keymap:** use bwd_dwd for D+F combo so opt+bs works on nav ([fc73c33](https://github.com/lilfeelz/zmk/commit/fc73c33f42d327def92493824d0a6751ecccb154))
