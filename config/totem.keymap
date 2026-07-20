@@ -54,13 +54,13 @@
         };
 
         del {
-            bindings = <&lt 5 BACKSPACE>;
+            bindings = <&lt 5 LA(BACKSPACE)>;
             key-positions = <12 13>;
             layers = <0>;
         };
 
         bwd {
-            bindings = <&kp LA(BACKSPACE)>;
+            bindings = <&kp BACKSPACE>;
             key-positions = <11 12 13>;
             layers = <0>;
         };
