@@ -5,6 +5,7 @@ parse_config:
   sticky_label: "⇧"
   toggle_label: "⟳"
   raw_binding_map:
+    "&out OUT_TOG": "⟳"
     "&caps_word": "⇪"
     "&leq": "≤"
     "&geq": "≥"

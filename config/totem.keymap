@@ -279,7 +279,7 @@
         fun {
             bindings = <
        &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &bt BT_SEL 3          &bt BT_SEL 4    &bt BT_SEL 4  &bt BT_SEL 3       &bt BT_SEL 2     &bt BT_SEL 1  &bt BT_SEL 0
-       &none         &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &bt BT_CLR      &kp C_MUTE    &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &none         &none
+       &out OUT_TOG   &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &bt BT_CLR      &kp C_MUTE    &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &none         &out OUT_TOG
 &none  &none         &none         &none          &none                 &none           &none         &none              &none            &none         &none         &none
                                    &trans         &none                 &none           &none         &none              &trans
             >;
