@@ -17,4 +17,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    secrets: inherit
+    # App-authored release PRs trigger CI; github.token-created ones do not.
+    # melchbot (JakobMelchard's app) is installed on lilfeelz; secrets copied from Infisical.
+    secrets:
+      app-client-id: ${{ secrets.APP_CLIENT_ID }}
+      app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
