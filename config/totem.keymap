@@ -265,8 +265,8 @@
         fun {
             bindings = <
           &kp F1        &kp F2        &kp F3         &kp F4                &kp F5      &kp F6      &kp F7             &kp F8           &kp F9        &kp F10
-          &out OUT_TOG  &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &none       &none       &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp C_MUTE    &out OUT_TOG
-&kp F11   &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1   &bt BT_SEL 0          &bt BT_CLR  &bt BT_CLR  &bt BT_SEL 0       &bt BT_SEL 1     &bt BT_SEL 2  &bt BT_SEL 3  &kp F12
+          &out OUT_TOG  &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &kp F11     &kp F12     &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp C_MUTE    &out OUT_TOG
+&none     &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1   &bt BT_SEL 0          &bt BT_CLR  &bt BT_CLR  &bt BT_SEL 0       &bt BT_SEL 1     &bt BT_SEL 2  &bt BT_SEL 3  &none
                                       &trans         &none                 &none       &none       &none              &trans
             >;
         };
