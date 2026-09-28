@@ -97,10 +97,12 @@ import Testing
         #expect(KeyCap.of(base[comma], shifted: false, mode: .text).main == ",")
         #expect(KeyCap.of(base[comma], shifted: false, mode: .text).hint == ";")
         #expect(KeyCap.of(base[comma], shifted: true, mode: .text).main == ";")
+        let bspc = c.keys.firstIndex { $0.name == "bspc" }!
+        #expect(KeyCap.of(base[bspc], shifted: false, mode: .text).main == "⌫")
         let lmet = c.keys.firstIndex { $0.name == "lmet" }!
-        let cap = KeyCap.of(base[lmet], shifted: false, mode: .text)
-        #expect(cap.main == "⌫")
-        #expect(cap.hint == "left")
+        let nav = KeyCap.of(base[lmet], shifted: false, mode: .text)
+        #expect(nav.main == "left")
+        #expect(nav.hint == nil)
         let left = c.layers[1].actions
         let x = c.keys.firstIndex { $0.name == "x" }!
         #expect(KeyCap.of(left[x], shifted: false, mode: .text).main == "⌘X")

@@ -132,7 +132,7 @@ public enum Translator {
         return s[i...]
     }
 
-    static func wordAfter(_ s: String) -> String {
+    public static func wordAfter(_ s: String) -> String {
         String(String(wordBefore(String(s.reversed()))).reversed())
     }
 

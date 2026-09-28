@@ -63,6 +63,27 @@ struct Field {
         #expect(f.before == "abc def")
     }
 
+    @Test func deleteForwardOnRightDrag() {
+        var f = Field(before: "one ", after: "two three!")
+        var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
+        f.apply(s.move(dx: 40, dy: 0))
+        #expect(f.before == "one two three")
+        f.apply(s.move(dx: 20, dy: 0))
+        f.apply(s.end())
+        #expect(f.before == "one ")
+        #expect(f.after == " three!")
+    }
+
+    @Test func dragAcrossStartSwitchesSide() {
+        var f = Field(before: "one two", after: " three")
+        var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
+        f.apply(s.move(dx: -20, dy: 0))
+        f.apply(s.move(dx: 20, dy: 0))
+        f.apply(s.end())
+        #expect(f.before == "one two")
+        #expect(f.after == "")
+    }
+
     @Test func deleteInTerminalIsImmediate() {
         var s = SwipeTracker(kind: .delete, mode: .terminal, context: TextContext())
         #expect(s.move(dx: -37, dy: 0) == [.insert("\u{1b}\u{7f}"), .insert("\u{1b}\u{7f}")])
@@ -83,13 +104,13 @@ struct Field {
         #expect(s.move(dx: 13, dy: 0) == [.insert("\u{1b}[C")])
     }
 
-    @Test func cancelDropsPendingTapHold() {
+    @Test func cancelDropsPendingSwipeKey() {
         let h = Harness()
-        let lmet = h.idx("lmet")
-        h.down("lmet")
-        h.record(h.engine.cancel(lmet, at: h.t))
-        #expect(h.engine.swipe(at: lmet) == .delete)
-        h.up("lmet", after: 50)
+        let bspc = h.idx("bspc")
+        h.down("bspc")
+        #expect(h.engine.swipe(at: bspc) == .delete)
+        h.record(h.engine.cancel(bspc, at: h.t))
+        h.up("bspc", after: 50)
         h.tap("q")
         #expect(h.typed == "q")
     }

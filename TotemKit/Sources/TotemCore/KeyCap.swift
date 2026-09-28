@@ -42,7 +42,9 @@ public struct KeyCap: Sendable, Equatable {
         case .tapHold(let th):
             var cap = of(th.tap, shifted: shifted, mode: mode)
             let hold = of(th.hold, shifted: false, mode: mode)
-            if hold.style != .blank, hold.style != .inert { cap.hint = hold.symbol == nil ? hold.main : nil }
+            if hold.style != .blank, hold.style != .inert, hold.main != cap.main {
+                cap.hint = hold.symbol == nil ? hold.main : nil
+            }
             return cap
         case .oneShot(_, let inner):
             var cap = of(inner, shifted: shifted, mode: mode)

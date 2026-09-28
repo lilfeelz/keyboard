@@ -331,7 +331,14 @@ public final class Engine {
             return
         }
         var a = action(at: e.key)
-        if case .swipe(_, let inner) = a { a = inner }
+        if case .swipe(_, let inner) = a {
+            a = inner
+            // A plain key under a swipe waits to see whether the finger moves:
+            // lift = tap, hold or another key = press (and auto-repeat).
+            if case .tapHold = inner {} else {
+                a = .tapHold(TapHold(kind: .press, tapTime: 0, holdTime: Self.swipeWait, tap: inner, hold: inner))
+            }
+        }
         if case .tapHold(let th) = a {
             if let last = lastTap[e.key], e.t - last < ms(th.tapTime) {
                 lastTap[e.key] = nil
@@ -345,6 +352,9 @@ public final class Engine {
     }
 
     // MARK: - actions
+
+    /// How long a swipe key waits for movement before it counts as held.
+    static let swipeWait = 200
 
     private func pressAction(_ key: Int, _ a: Action) {
         recording = []
@@ -482,6 +492,10 @@ public final class Engine {
             }
         case .layerHold(let name), .layerSwitch(let name):
             guard let l = config.layerIndex(named: name) else { return }
+            if let t = oneShot?.layerToken, heldLayers.contains(where: { $0.token == t && $0.layer == l }) {
+                cancelOneShot()
+                return
+            }
             let t = nextToken()
             heldLayers.append((t, l))
             oneShot = (oneShot?.mods ?? [], t, deadline)

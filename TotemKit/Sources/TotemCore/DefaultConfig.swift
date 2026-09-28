@@ -46,7 +46,7 @@ extension Config {
           gap   q    w    e    r    t  y    u    i    o    p    gap
           tab   a    s    d    f    g  h    j    k    l    ;    ret
           lsft  z    x    c    v    b  n    m    ,    .    /    rsft
-          fn    lalt lmet:2    spc:4                   rmet:2    ralt menu
+          fn    lalt lmet bspc spc:4                   esc  rmet ralt menu
         )
 
         (defalias
@@ -119,9 +119,14 @@ extension Config {
         (defalias
           /g  (tap-hold $tap-time $hold-time / @cag)
           oss (tap-hold $tap-time $hold-time (one-shot-press $one-shot-time rsft) rsft)
-          ;; drag the backspace thumb left to delete words, the esc thumb to move the cursor
-          lft (swipe-delete (tap-hold-release $tap-time $hold-time @bsp (layer-while-held left)))
-          rgt (swipe-cursor (tap-hold-release $tap-time $hold-time @esc (layer-while-held right)))
+          ;; nav / sym keys beside backspace and hide-keyboard: tap for the
+          ;; next key only, hold to stay on the layer
+          nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-while-held left))
+          sym (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held right)) (layer-while-held right))
+          ;; drag backspace left to delete words back, right to delete words
+          ;; forward (lift to apply); drag esc to move the cursor
+          bs  (swipe-delete @bsp)
+          hid (swipe-cursor @esc)
           ;; inner thumb on nav / sym: sticky shift
           ssr (one-shot-press $one-shot-time rsft)
           ssl (one-shot-press $one-shot-time lsft)
@@ -152,21 +157,21 @@ extension Config {
                 q    w    e    r    t         y    u    i    o    p
           tab   a    s    d    f    g         h    j    k    l    @/g  ret
           @oss  z    x    c    v    b         n    m    @,   @.   @-   @oss
-          nextkbd  @cps  @lft      spc                 @rgt      @cps term
+          nextkbd  @cps  @nav @bs  spc                 @hid @sym @cps term
         )
 
         (deflayer left
                 1    2    3    4    5         6    7    8    9    0
           _     @osa @osl @osc @osm rpt       left down up   rght @tab _
           _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
-          _        XX    _         _                   @ssr      caps _
+          _        XX    _    _    _                   _    @ssr caps _
         )
 
         (deflayer right
                 @!   @@   @#   @$   @%        @^   @&   @*   @+   nextkbd
           _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
           _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
-          _        caps  @ssl      _                   _         XX   _
+          _        caps  @ssl _    _                   _    _    XX   _
         )
 
         ;; fun: bluetooth has no meaning here, those keys stay empty
@@ -174,7 +179,7 @@ extension Config {
                 f1   f2   f3   f4   f5        f6   f7   f8   f9   f10
           _     XX   XX   brdn brup f11       f12  vold volu mute XX   _
           XX    XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX
-          _        _     XX        XX                  XX        _    _
+          _        _     XX   XX   XX                  XX   XX   _    _
         )
         """#
 }

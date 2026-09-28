@@ -63,7 +63,7 @@ final class Harness {
     @Test func defaultConfigParses() throws {
         let c = Config.default
         #expect(c.layers.map(\.name) == ["base", "left", "right", "fun"])
-        #expect(c.keys.count == 41)
+        #expect(c.keys.count == 43)
         #expect(c.rows == 4)
         #expect(c.chords.count == 2)
         #expect(c.warnings.isEmpty)
@@ -128,7 +128,7 @@ final class Harness {
 
     @Test func tapHoldTapIsBackspace() {
         let h = Harness()
-        h.type("a", "lmet")
+        h.type("a", "bspc")
         #expect(h.typed == "a⌫")
     }
 
@@ -158,7 +158,8 @@ final class Harness {
         h.down("w", after: 20)
         h.up("lmet", after: 20)
         h.up("w", after: 20)
-        #expect(h.typed == "⌫w")
+        // tapped: a one-shot nav layer, so w is 2
+        #expect(h.typed == "2")
     }
 
     @Test func oneShotShift() {
@@ -270,25 +271,25 @@ final class Harness {
     @Test func escTapAndShiftedDoubleEsc() {
         let h = Harness()
         h.engine.mode = .terminal
-        h.tap("rmet")
-        h.type("lsft", "rmet")
+        h.tap("esc")
+        h.type("lsft", "esc")
         #expect(h.typed == "\u{1b}\u{1b}\u{1b}")
     }
 
-    @Test func quickTapRepeatsBackspace() {
+    @Test func heldBackspaceRepeats() {
         let h = Harness()
-        h.tap("lmet")
-        h.down("lmet", after: 50)
-        h.wait(400 + 50 * 3 + 1)
-        h.up("lmet")
-        #expect(h.typed == String(repeating: "⌫", count: 6))
+        // pressed after the 200ms swipe wait, repeats 400ms later every 50ms
+        h.down("bspc")
+        h.wait(200 + 400 + 50 * 3 + 1)
+        h.up("bspc")
+        #expect(h.typed == String(repeating: "⌫", count: 5))
     }
 
     @Test func tapHoldShiftMakesBackspaceDelete() {
         let h = Harness()
         h.down("lsft")
         h.wait(200)
-        h.tap("lmet")
+        h.tap("bspc")
         h.up("lsft")
         #expect(h.outputs == [.stroke(Key("del"), [])])
     }
@@ -330,14 +331,14 @@ final class Harness {
 
     @Test func escHidesKeyboardInTextMode() {
         let h = Harness()
-        h.tap("rmet")
+        h.tap("esc")
         #expect(h.outputs == [.system(.dismiss)])
     }
 
     @Test func escIsEscInTerminalMode() {
         let h = Harness()
         h.engine.mode = .terminal
-        h.tap("rmet")
+        h.tap("esc")
         #expect(h.typed == "\u{1b}")
     }
 
@@ -362,8 +363,8 @@ final class Harness {
 
     @Test func escCapFollowsMode() {
         let c = Config.default
-        let rmet = c.keys.firstIndex { $0.name == "rmet" }!
-        let a = c.layers[0].actions[rmet]
+        let esc = c.keys.firstIndex { $0.name == "esc" }!
+        let a = c.layers[0].actions[esc]
         #expect(KeyCap.of(a, shifted: false, mode: .text).symbol == "keyboard.chevron.compact.down")
         #expect(KeyCap.of(a, shifted: false, mode: .terminal).main == "esc")
     }
@@ -398,5 +399,34 @@ final class Harness {
         h.up("rmet")
         h.tap("a")
         #expect(h.typed == "A")
+    }
+}
+
+@Suite struct LayerKeyTests {
+    @Test func navTapIsOneShotLayer() {
+        let h = Harness()
+        h.type("lmet", "q", "q")
+        #expect(h.typed == "1q")
+    }
+
+    @Test func navTappedTwiceCancels() {
+        let h = Harness()
+        h.type("lmet", "lmet", "q")
+        #expect(h.typed == "q")
+    }
+
+    @Test func symTapIsOneShotLayer() {
+        let h = Harness()
+        h.type("rmet", "q", "q")
+        #expect(h.typed == "!q")
+    }
+
+    @Test func backspaceTypedFastKeepsOrder() {
+        let h = Harness()
+        h.down("bspc")
+        h.down("a", after: 30)
+        h.up("bspc", after: 10)
+        h.up("a", after: 10)
+        #expect(h.typed == "⌫a")
     }
 }

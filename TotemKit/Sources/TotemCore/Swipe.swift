@@ -5,10 +5,10 @@
 /// back between steps would lag behind the moves already sent.
 ///
 /// A keyboard cannot select text, so a delete swipe previews by moving the
-/// cursor back over whole words (dragging right gives them back) and deletes
-/// the covered span on lift (the cursor then sits before it, so it is a
-/// forward delete). In terminal mode there is no preview: each step
-/// left sends a word delete right away.
+/// cursor over whole words and deletes the covered span on lift: dragging
+/// left covers words before the cursor, dragging right words after it, and
+/// dragging back toward the start gives words back. In terminal mode there is
+/// no preview: each step sends a word delete (back or forward) right away.
 public struct SwipeTracker: Sendable {
     public let kind: SwipeKind
     public let mode: Mode
@@ -21,7 +21,10 @@ public struct SwipeTracker: Sendable {
 
     private var before: String
     private var after: String
+    /// Words covered before the start (drag left), nearest first.
     private var taken: [String] = []
+    /// Words covered after the start (drag right), nearest first.
+    private var ahead: [String] = []
     private var x = 0
     private var y = 0
 
@@ -55,26 +58,14 @@ public struct SwipeTracker: Sendable {
                 y += y < ty ? 1 : -1
             }
         case .delete:
-            let tx = min(0, Int(dx / wordStep))
+            let tx = Int(dx / wordStep)
             while x > tx {
                 x -= 1
-                if mode == .terminal {
-                    out += Translator.edits(.stroke(Key("bspc"), .alt), mode: mode, context: context) ?? []
-                    continue
-                }
-                let w = String(Translator.wordBefore(before))
-                taken.append(w)
-                guard !w.isEmpty else { continue }
-                before.removeLast(w.count)
-                after = w + after
-                out.append(.move(-w.utf16.count))
+                if x >= 0 { out += giveBack(forward: true) } else { out += take(forward: false) }
             }
             while x < tx {
                 x += 1
-                guard mode == .text, let w = taken.popLast(), !w.isEmpty else { continue }
-                before += w
-                after.removeFirst(w.count)
-                out.append(.move(w.utf16.count))
+                if x <= 0 { out += giveBack(forward: false) } else { out += take(forward: true) }
             }
         }
         return out
@@ -83,9 +74,49 @@ public struct SwipeTracker: Sendable {
     /// Edits to finish the swipe when the finger lifts.
     public func end() -> [Edit] {
         guard kind == .delete, mode == .text else { return [] }
-        let span = taken.reversed().joined()
-        guard !span.isEmpty else { return [] }
-        return [.deleteForward(span)]
+        // Covered words back: the cursor sits before them. Forward: after them.
+        let back = taken.reversed().joined()
+        if !back.isEmpty { return [.deleteForward(back)] }
+        let fwd = ahead.joined()
+        if !fwd.isEmpty { return [.deleteBackward(fwd.count)] }
+        return []
+    }
+
+    /// Cover one more word before (drag left) or after (drag right) the cursor.
+    private mutating func take(forward: Bool) -> [Edit] {
+        if mode == .terminal {
+            // alt-backspace / alt-d: readline's word deletes
+            return [.insert(forward ? "\u{1b}d" : "\u{1b}\u{7f}")]
+        }
+        if forward {
+            let w = Translator.wordAfter(after)
+            ahead.append(w)
+            guard !w.isEmpty else { return [] }
+            after.removeFirst(w.count)
+            before += w
+            return [.move(w.utf16.count)]
+        }
+        let w = String(Translator.wordBefore(before))
+        taken.append(w)
+        guard !w.isEmpty else { return [] }
+        before.removeLast(w.count)
+        after = w + after
+        return [.move(-w.utf16.count)]
+    }
+
+    /// Uncover the most recently covered word on that side.
+    private mutating func giveBack(forward: Bool) -> [Edit] {
+        guard mode == .text else { return [] }
+        if forward {
+            guard let w = ahead.popLast(), !w.isEmpty else { return [] }
+            before.removeLast(w.count)
+            after = w + after
+            return [.move(-w.utf16.count)]
+        }
+        guard let w = taken.popLast(), !w.isEmpty else { return [] }
+        before += w
+        after.removeFirst(w.count)
+        return [.move(w.utf16.count)]
     }
 
     private var context: TextContext { TextContext(before: before, after: after) }

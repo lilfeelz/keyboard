@@ -38,15 +38,21 @@ final class KeyboardUITests: XCTestCase {
         key("⌫").tap()
         XCTAssertEqual(buffer, "hi▏")
 
-        // holding it resolves to the left layer instead, so nothing is deleted
+        // holding it deletes (and would repeat)
         key("⌫").press(forDuration: 0.5)
-        XCTAssertEqual(buffer, "hi▏")
+        XCTAssertEqual(buffer, "h▏")
+
+        // the nav key beside it: tap for one key on the layer (q is 1)
+        let nav = point("left"), q = point("q")
+        nav.tap()
+        q.tap()
+        XCTAssertEqual(buffer, "h1▏")
 
         // terminal mode: esc goes out as ESC
         key(">_").tap()
         XCTAssertEqual(app.staticTexts["mode"].label, "terminal")
         key("esc").tap()
-        XCTAssertEqual(buffer, "hi^[▏")
+        XCTAssertEqual(buffer, "h1^[▏")
     }
 
     func drag(_ label: String, dx: CGFloat, dy: CGFloat = 0) {
