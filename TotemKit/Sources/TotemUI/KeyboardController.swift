@@ -22,6 +22,10 @@ public final class KeyboardController {
     @ObservationIgnored private var timer: DispatchWorkItem?
     @ObservationIgnored private var swipes: [Int: SwipeTracker] = [:]
     @ObservationIgnored private var history = History()
+    @ObservationIgnored private var lineQueue: [Int] = []
+    @ObservationIgnored private var lineBusy = false
+    @ObservationIgnored private var goalColumn: Int?
+    @ObservationIgnored private var settled: (() -> Void)?
 
     public init(config: Config, mode: Mode? = nil) {
         self.config = config
@@ -94,15 +98,67 @@ public final class KeyboardController {
             for x in history.undo(context: context()) { perform(x) }
         case .redo:
             for x in history.redo(context: context()) { perform(x) }
+        case .line(let d):
+            lineQueue.append(d)
+            if !lineBusy { nextLine() }
         default:
-            if mode == .text { history.record(e, context: context()) }
-            perform(e)
+            goalColumn = nil
+            record(e)
+        }
+    }
+
+    private func record(_ e: Edit) {
+        if mode == .text { history.record(e, context: context()) }
+        perform(e)
+    }
+
+    /// Line moves run one at a time: hop over the line break, wait for the
+    /// host to refresh its context, then step to the goal column (kept across
+    /// consecutive up/down presses, as in an editor).
+    private func nextLine() {
+        guard !lineQueue.isEmpty else {
+            lineBusy = false
+            return
+        }
+        lineBusy = true
+        let d = lineQueue.removeFirst()
+        let hop = LineNav.leave(d, context())
+        let column = goalColumn ?? hop.column
+        if hop.move != 0 { record(.move(hop.move)) }
+        guard hop.crossed else {
+            goalColumn = column
+            return nextLine()
+        }
+        afterContextSettles { [weak self] in
+            guard let self else { return }
+            let m = LineNav.arrive(d, column: column, self.context())
+            if m != 0 { self.record(.move(m)) }
+            self.goalColumn = column
+            self.nextLine()
+        }
+    }
+
+    /// The host changed the text or selection; a pending line move may read it now.
+    public func contextChanged() {
+        guard let s = settled else { return }
+        settled = nil
+        DispatchQueue.main.async(execute: s)
+    }
+
+    private func afterContextSettles(_ f: @escaping () -> Void) {
+        settled = f
+        // Hosts do not always report the change; fall back to a short wait.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.06) { [weak self] in
+            guard let self, let s = self.settled else { return }
+            self.settled = nil
+            s()
         }
     }
 
     /// Forget the history, e.g. when the keyboard moves to another text field.
     public func resetHistory() {
         history.clear()
+        goalColumn = nil
     }
 
     private func schedule() {

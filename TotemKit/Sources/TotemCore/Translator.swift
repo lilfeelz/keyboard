@@ -12,6 +12,9 @@ public enum Edit: Sendable, Equatable {
     case deleteForward(String)
     /// Cursor offset in UTF-16 units, as `adjustTextPosition` expects.
     case move(Int)
+    /// One line up (-1) or down (+1). Needs two hops with a context re-read in
+    /// between (see `LineNav`), so the controller runs it, not the host.
+    case line(Int)
     case copy
     case cut
     case paste
@@ -100,8 +103,8 @@ public enum Translator {
         case ("rght", .alt): return [.move(wordAfter(ctx.after).utf16.count)]
         case ("left", .meta), ("home", []): return [.move(-lineBefore(ctx.before).utf16.count)]
         case ("rght", .meta), ("end", []): return [.move(lineAfter(ctx.after).utf16.count)]
-        case ("up", []): return [.move(-up(ctx))]
-        case ("down", []): return [.move(down(ctx))]
+        case ("up", []): return [.line(-1)]
+        case ("down", []): return [.line(1)]
         case ("up", .meta), ("pgup", []): return [.move(-ctx.before.utf16.count)]
         case ("down", .meta), ("pgdn", []): return [.move(ctx.after.utf16.count)]
         default: return nil
@@ -143,25 +146,6 @@ public enum Translator {
     static func lineAfter(_ s: String) -> String {
         if s.first == "\n" { return "\n" }
         return String(s.prefix { $0 != "\n" })
-    }
-
-    /// UTF-16 distance back to the same column on the previous line.
-    static func up(_ ctx: TextContext) -> Int {
-        let lines = ctx.before.split(separator: "\n", omittingEmptySubsequences: false)
-        let cur = lines.last ?? ""
-        guard lines.count >= 2 else { return cur.utf16.count }
-        let prev = lines[lines.count - 2]
-        let col = min(cur.count, prev.count)
-        return cur.utf16.count + 1 + prev.dropFirst(col).utf16.count
-    }
-
-    /// UTF-16 distance forward to the same column on the next line.
-    static func down(_ ctx: TextContext) -> Int {
-        let col = (ctx.before.split(separator: "\n", omittingEmptySubsequences: false).last ?? "").count
-        let lines = ctx.after.split(separator: "\n", omittingEmptySubsequences: false)
-        let rest = lines.first ?? ""
-        guard lines.count >= 2 else { return rest.utf16.count }
-        return rest.utf16.count + 1 + lines[1].prefix(col).utf16.count
     }
 
     // MARK: - terminal mode

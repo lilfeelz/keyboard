@@ -69,6 +69,15 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertEqual(buffer, "on▏e ")
     }
 
+    func testVerticalSwipeMovesByLine() {
+        for k in ["a", "b", "c", "⏎", "d", "e"] { key(k).tap() }
+        XCTAssertEqual(buffer, "abc\nde▏")
+        drag("esc", dx: 0, dy: -30)
+        XCTAssertEqual(buffer, "ab▏c\nde")
+        drag("esc", dx: 0, dy: 30)
+        XCTAssertEqual(buffer, "abc\nde▏")
+    }
+
     /// The space bar has no label; it sits between the two thumb keys.
     var spaceCentre: CGVector {
         let l = key("⌫").frame, r = key("esc").frame

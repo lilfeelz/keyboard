@@ -44,6 +44,14 @@ final class KeyboardViewController: UIInputViewController {
         height.constant = keyboardHeight
     }
 
+    override func textDidChange(_ textInput: (any UITextInput)?) {
+        controller.contextChanged()
+    }
+
+    override func selectionDidChange(_ textInput: (any UITextInput)?) {
+        controller.contextChanged()
+    }
+
     private var keyboardHeight: CGFloat {
         let o = controller.config.options
         return traitCollection.userInterfaceIdiom == .pad ? o.heightTablet : o.heightPhone
@@ -79,7 +87,7 @@ final class KeyboardViewController: UIInputViewController {
             advanceToNextInputMode()
         case .dismiss:
             dismissKeyboard()
-        case .toggleTerminal, .undo, .redo:
+        case .toggleTerminal, .undo, .redo, .line:
             break  // handled by the controller
         }
     }

@@ -176,7 +176,7 @@ struct Buffer {
             text.removeSubrange(index..<end)
         case .move(let n):
             cursor = min(max(0, cursor + n), text.utf16.count)
-        case .copy, .cut, .paste, .nextKeyboard, .dismiss, .toggleTerminal, .undo, .redo:
+        case .copy, .cut, .paste, .nextKeyboard, .dismiss, .toggleTerminal, .undo, .redo, .line:
             break
         }
     }

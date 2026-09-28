@@ -74,10 +74,8 @@ struct Field {
         var s = SwipeTracker(kind: .cursor, mode: .text, context: TextContext(before: f.before, after: f.after))
         f.apply(s.move(dx: -25, dy: 0))
         #expect(f.before == "abcd\nef")
-        f.apply(s.move(dx: -25, dy: -30))
-        #expect(f.before == "ab")
-        f.apply(s.move(dx: -25, dy: 0))
-        #expect(f.before == "abcd\nef")
+        #expect(s.move(dx: -25, dy: -30) == [.line(-1)])
+        #expect(s.move(dx: -25, dy: 0) == [.line(1)])
     }
 
     @Test func cursorInTerminalSendsArrows() {

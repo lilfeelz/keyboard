@@ -44,7 +44,14 @@ public struct SwipeTracker: Sendable {
                 x += x < tx ? 1 : -1
             }
             while y != ty {
-                out += stroke(y < ty ? "down" : "up")
+                if mode == .terminal {
+                    out += stroke(y < ty ? "down" : "up")
+                } else {
+                    out.append(.line(y < ty ? 1 : -1))
+                    // The line move lands wherever the host's text says; stop guessing.
+                    before = ""
+                    after = ""
+                }
                 y += y < ty ? 1 : -1
             }
         case .delete:

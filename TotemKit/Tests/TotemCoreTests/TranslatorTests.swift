@@ -39,15 +39,35 @@ import Testing
         #expect(text("left", .shift, before: "ab") == nil)
     }
 
-    @Test func upDownKeepColumn() {
-        // cursor after "ab" on line 2; up lands after "ab" on line 1.
-        #expect(text("up", before: "abcdef\nab") == [.move(-7)])
-        // previous line shorter than the column: lands at its end.
-        #expect(text("up", before: "a\nabc") == [.move(-4)])
-        // no line above: go to line start.
-        #expect(text("up", before: "abc") == [.move(-3)])
-        #expect(text("down", before: "x\nab", after: "cd\nwxyz") == [.move(5)])
-        #expect(text("down", before: "", after: "abc") == [.move(3)])
+    @Test func upDownAreLineMoves() {
+        #expect(text("up") == [.line(-1)])
+        #expect(text("down") == [.line(1)])
+        #expect(text("up", .shift) == nil)
+    }
+
+    /// Runs both hops against a full text, the way the controller does.
+    func lineMove(_ dir: Int, _ before: String, _ after: String, column: Int? = nil) -> String {
+        var f = Field(before: before, after: after)
+        let hop = LineNav.leave(dir, TextContext(before: f.before, after: f.after))
+        f.apply([.move(hop.move)])
+        if hop.crossed {
+            // The host shows only the current line after the hop, like a real text proxy.
+            let visible = String(LineNav.currentLineBefore(f.before))
+            let m = LineNav.arrive(dir, column: column ?? hop.column, TextContext(before: visible, after: f.after))
+            f.apply([.move(m)])
+        }
+        return f.before + "|" + f.after
+    }
+
+    @Test func lineMovesKeepColumn() {
+        #expect(lineMove(-1, "abcdef\nab", "cd") == "ab|cdef\nabcd")
+        #expect(lineMove(-1, "a\nabc", "") == "a|\nabc")
+        #expect(lineMove(-1, "abc", "") == "|abc")
+        #expect(lineMove(1, "x\nab", "cd\nwxyz") == "x\nabcd\nwx|yz")
+        #expect(lineMove(1, "", "abc") == "abc|")
+        #expect(lineMove(1, "ab", "\n\nxyz") == "ab\n|\nxyz")
+        // a remembered goal column survives a short line in between
+        #expect(lineMove(-1, "abcdef\n", "", column: 4) == "abcd|ef\n")
     }
 
     @Test func terminalControlAndAlt() {
