@@ -119,10 +119,11 @@ extension Config {
         (defalias
           /g  (tap-hold $tap-time $hold-time / @cag)
           oss (tap-hold $tap-time $hold-time (one-shot-press $one-shot-time rsft) rsft)
-          ;; nav / sym keys beside backspace and hide-keyboard: tap for the
-          ;; next key only, hold to stay on the layer
-          nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-while-held left))
-          sym (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held right)) (layer-while-held right))
+          ;; nav / sym keys beside backspace and hide-keyboard: tap is sticky
+          ;; (next key only), hold locks the layer; the same key unlocks
+          nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-switch left))
+          sym (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held right)) (layer-switch right))
+          bse (layer-switch base)
           ;; drag backspace left to delete words back, right to delete words
           ;; forward (lift to apply); drag esc to move the cursor
           bs  (swipe-delete @bsp)
@@ -164,14 +165,14 @@ extension Config {
                 1    2    3    4    5         6    7    8    9    0
           _     @osa @osl @osc @osm rpt       left down up   rght @tab _
           _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
-          _        XX    _    _    _                   _    @ssr caps _
+          _        XX    @bse _    _                   _    @ssr caps _
         )
 
         (deflayer right
                 @!   @@   @#   @$   @%        @^   @&   @*   @+   nextkbd
           _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
           _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
-          _        caps  @ssl _    _                   _    _    XX   _
+          _        caps  @ssl _    _                   _    @bse XX   _
         )
 
         ;; fun: bluetooth has no meaning here, those keys stay empty

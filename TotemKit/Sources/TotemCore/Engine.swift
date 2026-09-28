@@ -439,6 +439,8 @@ public final class Engine {
             return [.layer(t)]
         case .layerSwitch(let name):
             if let l = config.layerIndex(named: name) { base = l }
+            // Switching layers ends a pending one-shot layer (tap nav, then unlock).
+            if oneShot?.layerToken != nil { cancelOneShot() }
             return []
         case .fork(let l, let r, let c):
             return press(condition(c) ? r : l, unshift: unshift)

@@ -132,14 +132,22 @@ final class Harness {
         #expect(h.typed == "a⌫")
     }
 
-    @Test func tapHoldHoldIsLayer() {
+    @Test func holdLocksLayerAndTapUnlocks() {
         let h = Harness()
         h.down("lmet")
         h.wait(200)
         h.tap("q")
         h.up("lmet")
         h.tap("q")
-        #expect(h.typed == "1q")
+        h.tap("lmet")
+        h.tap("q")
+        #expect(h.typed == "11q")
+    }
+
+    @Test func stickyLayerThenUnlockKeyCancels() {
+        let h = Harness()
+        h.type("rmet", "rmet", "q")
+        #expect(h.typed == "q")
     }
 
     @Test func tapHoldReleaseResolvesOnRoll() {
@@ -387,6 +395,7 @@ final class Harness {
         h.wait(200)
         h.tap("rmet")
         h.up("lmet")
+        h.tap("lmet")  // unlock nav; the sticky shift survives
         h.tap("a")
         #expect(h.typed == "A")
     }
@@ -397,6 +406,7 @@ final class Harness {
         h.wait(200)
         h.tap("lmet")
         h.up("rmet")
+        h.tap("rmet")  // unlock sym
         h.tap("a")
         #expect(h.typed == "A")
     }

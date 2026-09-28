@@ -196,7 +196,9 @@ public final class KeyboardController {
     private func active(_ a: Action) -> Bool {
         switch a {
         case .layerHold(let n): config.layers[state.layer].name == n && state.layer != state.baseLayer
-        case .layerSwitch(let n): config.layers[state.baseLayer].name == n && state.baseLayer != 0
+        // A lock lights while locked, and so does the key that switches back to base.
+        case .layerSwitch(let n):
+            state.baseLayer != 0 && (config.layers[state.baseLayer].name == n || n == config.layers[0].name)
         case .mod(let m): state.mods.contains(m)
         case .oneShot(_, let inner): active(inner)
         case .tapHold(let th): active(th.tap) || active(th.hold)

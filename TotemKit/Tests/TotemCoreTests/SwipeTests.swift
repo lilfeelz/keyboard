@@ -115,15 +115,16 @@ struct Field {
         #expect(h.typed == "q")
     }
 
-    @Test func cancelReleasesResolvedLayer() {
+    @Test func cancelAfterHoldStopsRepeat() {
         let h = Harness()
-        let lmet = h.idx("lmet")
-        h.down("lmet")
-        h.wait(200)
-        h.record(h.engine.cancel(lmet, at: h.t))
+        let bspc = h.idx("bspc")
+        h.down("bspc")
+        h.wait(250)
+        h.record(h.engine.cancel(bspc, at: h.t))
+        h.wait(800)
+        h.up("bspc")
         h.tap("q")
-        h.up("lmet")
-        #expect(h.typed == "q")
+        #expect(h.typed == "⌫q")
     }
 
     @Test func rowsCentreWithGaps() {

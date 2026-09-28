@@ -48,11 +48,20 @@ final class KeyboardUITests: XCTestCase {
         q.tap()
         XCTAssertEqual(buffer, "h1▏")
 
+        // holding it locks the layer until it is tapped again
+        nav.press(forDuration: 0.4)
+        XCTAssertEqual(app.staticTexts["layer"].label, "left")
+        q.tap()
+        nav.tap()
+        XCTAssertEqual(app.staticTexts["layer"].label, "base")
+        q.tap()
+        XCTAssertEqual(buffer, "h11q▏")
+
         // terminal mode: esc goes out as ESC
         key(">_").tap()
         XCTAssertEqual(app.staticTexts["mode"].label, "terminal")
         key("esc").tap()
-        XCTAssertEqual(buffer, "h1^[▏")
+        XCTAssertEqual(buffer, "h11q^[▏")
     }
 
     func drag(_ label: String, dx: CGFloat, dy: CGFloat = 0) {
