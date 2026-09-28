@@ -84,7 +84,7 @@ public struct KeyCap: Sendable, Equatable {
         case .capsLock:
             return KeyCap("⇪", style: .mod)
         case .switchCases(let cases):
-            let c = cases.first { $0.condition == .always } ?? cases.first
+            let c = cases.first { holds($0.condition, mode: mode) } ?? cases.first
             return c.map { of($0.action, shifted: shifted, mode: mode) } ?? .blank
         case .repeatLast:
             return KeyCap("rpt", style: .special)
@@ -101,6 +101,18 @@ public struct KeyCap: Sendable, Equatable {
             case .undo: return KeyCap("undo", style: .special)
             case .redo: return KeyCap("redo", style: .special)
             }
+        }
+    }
+
+    /// Whether a condition holds for drawing: only the mode is known, not what is held.
+    static func holds(_ c: Condition, mode: Mode) -> Bool {
+        switch c {
+        case .always: true
+        case .mode(let m): m == mode
+        case .or(let cs): cs.contains { holds($0, mode: mode) }
+        case .and(let cs): cs.allSatisfy { holds($0, mode: mode) }
+        case .not(let c): !holds(c, mode: mode)
+        default: false
         }
     }
 

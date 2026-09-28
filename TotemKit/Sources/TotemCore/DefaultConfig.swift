@@ -17,11 +17,14 @@ extension Config {
         ;;   * the `term` key switches to terminal mode, where C-x, A-x, esc,
         ;;     arrows and f1-f12 send control codes and escape sequences
         ;;     (Blink, SSH apps)
-        ;;   * other Cmd chords, selection (S-arrows) and media keys draw dimmed
+        ;;   * other Cmd chords, selection (S-arrows) and media keys draw dimmed;
+        ;;     iOS gives keyboards no way to send them. The kanata slots that
+        ;;     held ⌘A ⌘S ⌘D ⌘F ⌘G and S-arrows carry motions and deletes here.
         ;;
         ;; Extra actions: nextkbd (globe), dismiss, term, copy, cut, paste,
         ;; (text "..."), (swipe-cursor a) and (swipe-delete a): `a` on tap and
-        ;; hold, a drag moves the cursor or deletes words instead.
+        ;; hold, a drag moves the cursor or deletes words instead. switch also
+        ;; takes (mode text) and (mode terminal).
 
         (defcfg
           repeat-delay 400
@@ -77,10 +80,11 @@ extension Config {
           geq (macro = S-.)
           ceq (macro S-; =)
 
-          scl S-lft
-          scd S-down
-          scu S-up
-          scr S-rght
+          ;; del layer: delete to line start, word back, word forward, to line end
+          dls M-bspc
+          dwb A-bspc
+          dwf A-del
+          dle M-del
 
           und M-z
           cut M-x
@@ -110,7 +114,11 @@ extension Config {
           cps (tap-hold $tap-time $hold-time @_cps (layer-while-held middle))
 
           ldr C-,
-          esc (fork esc (macro esc esc) (lsft rsft))
+          ;; esc means nothing to a text field: hide the keyboard there instead
+          esc (switch
+            ((mode text)) dismiss break
+            () (fork esc (macro esc esc) (lsft rsft)) break
+          )
           cag (multi lalt lctl lmet)
         )
 
@@ -127,10 +135,12 @@ extension Config {
           rgt (swipe-cursor (tap-hold-release $tap-time $hold-time @esc (layer-while-held right)))
           mil (tap-hold-release $tap-time $hold-time @ldr (layer-while-held middle))
 
-          maf (tap-hold $tap-time $hold-time M-a fn)
-          msa (tap-hold $tap-time $hold-time M-s lalt)
-          mdc (tap-hold $tap-time $hold-time M-d lctl)
-          mfm (tap-hold $tap-time $hold-time M-f lmet)
+          ;; nav home row: kanata taps ⌘A ⌘S ⌘D ⌘F; here line start, word left,
+          ;; word right, line end. Holds are the same modifiers.
+          maf (tap-hold $tap-time $hold-time M-lft fn)
+          msa (tap-hold $tap-time $hold-time A-lft lalt)
+          mdc (tap-hold $tap-time $hold-time A-rght lctl)
+          mfm (tap-hold $tap-time $hold-time M-rght lmet)
 
           'a  (tap-hold $tap-time $hold-time '  ralt)
           ''c (tap-hold $tap-time $hold-time @'' rctl)
@@ -162,13 +172,13 @@ extension Config {
 
         (deflayer left
                 1    2    3    4    5         6    7    8    9    0
-          _     @maf @msa @mdc @mfm M-g       left down up   rght @tab _
+          _     @maf @msa @mdc @mfm rpt       left down up   rght @tab _
           _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
           _        XX    _         _                   @mir      caps _
         )
 
         (deflayer right
-                @!   @@   @#   @$   @%        @^   @&   @*   @+   fn
+                @!   @@   @#   @$   @%        @^   @&   @*   @+   nextkbd
           _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
           _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
           _        caps  @mil      _                   _         XX   _
@@ -183,7 +193,7 @@ extension Config {
 
         (deflayer del
                 XX   XX   XX   XX   XX        XX   XX   XX   XX   XX
-          _     XX   lalt lctl lmet XX        @scl @scd @scu @scr XX   _
+          _     @dls @dwb @dwf @dle XX        XX   XX   XX   XX   XX   _
           _     XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   _
           _        XX    @bb       XX                  @bse      XX   _
         )

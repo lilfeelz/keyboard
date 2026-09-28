@@ -11,7 +11,10 @@ public final class KeyboardController {
     public private(set) var config: Config
     public private(set) var state: EngineState
     public var mode: Mode {
-        didSet { if mode != oldValue { onModeChange(mode) } }
+        didSet {
+            engine.mode = mode
+            if mode != oldValue { onModeChange(mode) }
+        }
     }
 
     @ObservationIgnored public var perform: (Edit) -> Void = { _ in }
@@ -32,12 +35,14 @@ public final class KeyboardController {
         engine = Engine(config: config)
         state = engine.state
         self.mode = mode ?? (config.options.terminal ? .terminal : .text)
+        engine.mode = self.mode
     }
 
     public func load(_ config: Config) {
         guard config != self.config else { return }
         self.config = config
         engine = Engine(config: config)
+        engine.mode = mode
         state = engine.state
     }
 

@@ -20,7 +20,7 @@ Same syntax as kanata: `defcfg defvar defalias defsrc deflayer defchordsv2`. `de
 the touch grid: one line per row, `gap:w` leaves space, `name:w` sets a key's width. Supported
 actions: keys with `S- C- A- M-` prefixes, modifiers, `tap-hold(-press|-release)`, `one-shot*`,
 `layer-while-held`/`layer-toggle`/`layer-switch`, `fork`, `unshift`, `multi`, `macro`,
-`unicode`, `caps-word*`, `switch` (`and or not layer base-layer`), `rpt`. Extras: `nextkbd`,
+`unicode`, `caps-word*`, `switch` (`and or not layer base-layer`, plus `mode text|terminal`), `rpt`. Extras: `nextkbd`,
 `dismiss`, `term`, `copy`, `cut`, `paste`, `(text "...")`, and the swipe wrappers
 `(swipe-delete a)` / `(swipe-cursor a)`: `a` on tap and hold, but a drag deletes words
 (previewed by moving the cursor back, applied on lift) or moves the cursor (vertical drag moves
@@ -41,7 +41,13 @@ A keyboard extension can insert text, delete backward and move the cursor. So:
   cursor moves); the host app's undo stack is out of reach. In terminal mode `M-z` sends `^_`.
 * the `>_` key switches to terminal mode: `C-x`, `A-x`, esc, arrows, F1-F12 go out as control
   codes and xterm sequences (Blink, SSH apps)
-* other Cmd shortcuts, selection (`S-`arrows), media keys: impossible, drawn dimmed
+* other Cmd shortcuts, selection (`S-`arrows), media keys: impossible, drawn dimmed. iOS
+  gives keyboards no selection API and no way to reach the app's commands (select all, save,
+  find). In the bundled config those kanata slots carry what does work: the nav layer's
+  ⌘A ⌘S ⌘D ⌘F taps are line start, word left, word right, line end (`M-g` is `rpt`), the del
+  layer's `S-`arrows are delete to line start / word back / word forward / to line end (moved to
+  a s d f, since h and l are held for the chord), the esc thumb hides the keyboard in text mode,
+  and the sym layer's `fn` is the globe key
 * not shown in secure fields or while a hardware keyboard is attached
 
 ## Build

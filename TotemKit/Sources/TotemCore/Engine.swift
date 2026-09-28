@@ -27,6 +27,8 @@ public struct EngineState: Sendable, Equatable {
 
 public final class Engine {
     public let config: Config
+    /// For `(mode ...)` conditions; the host keeps it in step with its mode.
+    public var mode: Mode = .text
 
     struct Event {
         var key: Int
@@ -391,6 +393,7 @@ public final class Engine {
             }
         case .layer(let n): config.layers[topLayer].name == n
         case .baseLayer(let n): config.layers[base].name == n
+        case .mode(let m): mode == m
         case .and(let cs): cs.allSatisfy(condition)
         case .or(let cs): cs.contains(where: condition)
         case .not(let c): !condition(c)

@@ -104,7 +104,9 @@ import Testing
         let left = c.layers[1].actions
         let x = c.keys.firstIndex { $0.name == "x" }!
         #expect(KeyCap.of(left[x], shifted: false, mode: .text).main == "⌘X")
-        let a = c.keys.firstIndex { $0.name == "a" }!
-        #expect(KeyCap.of(left[a], shifted: false, mode: .text).style == .inert)
+        // S-tab has nothing to do in a text field; in terminal mode it is CSI Z.
+        let stb = c.keys.firstIndex { $0.name == "/" }!
+        #expect(KeyCap.of(left[stb], shifted: false, mode: .text).style == .inert)
+        #expect(KeyCap.of(left[stb], shifted: false, mode: .terminal).style == .special)
     }
 }

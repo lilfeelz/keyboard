@@ -76,6 +76,8 @@ public indirect enum Condition: Sendable, Equatable {
     case held(String)
     case layer(String)
     case baseLayer(String)
+    /// `(mode text)` / `(mode terminal)`: which mode the keyboard is in.
+    case mode(Mode)
     case and([Condition])
     case or([Condition])
     case not(Condition)

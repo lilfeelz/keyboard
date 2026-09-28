@@ -282,6 +282,7 @@ final class Harness {
 
     @Test func escTapAndShiftedDoubleEsc() {
         let h = Harness()
+        h.engine.mode = .terminal
         h.tap("rmet")
         h.type("lsft", "rmet")
         #expect(h.typed == "\u{1b}\u{1b}\u{1b}")
@@ -330,5 +331,57 @@ final class Harness {
     @Test func textModeCmdChordsAreUnsupported() {
         #expect(Translator.edits(.stroke(Key("a"), .meta), mode: .text, context: TextContext()) == nil)
         #expect(Translator.edits(.stroke(Key("c"), .meta), mode: .text, context: TextContext()) == [.copy])
+    }
+}
+
+@Suite struct RemapTests {
+    func textEdits(_ h: Harness, before: String = "one two", after: String = " three") -> [Edit] {
+        h.outputs.flatMap {
+            Translator.edits($0, mode: .text, context: TextContext(before: before, after: after)) ?? []
+        }
+    }
+
+    @Test func escHidesKeyboardInTextMode() {
+        let h = Harness()
+        h.tap("rmet")
+        #expect(h.outputs == [.system(.dismiss)])
+    }
+
+    @Test func escIsEscInTerminalMode() {
+        let h = Harness()
+        h.engine.mode = .terminal
+        h.tap("rmet")
+        #expect(h.typed == "\u{1b}")
+    }
+
+    @Test func navHomeRowJumps() {
+        let h = Harness()
+        h.down("lmet")
+        h.wait(200)
+        h.type("a", "s", "d", "f")
+        h.up("lmet")
+        #expect(textEdits(h) == [.move(-7), .move(-3), .move(6), .move(6)])
+    }
+
+    @Test func delLayerDeletes() {
+        let h = Harness()
+        h.down("h")
+        h.down("l", after: 10)
+        h.wait(150)
+        h.type("a", "s", "d", "f")
+        h.up("h")
+        h.up("l")
+        #expect(
+            textEdits(h) == [
+                .deleteBackward(7), .deleteBackward(3), .deleteForward(" three"), .deleteForward(" three"),
+            ])
+    }
+
+    @Test func escCapFollowsMode() {
+        let c = Config.default
+        let rmet = c.keys.firstIndex { $0.name == "rmet" }!
+        let a = c.layers[0].actions[rmet]
+        #expect(KeyCap.of(a, shifted: false, mode: .text).symbol == "keyboard.chevron.compact.down")
+        #expect(KeyCap.of(a, shifted: false, mode: .terminal).main == "esc")
     }
 }
