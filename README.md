@@ -60,8 +60,7 @@ npx honkit serve
 
 ### Layers and thumb keys
 
-Five layers (BASE, NAV, SYM, MOO, FUN) plus a DEL layer whose combo is
-shadowed. The layer table, thumb bindings and combos live in one place:
+Four layers (BASE, NAV, SYM, FUN). The layer table, thumb bindings and combos live in one place:
 [`docs/totem/keymap.md`](docs/totem/keymap.md) (published at
 [lilfeelz.github.io/zmk](https://lilfeelz.github.io/zmk/totem/keymap.html)).
 
@@ -69,7 +68,7 @@ shadowed. The layer table, thumb bindings and combos live in one place:
 
 - **Homerow mods** via custom `mt_left`/`mt_right` hold-tap (250ms, balanced, hold-trigger-on-release)
 - **Caps word**: `&caps_word` with continuation list (underscore, backspace, delete, arrows, etc.)
-- **6 combos**: see [`docs/totem/keymap.md`](docs/totem/keymap.md#combos)
+- **5 combos**: see [`docs/totem/keymap.md`](docs/totem/keymap.md#combos)
 - **5 mod-morphs**: comma↔semicolon, period↔colon, cmd+tab↔F21, cmd+shift+tab↔F22, shift+caps
 - **5 macros**: ≤, ≥, ←, →, := and vim-style yank-line, yank-inner-word
 - **Sticky keys**: one-shot shift on the outer bottom-row keys; `sk_mo` thumb (hold NAV, tap Backspace)

@@ -43,7 +43,7 @@ repeat the table here.
 
 `comma_semicolon`, `period_colon`, `cmd_tab` (TAB→F21 with GUI), `cmd_stb` (LS(TAB)→F22 with GUI), `bwd_dwd`, `caps` (caps_word→CAPSLOCK with shift).
 
-### Combos (6)
+### Combos (5)
 
 See `docs/totem/keymap.md#combos`.
 
