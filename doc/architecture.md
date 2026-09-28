@@ -4,16 +4,10 @@
 
 ZMK supports two levels of keymap definition:
 
-### Shield keymap (DEAD CODE)
+### Shield keymap (removed)
 
-`config/boards/shields/totem/totem.keymap` was the original keymap bundled with the shield definition. It uses:
-- Different layout: QWERTY but with different key positions (e.g., F on left ring, P on left index)
-- Different layers: BASE/NAV/SYM/ADJ (vs root's BASE/NAV/SYM/MOO/fun)
-- A `gif` macro not bound to any key
-
-**This keymap is not used.** ZMK convention: when `config/<shield>.keymap` exists (root keymap), it completely overrides the shield-level keymap.
-
-Should be removed or kept as a reference only.
+The shield once shipped its own `config/boards/shields/totem/totem.keymap` (BASE/NAV/SYM/ADJ). It was
+never built, since `config/<shield>.keymap` overrides it, and has been deleted.
 
 ### Root keymap (ACTIVE)
 
