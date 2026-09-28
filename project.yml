@@ -1,0 +1,104 @@
+# XcodeGen spec: `make project` writes Totem.xcodeproj (git-ignored).
+name: Totem
+options:
+  bundleIdPrefix: dev.feelz
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  xcodeVersion: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: JY4PD9Q24B
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+packages:
+  TotemKit:
+    path: TotemKit
+targets:
+  Totem:
+    type: application
+    platform: iOS
+    sources: [App]
+    dependencies:
+      - target: Keyboard
+      - package: TotemKit
+        product: TotemCore
+      - package: TotemKit
+        product: TotemUI
+    entitlements:
+      path: Config/Totem.entitlements
+      properties:
+        com.apple.security.application-groups: [group.dev.feelz.totem]
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Totem
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIUserInterfaceStyle: Dark
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.feelz.totem
+  Keyboard:
+    type: app-extension
+    platform: iOS
+    sources: [Keyboard]
+    dependencies:
+      - package: TotemKit
+        product: TotemCore
+      - package: TotemKit
+        product: TotemUI
+    entitlements:
+      path: Config/Keyboard.entitlements
+      properties:
+        com.apple.security.application-groups: [group.dev.feelz.totem]
+    info:
+      path: Keyboard/Info.plist
+      properties:
+        CFBundleDisplayName: Totem
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.keyboard-service
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
+          NSExtensionAttributes:
+            IsASCIICapable: true
+            PrefersRightToLeft: false
+            PrimaryLanguage: en-US
+            RequestsOpenAccess: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.feelz.totem.keyboard
+        APPLICATION_EXTENSION_API_ONLY: YES
+  TotemUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: Totem
+schemes:
+  Totem:
+    build:
+      targets:
+        Totem: all
+        Keyboard: all
+        TotemUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [TotemUITests]
