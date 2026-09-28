@@ -19,7 +19,7 @@ extension Config {
         ;;     (Blink, SSH apps)
         ;;   * other Cmd chords, selection (S-arrows) and media keys draw dimmed;
         ;;     iOS gives keyboards no way to send them. The kanata slots that
-        ;;     held ⌘A ⌘S ⌘D ⌘F ⌘G and S-arrows carry motions and deletes here.
+        ;;     held ⌘A ⌘S ⌘D ⌘F ⌘G carry sticky modifiers and rpt here.
         ;;
         ;; Extra actions: nextkbd (globe), dismiss, term, copy, cut, paste,
         ;; (text "..."), (swipe-cursor a) and (swipe-delete a): `a` on tap and
@@ -80,11 +80,6 @@ extension Config {
           geq (macro = S-.)
           ceq (macro S-; =)
 
-          ;; del layer: delete to line start, word back, word forward, to line end
-          dls M-bspc
-          dwb A-bspc
-          dwf A-del
-          dle M-del
 
           und M-z
           cut M-x
@@ -123,10 +118,6 @@ extension Config {
         )
 
         (defalias
-          bse (layer-switch base)
-          del (layer-toggle del)
-          bb  (multi bspc @bse)
-
           /g  (tap-hold $tap-time $hold-time / @cag)
           oss (tap-hold $tap-time $hold-time (one-shot-press $one-shot-time rsft) rsft)
           ;; drag the backspace thumb left to delete words, the esc thumb to move the cursor
@@ -135,12 +126,15 @@ extension Config {
           rgt (swipe-cursor (tap-hold-release $tap-time $hold-time @esc (layer-while-held right)))
           mil (tap-hold-release $tap-time $hold-time @ldr (layer-while-held middle))
 
-          ;; nav home row: kanata taps ⌘A ⌘S ⌘D ⌘F; here line start, word left,
-          ;; word right, line end. Holds are the same modifiers.
-          maf (tap-hold $tap-time $hold-time M-lft fn)
-          msa (tap-hold $tap-time $hold-time A-lft lalt)
-          mdc (tap-hold $tap-time $hold-time A-rght lctl)
-          mfm (tap-hold $tap-time $hold-time M-rght lmet)
+          ;; nav home row: kanata has ⌘A ⌘S ⌘D ⌘F taps with fn ⌥ ⌃ ⌘ holds. A
+          ;; keyboard cannot send ⌘A-⌘F, and holding a modifier plus the nav thumb
+          ;; plus a key is three fingers, so these are sticky: tap, then the next
+          ;; key gets it (⌥◀ word left, ⌘⌫ delete to line start, ⌃c in terminal).
+          ;; Tap again to cancel. fn means nothing on iOS, so a is shift.
+          osa (one-shot-press $one-shot-time lsft)
+          osl (one-shot-press $one-shot-time lalt)
+          osc (one-shot-press $one-shot-time lctl)
+          osm (one-shot-press $one-shot-time lmet)
 
           'a  (tap-hold $tap-time $hold-time '  ralt)
           ''c (tap-hold $tap-time $hold-time @'' rctl)
@@ -158,9 +152,8 @@ extension Config {
         )
 
         (defchordsv2
-          (j k) ret $chord-time all-released (left right middle del)
-          (d f) @bwd $chord-time all-released (left right middle del)
-          (h l) @del $chord-time all-released (left right middle del)
+          (j k) ret $chord-time all-released (left right middle)
+          (d f) @bwd $chord-time all-released (left right middle)
         )
 
         (deflayer base
@@ -172,7 +165,7 @@ extension Config {
 
         (deflayer left
                 1    2    3    4    5         6    7    8    9    0
-          _     @maf @msa @mdc @mfm rpt       left down up   rght @tab _
+          _     @osa @osl @osc @osm rpt       left down up   rght @tab _
           _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
           _        XX    _         _                   @mir      caps _
         )
@@ -189,13 +182,6 @@ extension Config {
           _     @mha @mhs @mhd @mhf XX        XX   @mhj @mhk @mhl @mh;  _
           _     f11  f12  f13  f14  f15       f16  f17  f18  f19  f20  _
           _        XX    _         XX                  _         XX   _
-        )
-
-        (deflayer del
-                XX   XX   XX   XX   XX        XX   XX   XX   XX   XX
-          _     @dls @dwb @dwf @dle XX        XX   XX   XX   XX   XX   _
-          _     XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   _
-          _        XX    @bb       XX                  @bse      XX   _
         )
         """#
 }

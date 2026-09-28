@@ -43,11 +43,9 @@ A keyboard extension can insert text, delete backward and move the cursor. So:
   codes and xterm sequences (Blink, SSH apps)
 * other Cmd shortcuts, selection (`S-`arrows), media keys: impossible, drawn dimmed. iOS
   gives keyboards no selection API and no way to reach the app's commands (select all, save,
-  find). In the bundled config those kanata slots carry what does work: the nav layer's
-  ⌘A ⌘S ⌘D ⌘F taps are line start, word left, word right, line end (`M-g` is `rpt`), the del
-  layer's `S-`arrows are delete to line start / word back / word forward / to line end (moved to
-  a s d f, since h and l are held for the chord), the esc thumb hides the keyboard in text mode,
-  and the sym layer's `fn` is the globe key
+  find). In the bundled config the nav layer's ⌘A ⌘S ⌘D ⌘F slots are sticky ⇧ ⌥ ⌃ ⌘ (tap, then the next
+  key gets it; with the arrows that is word and line jumps), `M-g` is `rpt`, the esc thumb hides
+  the keyboard in text mode, and the sym layer's `fn` is the globe key
 * not shown in secure fields or while a hardware keyboard is attached
 
 ## Build

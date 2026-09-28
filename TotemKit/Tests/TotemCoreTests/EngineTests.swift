@@ -62,10 +62,10 @@ final class Harness {
 @Suite struct ParseTests {
     @Test func defaultConfigParses() throws {
         let c = Config.default
-        #expect(c.layers.map(\.name) == ["base", "left", "right", "middle", "del"])
+        #expect(c.layers.map(\.name) == ["base", "left", "right", "middle"])
         #expect(c.keys.count == 41)
         #expect(c.rows == 4)
-        #expect(c.chords.count == 3)
+        #expect(c.chords.count == 2)
         #expect(c.warnings.isEmpty)
     }
 
@@ -249,19 +249,6 @@ final class Harness {
         #expect(h.typed == "\u{1b}[B\u{1b}[A")
     }
 
-    @Test func chordLayerWhileHeld() {
-        // h+l holds the del layer; its left thumb is bspc.
-        let h = Harness()
-        h.down("h")
-        h.down("l", after: 10)
-        h.wait(150)
-        h.tap("lmet")
-        h.up("h")
-        h.up("l")
-        h.tap("f")
-        #expect(h.typed == "⌫f")
-    }
-
     @Test func wordDeleteChord() {
         let h = Harness()
         h.down("d")
@@ -354,27 +341,23 @@ final class Harness {
         #expect(h.typed == "\u{1b}")
     }
 
-    @Test func navHomeRowJumps() {
+    @Test func stickyModsOnNav() {
+        // nav thumb held: tap s (sticky ⌥), then h (◀) = word left; tap f (sticky ⌘), then l (▶) = line end
         let h = Harness()
         h.down("lmet")
         h.wait(200)
-        h.type("a", "s", "d", "f")
+        h.type("s", "h", "f", "l", "h")
         h.up("lmet")
-        #expect(textEdits(h) == [.move(-7), .move(-3), .move(6), .move(6)])
+        #expect(textEdits(h) == [.move(-3), .move(6), .move(-1)])
     }
 
-    @Test func delLayerDeletes() {
+    @Test func stickyModTappedTwiceCancels() {
         let h = Harness()
-        h.down("h")
-        h.down("l", after: 10)
-        h.wait(150)
-        h.type("a", "s", "d", "f")
-        h.up("h")
-        h.up("l")
-        #expect(
-            textEdits(h) == [
-                .deleteBackward(7), .deleteBackward(3), .deleteForward(" three"), .deleteForward(" three"),
-            ])
+        h.down("lmet")
+        h.wait(200)
+        h.type("s", "s", "h")
+        h.up("lmet")
+        #expect(textEdits(h) == [.move(-1)])
     }
 
     @Test func escCapFollowsMode() {
