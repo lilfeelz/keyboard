@@ -261,10 +261,10 @@
 
         right {
             bindings = <
-       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET    &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS      &kp GLOBE
-       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL    &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT  &mt GLOBE TILDE
-&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &left_arrow  &leq            &geq                     &right_arrow  &colon_equals    &none
-                                    &trans                &lt 3 LC(COMMA)        &trans                 &none        &trans          &none
+       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET  &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS        &kp GLOBE
+       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL  &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT    &mt GLOBE TILDE
+&none  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(N)  &kp LG(M)       &kp LG(COMMA)            &kp LG(PERIOD)  &kp LG(SLASH)    &none
+                                    &trans                &lt 3 LC(COMMA)        &trans                 &none      &trans          &none
             >;
         };
 
@@ -280,7 +280,7 @@
         fun {
             bindings = <
        &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &bt BT_SEL 3          &bt BT_SEL 4    &bt BT_SEL 4  &bt BT_SEL 3       &bt BT_SEL 2     &bt BT_SEL 1  &bt BT_SEL 0
-       &out OUT_TOG   &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &bt BT_CLR      &kp C_MUTE    &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &none         &out OUT_TOG
+       &out OUT_TOG  &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &bt BT_CLR      &kp C_MUTE    &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &none         &out OUT_TOG
 &none  &none         &none         &none          &none                 &none           &none         &none              &none            &none         &none         &none
                                    &trans         &none                 &none           &none         &none              &trans
             >;
