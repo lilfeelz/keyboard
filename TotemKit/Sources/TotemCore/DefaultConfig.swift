@@ -43,10 +43,10 @@ extension Config {
         )
 
         (defsrc
-          gap   q    w    e    r    t  y    u    i    o    p    gap
+          bspc  q    w    e    r    t  y    u    i    o    p    bspr
           tab   a    s    d    f    g  h    j    k    l    ;    ret
           lsft  z    x    c    v    b  n    m    ,    .    /    rsft
-          fn    lalt lmet bspc spc:4                   esc  rmet ralt menu
+          fn    lalt lmet spc:6                             rmet ralt menu
         )
 
         (defalias
@@ -108,11 +108,11 @@ extension Config {
           )
           cps (tap-hold $tap-time $hold-time @_cps (layer-while-held fun))
 
-          ;; esc means nothing to a text field: hide the keyboard there instead
-          esc (switch
-            ((mode text)) dismiss break
-            () (fork esc (macro esc esc) (lsft rsft)) break
-          )
+          esc (fork esc (macro esc esc) (lsft rsft))
+          ;; globe: tap switches keyboard (esc in terminal mode), hold hides it
+          glb (tap-hold $tap-time $hold-time
+                (switch ((mode terminal)) @esc break () nextkbd break)
+                dismiss)
           cag (multi lalt lctl lmet)
         )
 
@@ -124,10 +124,10 @@ extension Config {
           nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-switch left))
           sym (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held right)) (layer-switch right))
           bse (layer-switch base)
-          ;; drag backspace left to delete words back, right to delete words
-          ;; forward (lift to apply); drag esc to move the cursor
+          ;; drag either backspace left to delete words back, right to delete
+          ;; words forward (lift to apply); drag space to move the cursor
           bs  (swipe-delete @bsp)
-          hid (swipe-cursor @esc)
+          sp  (swipe-cursor spc)
           ;; inner thumb on nav / sym: sticky shift
           ssr (one-shot-press $one-shot-time rsft)
           ssl (one-shot-press $one-shot-time lsft)
@@ -155,32 +155,32 @@ extension Config {
         )
 
         (deflayer base
-                q    w    e    r    t         y    u    i    o    p
+          @bs   q    w    e    r    t         y    u    i    o    p    @bs
           tab   a    s    d    f    g         h    j    k    l    @/g  ret
           @oss  z    x    c    v    b         n    m    @,   @.   @-   @oss
-          nextkbd  @cps  @nav @bs  spc                 @hid @sym @cps term
+          @glb     @cps  @nav @sp                            @sym @cps term
         )
 
         (deflayer left
-                1    2    3    4    5         6    7    8    9    0
+          _     1    2    3    4    5         6    7    8    9    0    _
           _     @osa @osl @osc @osm rpt       left down up   rght @tab _
           _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
-          _        XX    @bse _    _                   _    @ssr caps _
+          _        XX    @bse _                            @ssr caps _
         )
 
         (deflayer right
-                @!   @@   @#   @$   @%        @^   @&   @*   @+   nextkbd
+          _     @!   @@   @#   @$   @%        @^   @&   @*   @+   nextkbd _
           _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
           _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
-          _        caps  @ssl _    _                   _    @bse XX   _
+          _        caps  @ssl _                            @bse XX   _
         )
 
         ;; fun: bluetooth has no meaning here, those keys stay empty
         (deflayer fun
-                f1   f2   f3   f4   f5        f6   f7   f8   f9   f10
+          _     f1   f2   f3   f4   f5        f6   f7   f8   f9   f10  _
           _     XX   XX   brdn brup f11       f12  vold volu mute XX   _
           XX    XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX
-          _        _     XX   XX   XX                  XX   XX   _    _
+          _        _     XX   XX                            XX   _    _
         )
         """#
 }

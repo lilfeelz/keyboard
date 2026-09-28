@@ -279,8 +279,8 @@ final class Harness {
     @Test func escTapAndShiftedDoubleEsc() {
         let h = Harness()
         h.engine.mode = .terminal
-        h.tap("esc")
-        h.type("lsft", "esc")
+        h.tap("fn")
+        h.type("lsft", "fn")
         #expect(h.typed == "\u{1b}\u{1b}\u{1b}")
     }
 
@@ -337,16 +337,19 @@ final class Harness {
         }
     }
 
-    @Test func escHidesKeyboardInTextMode() {
+    @Test func globeTapSwitchesHoldHides() {
         let h = Harness()
-        h.tap("esc")
-        #expect(h.outputs == [.system(.dismiss)])
+        h.tap("fn")
+        h.down("fn", after: 400)  // past the quick-tap window, or it would repeat the tap
+        h.wait(200)
+        h.up("fn")
+        #expect(h.outputs == [.system(.nextKeyboard), .system(.dismiss)])
     }
 
     @Test func escIsEscInTerminalMode() {
         let h = Harness()
         h.engine.mode = .terminal
-        h.tap("esc")
+        h.tap("fn")
         #expect(h.typed == "\u{1b}")
     }
 
@@ -371,9 +374,9 @@ final class Harness {
 
     @Test func escCapFollowsMode() {
         let c = Config.default
-        let esc = c.keys.firstIndex { $0.name == "esc" }!
-        let a = c.layers[0].actions[esc]
-        #expect(KeyCap.of(a, shifted: false, mode: .text).symbol == "keyboard.chevron.compact.down")
+        let globe = c.keys.firstIndex { $0.name == "fn" }!
+        let a = c.layers[0].actions[globe]
+        #expect(KeyCap.of(a, shifted: false, mode: .text).symbol == "globe")
         #expect(KeyCap.of(a, shifted: false, mode: .terminal).main == "esc")
     }
 }

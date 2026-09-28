@@ -79,26 +79,28 @@ final class KeyboardUITests: XCTestCase {
         drag("⌫", dx: -24)
         XCTAssertEqual(buffer, "one ▏")
 
-        // esc thumb (hide-keyboard in text mode) dragged two characters left
-        drag(escText, dx: -30)
+        // space bar dragged two characters left
+        dragSpace(dx: -30)
         XCTAssertEqual(buffer, "on▏e ")
     }
 
     func testVerticalSwipeMovesByLine() {
         for k in ["a", "b", "c", "⏎", "d", "e"] { key(k).tap() }
         XCTAssertEqual(buffer, "abc\nde▏")
-        drag(escText, dx: 0, dy: -30)
+        dragSpace(dx: 0, dy: -30)
         XCTAssertEqual(buffer, "ab▏c\nde")
-        drag(escText, dx: 0, dy: 30)
+        dragSpace(dx: 0, dy: 30)
         XCTAssertEqual(buffer, "abc\nde▏")
     }
 
-    /// The esc thumb hides the keyboard in text mode and is labelled with its symbol.
-    let escText = "keyboard.chevron.compact.down"
-
-    /// The space bar has no label; it sits between the two thumb keys.
+    /// The space bar has no label; it sits between the nav and sym keys.
     var spaceCentre: CGVector {
-        let l = key("⌫").frame, r = key(escText).frame
+        let l = key("left").frame, r = key("right").frame
         return CGVector(dx: (l.maxX + r.minX) / 2, dy: l.midY)
+    }
+
+    func dragSpace(dx: CGFloat, dy: CGFloat = 0) {
+        let from = app.coordinate(withNormalizedOffset: .zero).withOffset(spaceCentre)
+        from.press(forDuration: 0.05, thenDragTo: from.withOffset(CGVector(dx: dx, dy: dy)))
     }
 }
