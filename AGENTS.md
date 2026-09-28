@@ -23,15 +23,10 @@ config/
 
 ## Layers
 
-Indexed 0-4 (BASE/NAV/SYM/MOO/fun). Layer 5 used by combos for del actions.
-
-| Layer | Name | Column regions |
-|-------|------|---------------|
-| 0 | BASE | QWERTY + homerow mods + thumbs |
-| 1 | left/NAV | Numbers + arrows + cmd shortcuts |
-| 2 | right/SYM | Symbols + brackets + macros |
-| 3 | middle/MOO | F-keys + sticky mods |
-| 4 | fun | BT + media + brightness (mirrored for left/right reach) |
+Layer table, thumb bindings and combos: `docs/totem/keymap.md` (the only
+hand-written copy; it is published by the docs site). Update it in the same
+commit as any layer, thumb or combo change to `config/totem.keymap`. Do not
+repeat the table here.
 
 ## Custom Behaviors
 
@@ -50,13 +45,7 @@ Indexed 0-4 (BASE/NAV/SYM/MOO/fun). Layer 5 used by combos for del actions.
 
 ### Combos (6)
 
-All on BASE layer unless noted:
-- RC(0,4)+RC(1,4) = enter
-- RC(0,2)+RC(1,2) = bwd_dwd (exit = shift+bwd → LA(DEL))
-- RC(0,5)+RC(1,5) on NAV = yank_line macro
-- RC(0,6)+RC(1,6) on NAV = yank_inner_word macro
-- RC(0,2)+RC(1,2) = `&lt 5 BACKSPACE` (usually del key)
-- RC(0,1)+RC(1,1)+RC(2,1) = LA(BACKSPACE)
+See `docs/totem/keymap.md#combos`.
 
 ## Macros (7)
 

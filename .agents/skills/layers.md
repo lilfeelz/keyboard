@@ -5,16 +5,13 @@ description: Layer reference for TOTEM root keymap. 5 active layers (BASE/NAV/SY
 
 # Layer Reference
 
-## BASE (0) — QWERTY
+Layer triggers, thumb bindings and combos: `docs/totem/keymap.md`. That page
+is the only hand-written table; the notes below are a summary of layer
+contents. Source of truth is `config/totem.keymap`.
 
-Left hand: Q W E R T, A S D F G, Y X C V B, SK_SHFT MO1 ESC
-Right hand: Y U I O P, H J K L -, N M , . TAB, SPACE MO2 ENTER
+## BASE (0): QWERTY
 
-Thumbs:
-- Left thumb: tap = caps_word / hold = MOO(4). Hold-tap via `&lt_caps`.
-- Right thumb: tap = backspace / hold = NAV(1). Hold-tap via `&sk_mo`.
-- Space: both thumbs.
-- SYM(2): right thumb hold.
+QWERTY alphas. See `docs/totem/keymap.md` for thumbs and the outer keys.
 
 ## NAV (1) — Numbers + Shortcuts
 
@@ -34,9 +31,11 @@ F1-F20 on homerow. Sticky modifiers (GUI, Ctrl, Alt, Shift) on both left and rig
 ## FUN (4) — Bluetooth + Media
 
 BT0-BT4 select (left-right mirrored for both-hand reach). Brightness up/down.
-Media play/pause, volume, previous/next.
+Mute, volume down/up. BT clear, output toggle.
 
 ## Delete Layer (5, combo-only)
 
-Accessed via combo RC(0,2)+RC(1,2). Provides BACKSPACE, DELETE, ALT, navigation.
+Meant to be held via the `del` combo on positions 12+13 (D+F), but `bs_df` on the
+same positions is defined first and always wins, so the layer is unreachable.
+Alt, Delete, Backspace on the left home row; Shift+arrows on the right.
 Combo times out after chord-time; holding combos for `require-prior-idle-ms` may activate the combo behavior on the BASE layer instead.
