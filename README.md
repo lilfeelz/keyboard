@@ -58,26 +58,21 @@ npx honkit serve
          └────┴────┴────┘ └────┴────┴────┘
 ```
 
-### Layers (5 active)
+### Layers and thumb keys
 
-| Layer | Trigger | Function |
-|-------|---------|----------|
-| BASE (0) | default | QWERTY alphas, homerow mods, thumb clusters |
-| NAV (1) | hold inner-thumb | Numbers, arrows, Cmd+letter shortcuts, app switching |
-| SYM (2) | hold outer-thumb | Symbols, brackets, macro typing shortcuts |
-| MOO (3) | hold thumb (both sides) | F1-F20, sticky modifiers |
-| FUN (4) | tap outer-thumb shift* | Bluetooth select, media keys, brightness |
-
-Plus layer 5 used by combos for backspace/delete actions.
+Five layers (BASE, NAV, SYM, MOO, FUN) plus a DEL layer whose combo is
+shadowed. The layer table, thumb bindings and combos live in one place:
+[`docs/totem/keymap.md`](docs/totem/keymap.md) (published at
+[lilfeelz.github.io/zmk](https://lilfeelz.github.io/zmk/totem/keymap.html)).
 
 ## Key Features
 
 - **Homerow mods** via custom `mt_left`/`mt_right` hold-tap (250ms, balanced, hold-trigger-on-release)
 - **Caps word**: `&caps_word` with continuation list (underscore, backspace, delete, arrows, etc.)
-- **6 combos**: enter, backspace-word, yank-line, yank-inner-word, delete-word, Ctrl+Alt+bksp
+- **6 combos**: see [`docs/totem/keymap.md`](docs/totem/keymap.md#combos)
 - **5 mod-morphs**: comma↔semicolon, period↔colon, cmd+tab↔F21, cmd+shift+tab↔F22, shift+caps
 - **5 macros**: ≤, ≥, ←, →, := and vim-style yank-line, yank-inner-word
-- **Sticky keys**: one-shot shift, one-shot layer (SK_MO on SYM layer thumb)
+- **Sticky keys**: one-shot shift on the outer bottom-row keys; `sk_mo` thumb (hold NAV, tap Backspace)
 
 ## Build Targets
 
@@ -110,7 +105,6 @@ zmk/
 
 ## Known Issues
 
-See `.todo` for full list. Key items:
 - Shield keymap at `config/boards/shields/totem/totem.keymap` is dead code
 - `west.yml` pins ZMK to `revision: main` (floating — should pin to commit)
 - 3 empty `.conf` files in shield dir

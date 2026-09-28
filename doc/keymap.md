@@ -1,5 +1,8 @@
 # Keymap Details
 
+Behavior definitions only. Layers, thumb keys and combos:
+[`docs/totem/keymap.md`](../docs/totem/keymap.md).
+
 ## Behavior Reference
 
 ### Hold-Tap: `mt_left` / `mt_right`
@@ -65,16 +68,7 @@ These keys don't dismiss caps_word. Shift keys within caps_word produce shifted 
 
 ## Combos
 
-All on BASE layer unless noted:
-
-| Keys | Positions | Action | Notes |
-|------|-----------|--------|-------|
-| T+G | 16, 17 | Enter | Thumb-index roll |
-| X+V | 12, 13 | LA(BACKSPACE) then LA(DEL) | Word back/delete with shift |
-| Left+Right (NAV) | 15, 18 | Yank line macro | Escape, V, Y, I |
-| Up+Down (NAV) | 16, 17 | Yank inner word | Escape, y, i, w, i |
-| X+V | 12, 13 | Layer 5 backspace | Also triggers on BASE without shift |
-| C+X+V | 11, 12, 13 | LA(BACKSPACE) | Triple combo for word back |
+See [`docs/totem/keymap.md`](../docs/totem/keymap.md#combos).
 
 ## Macros
 
