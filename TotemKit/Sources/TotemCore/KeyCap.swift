@@ -120,6 +120,7 @@ public struct KeyCap: Sendable, Equatable {
         "spc": "", "ret": "⏎", "tab": "⇥", "bspc": "⌫", "del": "⌦", "esc": "esc",
         "left": "◀", "rght": "▶", "up": "▲", "down": "▼",
         "home": "home", "end": "end", "pgup": "pgup", "pgdn": "pgdn", "ins": "ins",
+        "vold": "vol-", "volu": "vol+", "brdn": "bri-", "brup": "bri+",
     ]
 
     static func key(_ k: Key, _ m: Mods, shifted: Bool, mode: Mode) -> KeyCap {

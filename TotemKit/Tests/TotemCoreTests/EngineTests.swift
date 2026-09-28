@@ -62,7 +62,7 @@ final class Harness {
 @Suite struct ParseTests {
     @Test func defaultConfigParses() throws {
         let c = Config.default
-        #expect(c.layers.map(\.name) == ["base", "left", "right", "middle"])
+        #expect(c.layers.map(\.name) == ["base", "left", "right", "fun"])
         #expect(c.keys.count == 41)
         #expect(c.rows == 4)
         #expect(c.chords.count == 2)
@@ -366,5 +366,37 @@ final class Harness {
         let a = c.layers[0].actions[rmet]
         #expect(KeyCap.of(a, shifted: false, mode: .text).symbol == "keyboard.chevron.compact.down")
         #expect(KeyCap.of(a, shifted: false, mode: .terminal).main == "esc")
+    }
+}
+
+@Suite struct FunLayerTests {
+    @Test func outerThumbHoldIsFun() {
+        let h = Harness()
+        h.down("lalt")
+        h.wait(200)
+        h.tap("q")
+        h.tap("rsft")
+        h.up("lalt")
+        #expect(h.outputs == [.stroke(Key("f1"), []), .stroke(Key("f12"), [])])
+    }
+
+    @Test func navInnerThumbIsStickyShift() {
+        let h = Harness()
+        h.down("lmet")
+        h.wait(200)
+        h.tap("rmet")
+        h.up("lmet")
+        h.tap("a")
+        #expect(h.typed == "A")
+    }
+
+    @Test func symInnerThumbIsStickyShift() {
+        let h = Harness()
+        h.down("rmet")
+        h.wait(200)
+        h.tap("lmet")
+        h.up("rmet")
+        h.tap("a")
+        #expect(h.typed == "A")
     }
 }

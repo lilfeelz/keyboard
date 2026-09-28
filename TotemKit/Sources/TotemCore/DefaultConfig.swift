@@ -106,9 +106,8 @@ extension Config {
                 (0 1 2 3 4 5 6 7 8 9 bspc del up down left rght sft lsft rsft)
             ) break
           )
-          cps (tap-hold $tap-time $hold-time @_cps (layer-while-held middle))
+          cps (tap-hold $tap-time $hold-time @_cps (layer-while-held fun))
 
-          ldr C-,
           ;; esc means nothing to a text field: hide the keyboard there instead
           esc (switch
             ((mode text)) dismiss break
@@ -122,9 +121,10 @@ extension Config {
           oss (tap-hold $tap-time $hold-time (one-shot-press $one-shot-time rsft) rsft)
           ;; drag the backspace thumb left to delete words, the esc thumb to move the cursor
           lft (swipe-delete (tap-hold-release $tap-time $hold-time @bsp (layer-while-held left)))
-          mir (tap-hold-release $tap-time $hold-time @ldr (layer-while-held middle))
           rgt (swipe-cursor (tap-hold-release $tap-time $hold-time @esc (layer-while-held right)))
-          mil (tap-hold-release $tap-time $hold-time @ldr (layer-while-held middle))
+          ;; inner thumb on nav / sym: sticky shift
+          ssr (one-shot-press $one-shot-time rsft)
+          ssl (one-shot-press $one-shot-time lsft)
 
           ;; nav home row: kanata has ⌘A ⌘S ⌘D ⌘F taps with fn ⌥ ⌃ ⌘ holds. A
           ;; keyboard cannot send ⌘A-⌘F, and holding a modifier plus the nav thumb
@@ -141,19 +141,11 @@ extension Config {
           `m  (tap-hold $tap-time $hold-time `  rmet)
           ~h  (tap-hold-release $tap-time $long-hold-time S-` fn)
 
-          mha (multi fn   lsft)
-          mhs (multi lalt lsft)
-          mhd (multi lctl lsft)
-          mhf (multi lmet lsft)
-          mhj (multi rmet rsft)
-          mhk (multi rctl rsft)
-          mhl (multi ralt rsft)
-          mh; (multi fn   rsft)
         )
 
         (defchordsv2
-          (j k) ret $chord-time all-released (left right middle)
-          (d f) @bwd $chord-time all-released (left right middle)
+          (j k) ret $chord-time all-released (left right fun)
+          (d f) @bwd $chord-time all-released (left right fun)
         )
 
         (deflayer base
@@ -167,21 +159,22 @@ extension Config {
                 1    2    3    4    5         6    7    8    9    0
           _     @osa @osl @osc @osm rpt       left down up   rght @tab _
           _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
-          _        XX    _         _                   @mir      caps _
+          _        XX    _         _                   @ssr      caps _
         )
 
         (deflayer right
                 @!   @@   @#   @$   @%        @^   @&   @*   @+   nextkbd
           _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
           _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
-          _        caps  @mil      _                   _         XX   _
+          _        caps  @ssl      _                   _         XX   _
         )
 
-        (deflayer middle
+        ;; fun: bluetooth has no meaning here, those keys stay empty
+        (deflayer fun
                 f1   f2   f3   f4   f5        f6   f7   f8   f9   f10
-          _     @mha @mhs @mhd @mhf XX        XX   @mhj @mhk @mhl @mh;  _
-          _     f11  f12  f13  f14  f15       f16  f17  f18  f19  f20  _
-          _        XX    _         XX                  _         XX   _
+          _     XX   XX   XX   XX   XX        brdn vold volu brup mute _
+          f11   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   f12
+          _        _     XX        XX                  XX        _    _
         )
         """#
 }
