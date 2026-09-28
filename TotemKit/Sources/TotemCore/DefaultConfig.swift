@@ -40,7 +40,7 @@ extension Config {
           long-hold-time 200
           chord-time 110
           one-shot-time 2000
-          umlaut-time 300
+          alt-time 300
         )
 
         (defsrc
@@ -103,21 +103,22 @@ extension Config {
           esc (fork esc (macro esc esc) (lsft rsft))
           ;; globe: switches keyboard, esc in terminal mode
           glb (switch ((mode terminal)) @esc break () nextkbd break)
-          cag (multi lalt lctl lmet)
         )
 
         (defalias
-          /g  (tap-hold $tap-time $hold-time / @cag)
           ;; shift: tap is sticky, hold toggles caps lock
           oss (tap-hold $tap-time $hold-time (one-shot-press $one-shot-time rsft) caps)
           ;; tab / enter: hold for the fun layer, sticky for the next key
           tbf (tap-hold-release $tap-time $hold-time tab (one-shot-press $one-shot-time (layer-while-held fun)))
           rtf (tap-hold-release $tap-time $hold-time ret (one-shot-press $one-shot-time (layer-while-held fun)))
-          ;; hold a o u s for ä ö ü ß (shift and caps lock give Ä Ö Ü)
-          ae  (tap-hold $tap-time $umlaut-time a (text "ä"))
-          oe  (tap-hold $tap-time $umlaut-time o (text "ö"))
-          ue  (tap-hold $tap-time $umlaut-time u (text "ü"))
-          sz  (tap-hold $tap-time $umlaut-time s (text "ß"))
+          ;; long holds type alternates: a o u s give ä ö ü ß (shift and caps
+          ;; lock give Ä Ö Ü), / gives ?, - gives !
+          /q  (tap-hold $tap-time $alt-time / S-/)
+          -x  (tap-hold $tap-time $alt-time - S-1)
+          ae  (tap-hold $tap-time $alt-time a (text "ä"))
+          oe  (tap-hold $tap-time $alt-time o (text "ö"))
+          ue  (tap-hold $tap-time $alt-time u (text "ü"))
+          sz  (tap-hold $tap-time $alt-time s (text "ß"))
           ;; nav / sym keys beside backspace and hide-keyboard: tap is sticky
           ;; (next key only), hold locks the layer; the same key unlocks
           nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-switch left))
@@ -155,8 +156,8 @@ extension Config {
 
         (deflayer base
           @bs   q    w    e    r    t         y    @ue  i    @oe  p    @bs
-          @tbf  @ae  @sz  d    f    g         h    j    k    l    @/g  @rtf
-          @oss  z    x    c    v    b         n    m    @,   @.   @-   @oss
+          @tbf  @ae  @sz  d    f    g         h    j    k    l    @/q  @rtf
+          @oss  z    x    c    v    b         n    m    @,   @.   @-x  @oss
           @glb  @nav      @sp                                 @sym      term
         )
 

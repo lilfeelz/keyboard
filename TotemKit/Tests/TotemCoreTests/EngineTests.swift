@@ -483,3 +483,16 @@ final class Harness {
         #expect(h.typed == "⌫a")
     }
 }
+
+@Suite struct AlternateHoldTests {
+    @Test func slashAndMinusHolds() {
+        let h = Harness()
+        h.type(";", "/")
+        for k in [";", "/"] {
+            h.down(k, after: 400)  // outside the quick-tap window, which would repeat the tap
+            h.wait(320)
+            h.up(k)
+        }
+        #expect(h.typed == "/-?!")
+    }
+}
