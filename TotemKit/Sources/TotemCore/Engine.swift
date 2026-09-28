@@ -157,7 +157,9 @@ public final class Engine {
     /// The action a key would run right now, after layer fall-through.
     public func action(at key: Int) -> Action {
         if key >= config.keys.count { return config.chords[key - config.keys.count].action }
-        for l in ([base] + heldLayers.map(\.layer)).reversed() {
+        // `_` falls through held layers, the switched-to base, then the first
+        // layer (so a locked layer still sees the base keys), then defsrc.
+        for l in ([0, base] + heldLayers.map(\.layer)).reversed() {
             let a = config.layers[l].actions[key]
             if a != .trans { return a }
         }
@@ -422,7 +424,13 @@ public final class Engine {
             let t = nextToken()
             heldMods.append((t, m))
             return [.mods(t)]
-        case .text(let s):
+        case .text(var s):
+            // A single letter (an umlaut) follows shift, caps lock and caps-word.
+            if s.count == 1, s.uppercased().count == 1, s.lowercased() == s, s.uppercased() != s,
+                currentMods.contains(.shift) && !unshift || capsLock || capsWord != nil
+            {
+                s = s.uppercased()
+            }
             output(.text(s))
             consumeOneShot()
             return []

@@ -63,7 +63,7 @@ final class Harness {
     @Test func defaultConfigParses() throws {
         let c = Config.default
         #expect(c.layers.map(\.name) == ["base", "left", "right", "fun"])
-        #expect(c.keys.count == 43)
+        #expect(c.keys.count == 41)
         #expect(c.rows == 4)
         #expect(c.chords.count == 2)
         #expect(c.warnings.isEmpty)
@@ -196,27 +196,62 @@ final class Harness {
         #expect(h.typed == ",;.:")
     }
 
-    @Test func heldShiftUppercases() {
+    @Test func shiftHoldTogglesCapsLock() {
         let h = Harness()
         h.down("lsft")
         h.wait(200)
-        h.type("a", "b")
+        h.up("lsft")
+        h.type("a", "b", ",")
+        h.down("lsft")
+        h.wait(200)
         h.up("lsft")
         h.tap("c")
-        #expect(h.typed == "ABc")
+        #expect(h.typed == "AB,c")
     }
 
-    @Test func capsWord() {
-        let h = Harness()
-        h.type("lalt", "a", "b", ";", "/", "c", "spc", "d")
-        // `/` is not in the continue list, so it ends caps-word.
-        #expect(h.typed == "AB/-c d")
+    /// Caps-word is not in the default layout any more; test it on its own config.
+    func capsWordHarness() throws -> Harness {
+        try Harness(
+            Config.parse(
+                """
+                (defsrc cw a b spc 1 - /)
+                (deflayer x (caps-word 2000) a b spc 1 - /)
+                """))
     }
 
-    @Test func capsWordContinuesThroughDigitsAndEndsOnSpace() {
-        let h = Harness()
-        h.type("lalt", "a", "spc", "b")
+    @Test func capsWord() throws {
+        let h = try capsWordHarness()
+        h.type("cw", "a", "1", "b", "-", "/", "a")
+        #expect(h.typed == "A1B-/a")
+    }
+
+    @Test func capsWordEndsOnSpace() throws {
+        let h = try capsWordHarness()
+        h.type("cw", "a", "spc", "b")
         #expect(h.typed == "A b")
+    }
+
+    @Test func umlautsOnHold() {
+        let h = Harness()
+        for k in ["a", "o", "u", "s"] {
+            h.down(k)
+            h.wait(320)
+            h.up(k)
+        }
+        h.tap("a")
+        #expect(h.typed == "äöüßa")
+    }
+
+    @Test func umlautsFollowShift() {
+        let h = Harness()
+        h.tap("lsft")
+        h.down("u")
+        h.wait(320)
+        h.up("u")
+        h.down("s")
+        h.wait(320)
+        h.up("s")
+        #expect(h.typed == "Üß")
     }
 
     @Test func chordEnter() {
@@ -293,12 +328,10 @@ final class Harness {
         #expect(h.typed == String(repeating: "⌫", count: 5))
     }
 
-    @Test func tapHoldShiftMakesBackspaceDelete() {
+    @Test func shiftedBackspaceIsDelete() {
         let h = Harness()
-        h.down("lsft")
-        h.wait(200)
+        h.tap("lsft")
         h.tap("bspc")
-        h.up("lsft")
         #expect(h.outputs == [.stroke(Key("del"), [])])
     }
 
@@ -311,8 +344,8 @@ final class Harness {
             """)
         let h = Harness(c)
         h.type("a", "b", "a", "c", "b", "a")
-        // `_` on two falls through to defsrc's `c` key.
-        #expect(h.typed == "axca")
+        // `_` on a switched-to layer falls through to the first layer: rpt repeats x.
+        #expect(h.typed == "axxa")
     }
 
     @Test func switchOnHeldMeta() {
@@ -337,13 +370,10 @@ final class Harness {
         }
     }
 
-    @Test func globeTapSwitchesHoldHides() {
+    @Test func globeSwitchesKeyboard() {
         let h = Harness()
         h.tap("fn")
-        h.down("fn", after: 400)  // past the quick-tap window, or it would repeat the tap
-        h.wait(200)
-        h.up("fn")
-        #expect(h.outputs == [.system(.nextKeyboard), .system(.dismiss)])
+        #expect(h.outputs == [.system(.nextKeyboard)])
     }
 
     @Test func escIsEscInTerminalMode() {
@@ -382,14 +412,24 @@ final class Harness {
 }
 
 @Suite struct FunLayerTests {
-    @Test func outerThumbHoldIsFun() {
+    @Test func tabHoldIsStickyFun() {
         let h = Harness()
-        h.down("lalt")
+        h.down("tab")
         h.wait(200)
+        h.up("tab")
         h.tap("q")
-        h.tap("h")
-        h.up("lalt")
-        #expect(h.outputs == [.stroke(Key("f1"), []), .stroke(Key("f12"), [])])
+        h.tap("q")
+        #expect(h.outputs == [.stroke(Key("f1"), []), .stroke(Key("q"), [])])
+    }
+
+    @Test func enterTapIsEnterAndFunHidesKeyboard() {
+        let h = Harness()
+        h.tap("ret")
+        h.down("ret", after: 400)
+        h.wait(200)
+        h.tap("s")
+        h.up("ret")
+        #expect(h.outputs == [.stroke(Key("ret"), []), .system(.dismiss)])
     }
 
     @Test func navInnerThumbIsStickyShift() {

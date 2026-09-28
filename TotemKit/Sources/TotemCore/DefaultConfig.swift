@@ -40,13 +40,14 @@ extension Config {
           long-hold-time 200
           chord-time 110
           one-shot-time 2000
+          umlaut-time 300
         )
 
         (defsrc
           bspc  q    w    e    r    t  y    u    i    o    p    bspr
           tab   a    s    d    f    g  h    j    k    l    ;    ret
           lsft  z    x    c    v    b  n    m    ,    .    /    rsft
-          fn    lalt lmet spc:6                             rmet ralt menu
+          fn    lmet:2    spc:6                             rmet:2    menu
         )
 
         (defalias
@@ -98,27 +99,25 @@ extension Config {
             () S-tab break
           )
 
-          _cps (switch
-            (lsft rsft) caps break
-            () (caps-word-custom-toggle
-                $one-shot-time
-                (a b c d e f g h i j k l m n o p q r s t u v w x y z -)
-                (0 1 2 3 4 5 6 7 8 9 bspc del up down left rght sft lsft rsft)
-            ) break
-          )
-          cps (tap-hold $tap-time $hold-time @_cps (layer-while-held fun))
 
           esc (fork esc (macro esc esc) (lsft rsft))
-          ;; globe: tap switches keyboard (esc in terminal mode), hold hides it
-          glb (tap-hold $tap-time $hold-time
-                (switch ((mode terminal)) @esc break () nextkbd break)
-                dismiss)
+          ;; globe: switches keyboard, esc in terminal mode
+          glb (switch ((mode terminal)) @esc break () nextkbd break)
           cag (multi lalt lctl lmet)
         )
 
         (defalias
           /g  (tap-hold $tap-time $hold-time / @cag)
-          oss (tap-hold $tap-time $hold-time (one-shot-press $one-shot-time rsft) rsft)
+          ;; shift: tap is sticky, hold toggles caps lock
+          oss (tap-hold $tap-time $hold-time (one-shot-press $one-shot-time rsft) caps)
+          ;; tab / enter: hold for the fun layer, sticky for the next key
+          tbf (tap-hold-release $tap-time $hold-time tab (one-shot-press $one-shot-time (layer-while-held fun)))
+          rtf (tap-hold-release $tap-time $hold-time ret (one-shot-press $one-shot-time (layer-while-held fun)))
+          ;; hold a o u s for ä ö ü ß (shift and caps lock give Ä Ö Ü)
+          ae  (tap-hold $tap-time $umlaut-time a (text "ä"))
+          oe  (tap-hold $tap-time $umlaut-time o (text "ö"))
+          ue  (tap-hold $tap-time $umlaut-time u (text "ü"))
+          sz  (tap-hold $tap-time $umlaut-time s (text "ß"))
           ;; nav / sym keys beside backspace and hide-keyboard: tap is sticky
           ;; (next key only), hold locks the layer; the same key unlocks
           nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-switch left))
@@ -155,32 +154,32 @@ extension Config {
         )
 
         (deflayer base
-          @bs   q    w    e    r    t         y    u    i    o    p    @bs
-          tab   a    s    d    f    g         h    j    k    l    @/g  ret
+          @bs   q    w    e    r    t         y    @ue  i    @oe  p    @bs
+          @tbf  @ae  @sz  d    f    g         h    j    k    l    @/g  @rtf
           @oss  z    x    c    v    b         n    m    @,   @.   @-   @oss
-          @glb     @cps  @nav @sp                            @sym @cps term
+          @glb  @nav      @sp                                 @sym      term
         )
 
         (deflayer left
           _     1    2    3    4    5         6    7    8    9    0    _
           _     @osa @osl @osc @osm rpt       left down up   rght @tab _
           _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
-          _        XX    @bse _                            @ssr caps _
+          _     @bse      _                                   @ssr      _
         )
 
         (deflayer right
           _     @!   @@   @#   @$   @%        @^   @&   @*   @+   nextkbd _
           _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
           _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
-          _        caps  @ssl _                            @bse XX   _
+          _     @ssl      _                                   @bse      _
         )
 
         ;; fun: bluetooth has no meaning here, those keys stay empty
         (deflayer fun
           _     f1   f2   f3   f4   f5        f6   f7   f8   f9   f10  _
-          _     XX   XX   brdn brup f11       f12  vold volu mute XX   _
+          _     XX   dismiss brdn brup f11    f12  vold volu mute XX   _
           XX    XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX
-          _        _     XX   XX                            XX   _    _
+          _     XX        _                                   XX        _
         )
         """#
 }
