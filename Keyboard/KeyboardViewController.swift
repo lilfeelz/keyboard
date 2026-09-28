@@ -40,6 +40,7 @@ final class KeyboardViewController: UIInputViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         controller.load(currentConfig())
+        controller.resetHistory()
         height.constant = keyboardHeight
     }
 
@@ -78,8 +79,8 @@ final class KeyboardViewController: UIInputViewController {
             advanceToNextInputMode()
         case .dismiss:
             dismissKeyboard()
-        case .toggleTerminal:
-            break
+        case .toggleTerminal, .undo, .redo:
+            break  // handled by the controller
         }
     }
 }

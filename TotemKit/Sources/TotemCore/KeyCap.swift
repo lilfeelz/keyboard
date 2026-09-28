@@ -98,6 +98,8 @@ public struct KeyCap: Sendable, Equatable {
             case .copy: return KeyCap("copy", style: .special)
             case .cut: return KeyCap("cut", style: .special)
             case .paste: return KeyCap("paste", style: .special)
+            case .undo: return KeyCap("undo", style: .special)
+            case .redo: return KeyCap("redo", style: .special)
             }
         }
     }

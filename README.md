@@ -37,6 +37,8 @@ A keyboard extension can insert text, delete backward and move the cursor. So:
 * word/line delete (`A-bspc`, `M-bspc`, `A-del`), arrows, `A-`/`M-`arrows, home/end are emulated
   from the text around the cursor
 * `M-c M-x M-v` copy, cut, paste (Full Access)
+* `M-z` / `M-S-z` undo and redo this keyboard's own edits (typing by word, deletes, swipes,
+  cursor moves); the host app's undo stack is out of reach. In terminal mode `M-z` sends `^_`.
 * the `>_` key switches to terminal mode: `C-x`, `A-x`, esc, arrows, F1-F12 go out as control
   codes and xterm sequences (Blink, SSH apps)
 * other Cmd shortcuts, selection (`S-`arrows), media keys: impossible, drawn dimmed

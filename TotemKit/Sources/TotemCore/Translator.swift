@@ -15,6 +15,9 @@ public enum Edit: Sendable, Equatable {
     case copy
     case cut
     case paste
+    /// Undo / redo this keyboard's own edits (the host's undo stack is out of reach).
+    case undo
+    case redo
     case nextKeyboard
     case dismiss
     case toggleTerminal
@@ -49,6 +52,8 @@ public enum Translator {
             case .copy: return [.copy]
             case .cut: return [.cut]
             case .paste: return [.paste]
+            case .undo: return [.undo]
+            case .redo: return [.redo]
             }
         case .stroke(let k, let m):
             return mode == .terminal ? terminal(k, m) : text(k, m, context)
@@ -70,6 +75,7 @@ public enum Translator {
                 case "c": return [.copy]
                 case "x": return [.cut]
                 case "v": return [.paste]
+                case "z": return [m.contains(.shift) ? .redo : .undo]
                 default: return nil
                 }
             }
@@ -166,6 +172,7 @@ public enum Translator {
         if m.contains(.meta) {
             switch (k.name, m.subtracting([.meta, .shift])) {
             case ("c", []): return [.copy]
+            case ("z", []) where !m.contains(.shift): return [.insert("\u{1f}")]  // readline undo (^_)
             case ("x", []): return [.cut]
             case ("v", []): return [.paste]
             case ("bspc", []): return [.insert("\u{15}")]  // kill line (^U)

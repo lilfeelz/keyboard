@@ -176,7 +176,7 @@ struct Buffer {
             text.removeSubrange(index..<end)
         case .move(let n):
             cursor = min(max(0, cursor + n), text.utf16.count)
-        case .copy, .cut, .paste, .nextKeyboard, .dismiss, .toggleTerminal:
+        case .copy, .cut, .paste, .nextKeyboard, .dismiss, .toggleTerminal, .undo, .redo:
             break
         }
     }
@@ -198,7 +198,7 @@ struct SetupView: View {
                 Section("What works") {
                     Text("Letters, symbols, tab, enter, space, backspace, delete, tap-hold, one-shot, chords, caps-word, fork, switch, macros, rpt.")
                     Text("Word and line delete, arrows, home and end are emulated from the text around the cursor.")
-                    Text("Cmd+C, Cmd+X, Cmd+V copy, cut and paste.")
+                    Text("Cmd+C, Cmd+X, Cmd+V copy, cut and paste. Cmd+Z and Shift+Cmd+Z undo and redo what this keyboard typed.")
                     Text("Drag the backspace thumb left to pick words to delete (drag back to give them back, lift to delete); drag the esc thumb to move the cursor.")
                     Text("The >_ key switches to terminal mode: Ctrl and Alt chords, esc, arrows and F1 to F12 go out as control codes and escape sequences (Blink and other SSH apps).")
                 }

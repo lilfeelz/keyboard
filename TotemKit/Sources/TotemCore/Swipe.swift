@@ -6,7 +6,8 @@
 ///
 /// A keyboard cannot select text, so a delete swipe previews by moving the
 /// cursor back over whole words (dragging right gives them back) and deletes
-/// the covered span on lift. In terminal mode there is no preview: each step
+/// the covered span on lift (the cursor then sits before it, so it is a
+/// forward delete). In terminal mode there is no preview: each step
 /// left sends a word delete right away.
 public struct SwipeTracker: Sendable {
     public let kind: SwipeKind
@@ -75,9 +76,9 @@ public struct SwipeTracker: Sendable {
     /// Edits to finish the swipe when the finger lifts.
     public func end() -> [Edit] {
         guard kind == .delete, mode == .text else { return [] }
-        let span = taken.joined()
+        let span = taken.reversed().joined()
         guard !span.isEmpty else { return [] }
-        return [.move(span.utf16.count), .deleteBackward(span.count)]
+        return [.deleteForward(span)]
     }
 
     private var context: TextContext { TextContext(before: before, after: after) }

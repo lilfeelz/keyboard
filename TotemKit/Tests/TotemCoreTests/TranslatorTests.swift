@@ -84,7 +84,7 @@ import Testing
         let left = c.layers[1].actions
         let x = c.keys.firstIndex { $0.name == "x" }!
         #expect(KeyCap.of(left[x], shifted: false, mode: .text).main == "⌘X")
-        let z = c.keys.firstIndex { $0.name == "z" }!
-        #expect(KeyCap.of(left[z], shifted: false, mode: .text).style == .inert)
+        let a = c.keys.firstIndex { $0.name == "a" }!
+        #expect(KeyCap.of(left[a], shifted: false, mode: .text).style == .inert)
     }
 }

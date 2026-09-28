@@ -107,4 +107,6 @@ public enum SystemAction: String, Sendable, Equatable, CaseIterable {
     case copy
     case cut
     case paste
+    case undo
+    case redo
 }

@@ -21,6 +21,7 @@ public final class KeyboardController {
     @ObservationIgnored private var engine: Engine
     @ObservationIgnored private var timer: DispatchWorkItem?
     @ObservationIgnored private var swipes: [Int: SwipeTracker] = [:]
+    @ObservationIgnored private var history = History()
 
     public init(config: Config, mode: Mode? = nil) {
         self.config = config
@@ -67,27 +68,41 @@ public final class KeyboardController {
 
     public func moveSwipe(_ key: Int, dx: Double, dy: Double) {
         guard swipes[key] != nil else { return }
-        for e in swipes[key]!.move(dx: dx, dy: dy) { perform(e) }
+        for e in swipes[key]!.move(dx: dx, dy: dy) { apply(e) }
     }
 
     public func endSwipe(_ key: Int) {
         guard let s = swipes.removeValue(forKey: key) else { return }
-        for e in s.end() { perform(e) }
+        for e in s.end() { apply(e) }
         release(key)
     }
 
     private func handle(_ outputs: [Output]) {
         for o in outputs {
-            for e in Translator.edits(o, mode: mode, context: context()) ?? [] {
-                if e == .toggleTerminal {
-                    mode = mode == .text ? .terminal : .text
-                } else {
-                    perform(e)
-                }
-            }
+            for e in Translator.edits(o, mode: mode, context: context()) ?? [] { apply(e) }
         }
         state = engine.state
         schedule()
+    }
+
+    /// Run one edit, keeping the undo history in step.
+    private func apply(_ e: Edit) {
+        switch e {
+        case .toggleTerminal:
+            mode = mode == .text ? .terminal : .text
+        case .undo:
+            for x in history.undo(context: context()) { perform(x) }
+        case .redo:
+            for x in history.redo(context: context()) { perform(x) }
+        default:
+            if mode == .text { history.record(e, context: context()) }
+            perform(e)
+        }
+    }
+
+    /// Forget the history, e.g. when the keyboard moves to another text field.
+    public func resetHistory() {
+        history.clear()
     }
 
     private func schedule() {

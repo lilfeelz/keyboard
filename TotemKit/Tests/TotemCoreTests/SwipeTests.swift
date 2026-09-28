@@ -21,6 +21,8 @@ struct Field {
                 }
             case .deleteBackward(let n):
                 before.removeLast(min(n, before.count))
+            case .deleteForward(let s):
+                after.removeFirst(min(s.count, after.count))
             case .insert(let s):
                 before += s
             default:
@@ -40,6 +42,15 @@ struct Field {
         #expect(f.before == "one two ")
         f.apply(s.end())
         #expect(f.before == "one two ")
+        #expect(f.after == "!")
+    }
+
+    @Test func deleteTwoWordsKeepsOrder() {
+        var f = Field(before: "one two three", after: "!")
+        var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
+        f.apply(s.move(dx: -40, dy: 0))
+        f.apply(s.end())
+        #expect(f.before == "one ")
         #expect(f.after == "!")
     }
 
@@ -98,6 +109,6 @@ struct Field {
 
     @Test func rowsCentreWithGaps() {
         let c = Config.default
-        #expect(Set(c.rowWidths) == [12.5])
+        #expect(Set(c.rowWidths) == [12])
     }
 }

@@ -12,7 +12,8 @@ extension Config {
         ;; An iOS keyboard can only insert text, delete and move the cursor, so:
         ;;   * letters, symbols, tab, ret, space, bspc and del work everywhere
         ;;   * A-bspc / M-bspc, A-del, arrows, A-/M-arrows, home, end are emulated
-        ;;   * M-c M-x M-v copy, cut and paste (needs Full Access)
+        ;;   * M-c M-x M-v copy, cut and paste (needs Full Access); M-z / M-S-z undo
+        ;;     and redo what this keyboard typed
         ;;   * the `term` key switches to terminal mode, where C-x, A-x, esc,
         ;;     arrows and f1-f12 send control codes and escape sequences
         ;;     (Blink, SSH apps)
@@ -39,10 +40,10 @@ extension Config {
         )
 
         (defsrc
-          gap   q    w    e    r    t    gap:0.5  y    u    i    o    p    gap
-          tab   a    s    d    f    g    gap:0.5  h    j    k    l    ;    ret
-          lsft  z    x    c    v    b    gap:0.5  n    m    ,    .    /    rsft
-          fn    lalt lmet:2    spc:4.5                      rmet:2    ralt menu
+          gap   q    w    e    r    t  y    u    i    o    p    gap
+          tab   a    s    d    f    g  h    j    k    l    ;    ret
+          lsft  z    x    c    v    b  n    m    ,    .    /    rsft
+          fn    lalt lmet:2    spc:4                   rmet:2    ralt menu
         )
 
         (defalias
