@@ -375,7 +375,7 @@ final class Harness {
         h.down("lalt")
         h.wait(200)
         h.tap("q")
-        h.tap("rsft")
+        h.tap("h")
         h.up("lalt")
         #expect(h.outputs == [.stroke(Key("f1"), []), .stroke(Key("f12"), [])])
     }

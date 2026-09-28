@@ -172,8 +172,8 @@ extension Config {
         ;; fun: bluetooth has no meaning here, those keys stay empty
         (deflayer fun
                 f1   f2   f3   f4   f5        f6   f7   f8   f9   f10
-          _     XX   XX   brdn brup XX        XX   vold volu mute XX   _
-          f11   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   f12
+          _     XX   XX   brdn brup f11       f12  vold volu mute XX   _
+          XX    XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX
           _        _     XX        XX                  XX        _    _
         )
         """#
