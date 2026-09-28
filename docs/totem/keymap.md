@@ -35,8 +35,8 @@ FUN in detail:
 
 ```
          F1     F2     F3     F4     F5        F6     F7     F8     F9     F10
-         out    .      bri-   bri+   .         .      vol-   vol+   mute   out
-  F11    BT3    BT2    BT1    BT0    BTclr     BTclr  BT0    BT1    BT2    BT3    F12
+         out    .      bri-   bri+   F11       F12    vol-   vol+   mute   out
+  .      BT3    BT2    BT1    BT0    BTclr     BTclr  BT0    BT1    BT2    BT3    .
 ```
 
 `out` is `&out OUT_TOG` (USB / BLE output).
