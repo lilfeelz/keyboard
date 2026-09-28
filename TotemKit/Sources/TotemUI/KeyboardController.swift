@@ -20,6 +20,7 @@ public final class KeyboardController {
 
     @ObservationIgnored private var engine: Engine
     @ObservationIgnored private var timer: DispatchWorkItem?
+    @ObservationIgnored private var swipes: [Int: SwipeTracker] = [:]
 
     public init(config: Config, mode: Mode? = nil) {
         self.config = config
@@ -45,6 +46,34 @@ public final class KeyboardController {
     public func release(_ key: Int) {
         log.debug("up \(self.config.keys[key].name, privacy: .public) \(CACurrentMediaTime())")
         handle(engine.release(key, at: CACurrentMediaTime()))
+    }
+
+    // MARK: - swipes
+
+    public func swipeKind(_ key: Int) -> SwipeKind? {
+        engine.swipe(at: key)
+    }
+
+    public func isSwiping(_ key: Int) -> Bool {
+        swipes[key] != nil
+    }
+
+    /// The finger on `key` moved past the threshold: the key stops being a key.
+    public func beginSwipe(_ key: Int) {
+        guard let kind = engine.swipe(at: key) else { return }
+        handle(engine.cancel(key, at: CACurrentMediaTime()))
+        swipes[key] = SwipeTracker(kind: kind, mode: mode, context: context())
+    }
+
+    public func moveSwipe(_ key: Int, dx: Double, dy: Double) {
+        guard swipes[key] != nil else { return }
+        for e in swipes[key]!.move(dx: dx, dy: dy) { perform(e) }
+    }
+
+    public func endSwipe(_ key: Int) {
+        guard let s = swipes.removeValue(forKey: key) else { return }
+        for e in s.end() { perform(e) }
+        release(key)
     }
 
     private func handle(_ outputs: [Output]) {
@@ -99,6 +128,7 @@ public final class KeyboardController {
         case .capsLock: state.capsLock
         case .switchCases(let cs): cs.contains { active($0.action) }
         case .system(.toggleTerminal): mode == .terminal
+        case .swipe(_, let inner): active(inner)
         default: false
         }
     }

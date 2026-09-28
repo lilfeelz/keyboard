@@ -26,6 +26,17 @@ public indirect enum Action: Sendable, Equatable {
     /// `rpt` / `rpt-any`: redo the last key's output.
     case repeatLast
     case system(SystemAction)
+    /// `(swipe-cursor a)` / `(swipe-delete a)`: `a` on tap and hold; dragging the
+    /// key moves the cursor or deletes instead.
+    case swipe(SwipeKind, Action)
+}
+
+public enum SwipeKind: Sendable, Equatable {
+    /// Horizontal drag moves by characters, vertical by lines.
+    case cursor
+    /// Drag left pulls the cursor back word by word, drag right gives words
+    /// back; lifting deletes what was covered.
+    case delete
 }
 
 public struct TapHold: Sendable, Equatable {

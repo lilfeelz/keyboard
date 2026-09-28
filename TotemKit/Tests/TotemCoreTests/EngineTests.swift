@@ -63,7 +63,7 @@ final class Harness {
     @Test func defaultConfigParses() throws {
         let c = Config.default
         #expect(c.layers.map(\.name) == ["base", "left", "right", "middle", "del"])
-        #expect(c.keys.count == 42)
+        #expect(c.keys.count == 41)
         #expect(c.rows == 4)
         #expect(c.chords.count == 3)
         #expect(c.warnings.isEmpty)

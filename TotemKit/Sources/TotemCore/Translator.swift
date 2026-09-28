@@ -110,7 +110,7 @@ public enum Translator {
     static func isWord(_ c: Character) -> Bool { c.isLetter || c.isNumber || c == "_" }
 
     /// The run `⌥⌫` deletes: trailing spaces, then a word or a run of punctuation.
-    static func wordBefore(_ s: String) -> Substring {
+    public static func wordBefore(_ s: String) -> Substring {
         var i = s.endIndex
         while i > s.startIndex, s[s.index(before: i)].isWhitespace { i = s.index(before: i) }
         guard i > s.startIndex else { return s[i...] }

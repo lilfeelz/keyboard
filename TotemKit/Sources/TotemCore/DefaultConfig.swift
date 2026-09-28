@@ -19,7 +19,8 @@ extension Config {
         ;;   * other Cmd chords, selection (S-arrows) and media keys draw dimmed
         ;;
         ;; Extra actions: nextkbd (globe), dismiss, term, copy, cut, paste,
-        ;; (text "...").
+        ;; (text "..."), (swipe-cursor a) and (swipe-delete a): `a` on tap and
+        ;; hold, a drag moves the cursor or deletes words instead.
 
         (defcfg
           repeat-delay 400
@@ -41,7 +42,7 @@ extension Config {
           gap   q    w    e    r    t    gap:0.5  y    u    i    o    p    gap
           tab   a    s    d    f    g    gap:0.5  h    j    k    l    ;    ret
           lsft  z    x    c    v    b    gap:0.5  n    m    ,    .    /    rsft
-          fn    lalt lmet:2    spc:2     gap:0.5  spcr:2    rmet:2    ralt menu
+          fn    lalt lmet:2    spc:4.5                      rmet:2    ralt menu
         )
 
         (defalias
@@ -119,9 +120,10 @@ extension Config {
 
           /g  (tap-hold $tap-time $hold-time / @cag)
           oss (tap-hold $tap-time $hold-time (one-shot-press $one-shot-time rsft) rsft)
-          lft (tap-hold-release $tap-time $hold-time @bsp (layer-while-held left))
+          ;; drag the backspace thumb left to delete words, the esc thumb to move the cursor
+          lft (swipe-delete (tap-hold-release $tap-time $hold-time @bsp (layer-while-held left)))
           mir (tap-hold-release $tap-time $hold-time @ldr (layer-while-held middle))
-          rgt (tap-hold-release $tap-time $hold-time @esc (layer-while-held right))
+          rgt (swipe-cursor (tap-hold-release $tap-time $hold-time @esc (layer-while-held right)))
           mil (tap-hold-release $tap-time $hold-time @ldr (layer-while-held middle))
 
           maf (tap-hold $tap-time $hold-time M-a fn)
@@ -154,35 +156,35 @@ extension Config {
                 q    w    e    r    t         y    u    i    o    p
           tab   a    s    d    f    g         h    j    k    l    @/g  ret
           @oss  z    x    c    v    b         n    m    @,   @.   @-   @oss
-          nextkbd  @cps  @lft      spc       spc       @rgt      @cps term
+          nextkbd  @cps  @lft      spc                 @rgt      @cps term
         )
 
         (deflayer left
                 1    2    3    4    5         6    7    8    9    0
           _     @maf @msa @mdc @mfm M-g       left down up   rght @tab _
           _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
-          _        XX    _         _         _         @mir      caps _
+          _        XX    _         _                   @mir      caps _
         )
 
         (deflayer right
                 @!   @@   @#   @$   @%        @^   @&   @*   @+   fn
           _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
           _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
-          _        caps  @mil      _         _         _         XX   _
+          _        caps  @mil      _                   _         XX   _
         )
 
         (deflayer middle
                 f1   f2   f3   f4   f5        f6   f7   f8   f9   f10
           _     @mha @mhs @mhd @mhf XX        XX   @mhj @mhk @mhl @mh;  _
           _     f11  f12  f13  f14  f15       f16  f17  f18  f19  f20  _
-          _        XX    _         XX        XX        _         XX   _
+          _        XX    _         XX                  _         XX   _
         )
 
         (deflayer del
                 XX   XX   XX   XX   XX        XX   XX   XX   XX   XX
           _     XX   lalt lctl lmet XX        @scl @scd @scu @scr XX   _
           _     XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   _
-          _        XX    @bb       XX        XX        @bse      XX   _
+          _        XX    @bb       XX                  @bse      XX   _
         )
         """#
 }

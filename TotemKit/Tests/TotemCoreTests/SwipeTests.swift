@@ -1,0 +1,103 @@
+import Testing
+
+@testable import TotemCore
+
+/// Applies edits to a string with a cursor, like a text field would.
+struct Field {
+    var before: String
+    var after: String
+
+    mutating func apply(_ edits: [Edit]) {
+        for e in edits {
+            switch e {
+            case .move(var n):
+                while n < 0, let c = before.popLast() {
+                    after.insert(c, at: after.startIndex)
+                    n += String(c).utf16.count
+                }
+                while n > 0, let c = after.first {
+                    before.append(after.removeFirst())
+                    n -= String(c).utf16.count
+                }
+            case .deleteBackward(let n):
+                before.removeLast(min(n, before.count))
+            case .insert(let s):
+                before += s
+            default:
+                break
+            }
+        }
+    }
+}
+
+@Suite struct SwipeTests {
+    @Test func deletePreviewsThenDeletesOnLift() {
+        var f = Field(before: "one two three", after: "!")
+        var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
+        f.apply(s.move(dx: -40, dy: 0))  // two words back
+        #expect(f.before == "one ")
+        f.apply(s.move(dx: -20, dy: 0))  // drag back right: "two " is given back
+        #expect(f.before == "one two ")
+        f.apply(s.end())
+        #expect(f.before == "one two ")
+        #expect(f.after == "!")
+    }
+
+    @Test func deleteDraggedBackToStartDeletesNothing() {
+        var f = Field(before: "abc def", after: "")
+        var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
+        f.apply(s.move(dx: -60, dy: 0))
+        f.apply(s.move(dx: 30, dy: 0))
+        f.apply(s.end())
+        #expect(f.before == "abc def")
+    }
+
+    @Test func deleteInTerminalIsImmediate() {
+        var s = SwipeTracker(kind: .delete, mode: .terminal, context: TextContext())
+        #expect(s.move(dx: -37, dy: 0) == [.insert("\u{1b}\u{7f}"), .insert("\u{1b}\u{7f}")])
+        #expect(s.end() == [])
+    }
+
+    @Test func cursorMovesByCharsAndLines() {
+        var f = Field(before: "abcd\nefgh", after: "")
+        var s = SwipeTracker(kind: .cursor, mode: .text, context: TextContext(before: f.before, after: f.after))
+        f.apply(s.move(dx: -25, dy: 0))
+        #expect(f.before == "abcd\nef")
+        f.apply(s.move(dx: -25, dy: -30))
+        #expect(f.before == "ab")
+        f.apply(s.move(dx: -25, dy: 0))
+        #expect(f.before == "abcd\nef")
+    }
+
+    @Test func cursorInTerminalSendsArrows() {
+        var s = SwipeTracker(kind: .cursor, mode: .terminal, context: TextContext())
+        #expect(s.move(dx: 13, dy: 0) == [.insert("\u{1b}[C")])
+    }
+
+    @Test func cancelDropsPendingTapHold() {
+        let h = Harness()
+        let lmet = h.idx("lmet")
+        h.down("lmet")
+        h.record(h.engine.cancel(lmet, at: h.t))
+        #expect(h.engine.swipe(at: lmet) == .delete)
+        h.up("lmet", after: 50)
+        h.tap("q")
+        #expect(h.typed == "q")
+    }
+
+    @Test func cancelReleasesResolvedLayer() {
+        let h = Harness()
+        let lmet = h.idx("lmet")
+        h.down("lmet")
+        h.wait(200)
+        h.record(h.engine.cancel(lmet, at: h.t))
+        h.tap("q")
+        h.up("lmet")
+        #expect(h.typed == "q")
+    }
+
+    @Test func rowsCentreWithGaps() {
+        let c = Config.default
+        #expect(Set(c.rowWidths) == [12.5])
+    }
+}

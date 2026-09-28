@@ -88,6 +88,8 @@ public struct KeyCap: Sendable, Equatable {
             return c.map { of($0.action, shifted: shifted, mode: mode) } ?? .blank
         case .repeatLast:
             return KeyCap("rpt", style: .special)
+        case .swipe(_, let inner):
+            return of(inner, shifted: shifted, mode: mode)
         case .system(let s):
             switch s {
             case .nextKeyboard: return KeyCap("", symbol: "globe", style: .special)

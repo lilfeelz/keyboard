@@ -48,4 +48,30 @@ final class KeyboardUITests: XCTestCase {
         key("esc").tap()
         XCTAssertEqual(buffer, "hi^[▏")
     }
+
+    func drag(_ label: String, dx: CGFloat, dy: CGFloat = 0) {
+        let from = point(label)
+        from.press(forDuration: 0.05, thenDragTo: from.withOffset(CGVector(dx: dx, dy: dy)))
+    }
+
+    func testSwipeDeleteAndCursor() {
+        for k in ["o", "n", "e", "spc", "t", "w", "o"] {
+            k == "spc" ? app.coordinate(withNormalizedOffset: .zero).withOffset(spaceCentre).tap() : key(k).tap()
+        }
+        XCTAssertEqual(buffer, "one two▏")
+
+        // backspace thumb dragged one word left, lifted: "two" goes
+        drag("⌫", dx: -24)
+        XCTAssertEqual(buffer, "one ▏")
+
+        // esc thumb dragged two characters left
+        drag("esc", dx: -30)
+        XCTAssertEqual(buffer, "on▏e ")
+    }
+
+    /// The space bar has no label; it sits between the two thumb keys.
+    var spaceCentre: CGVector {
+        let l = key("⌫").frame, r = key("esc").frame
+        return CGVector(dx: (l.maxX + r.minX) / 2, dy: l.midY)
+    }
 }

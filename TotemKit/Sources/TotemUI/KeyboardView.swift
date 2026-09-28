@@ -8,10 +8,8 @@ public enum KeyboardGeometry {
     public static func frames(_ config: Config, in size: CGSize, gap: CGFloat = 5) -> [CGRect] {
         let unit = (size.width - gap) / config.width
         let rowH = (size.height - gap) / CGFloat(config.rows)
-        var rowEnd = [Double](repeating: 0, count: config.rows)
-        for k in config.keys { rowEnd[k.row] = max(rowEnd[k.row], k.x + k.width) }
         return config.keys.map { k in
-            let inset = (config.width - rowEnd[k.row]) / 2
+            let inset = (config.width - config.rowWidths[k.row]) / 2
             return CGRect(
                 x: gap + (k.x + inset) * unit, y: gap + CGFloat(k.row) * rowH,
                 width: k.width * unit - gap, height: rowH - gap)
@@ -38,7 +36,7 @@ public struct KeyboardView: View {
                     .frame(width: frames[i].width, height: frames[i].height)
                     .offset(x: frames[i].minX, y: frames[i].minY)
                 }
-                TouchSurface(frames: frames, press: controller.press, release: controller.release)
+                TouchSurface(frames: frames, controller: controller)
             }
         }
         .background(Theme.bg)
@@ -111,11 +109,11 @@ struct KeyCapView: View {
 
 /// Raw multi-touch: every finger is its own key press, held until it lifts,
 /// which is what tap-hold and chords need. A touch in a gap goes to the
-/// nearest key.
+/// nearest key. On a swipe key, a finger that travels far enough becomes a
+/// swipe and stops being a key press.
 struct TouchSurface: UIViewRepresentable {
     let frames: [CGRect]
-    let press: (Int) -> Void
-    let release: (Int) -> Void
+    let controller: KeyboardController
 
     func makeUIView(context: Context) -> Surface {
         let v = Surface()
@@ -126,15 +124,19 @@ struct TouchSurface: UIViewRepresentable {
 
     func updateUIView(_ v: Surface, context: Context) {
         v.frames = frames
-        v.press = press
-        v.release = release
+        v.controller = controller
     }
 
     final class Surface: UIView {
         var frames: [CGRect] = []
-        var press: (Int) -> Void = { _ in }
-        var release: (Int) -> Void = { _ in }
-        private var keys: [ObjectIdentifier: Int] = [:]
+        weak var controller: KeyboardController?
+
+        struct Finger {
+            var key: Int
+            var origin: CGPoint
+        }
+
+        private var fingers: [ObjectIdentifier: Finger] = [:]
 
         func key(at p: CGPoint) -> Int? {
             if let i = frames.firstIndex(where: { $0.contains(p) }) { return i }
@@ -151,9 +153,30 @@ struct TouchSurface: UIViewRepresentable {
 
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             for t in touches.sorted(by: { $0.timestamp < $1.timestamp }) {
-                guard let k = key(at: t.location(in: self)) else { continue }
-                keys[ObjectIdentifier(t)] = k
-                press(k)
+                let p = t.location(in: self)
+                guard let k = key(at: p) else { continue }
+                fingers[ObjectIdentifier(t)] = Finger(key: k, origin: p)
+                controller?.press(k)
+            }
+        }
+
+        override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+            guard let c = controller else { return }
+            for t in touches {
+                guard let f = fingers[ObjectIdentifier(t)] else { continue }
+                let p = t.location(in: self)
+                let dx = p.x - f.origin.x
+                let dy = p.y - f.origin.y
+                if c.isSwiping(f.key) {
+                    c.moveSwipe(f.key, dx: dx, dy: dy)
+                    continue
+                }
+                guard let kind = c.swipeKind(f.key) else { continue }
+                let far = abs(dx) > SwipeTracker.threshold
+                    || (kind == .cursor && abs(dy) > SwipeTracker.threshold)
+                guard far else { continue }
+                c.beginSwipe(f.key)
+                c.moveSwipe(f.key, dx: dx, dy: dy)
             }
         }
 
@@ -167,8 +190,12 @@ struct TouchSurface: UIViewRepresentable {
 
         private func end(_ touches: Set<UITouch>) {
             for t in touches.sorted(by: { $0.timestamp < $1.timestamp }) {
-                guard let k = keys.removeValue(forKey: ObjectIdentifier(t)) else { continue }
-                release(k)
+                guard let f = fingers.removeValue(forKey: ObjectIdentifier(t)) else { continue }
+                if controller?.isSwiping(f.key) == true {
+                    controller?.endSwipe(f.key)
+                } else {
+                    controller?.release(f.key)
+                }
             }
         }
     }

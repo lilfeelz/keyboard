@@ -21,7 +21,10 @@ the touch grid: one line per row, `gap:w` leaves space, `name:w` sets a key's wi
 actions: keys with `S- C- A- M-` prefixes, modifiers, `tap-hold(-press|-release)`, `one-shot*`,
 `layer-while-held`/`layer-toggle`/`layer-switch`, `fork`, `unshift`, `multi`, `macro`,
 `unicode`, `caps-word*`, `switch` (`and or not layer base-layer`), `rpt`. Extras: `nextkbd`,
-`dismiss`, `term`, `copy`, `cut`, `paste`, `(text "...")`.
+`dismiss`, `term`, `copy`, `cut`, `paste`, `(text "...")`, and the swipe wrappers
+`(swipe-delete a)` / `(swipe-cursor a)`: `a` on tap and hold, but a drag deletes words
+(previewed by moving the cursor back, applied on lift) or moves the cursor (vertical drag moves
+by lines). The default puts them on the backspace and esc thumbs.
 
 Edit it in the app (checked as you type, errors carry line:col) and save; the keyboard reloads
 it each time it appears. The keyboard reads the app group only with Full Access, otherwise it

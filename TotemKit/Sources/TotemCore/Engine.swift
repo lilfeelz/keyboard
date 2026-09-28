@@ -67,6 +67,8 @@ public final class Engine {
     private var buffer: [Event] = []
     private var pending: Pending?
     private var lastTap: [Int: Double] = [:]
+    /// Keys taken over by a swipe; their release is swallowed.
+    private var cancelled: Set<Int> = []
 
     // state
     private var base = 0
@@ -106,8 +108,28 @@ public final class Engine {
     public func release(_ key: Int, at t: Double) -> [Output] {
         run(t) {
             pressed.remove(key)
+            if cancelled.remove(key) != nil { return }
             feedRaw(Event(key: key, down: false, t: t))
         }
+    }
+
+    /// Take a pressed key away from the engine (a swipe started on it): an
+    /// undecided tap-hold is dropped, a resolved one is released, and the
+    /// eventual release does nothing. The key still shows as pressed.
+    public func cancel(_ key: Int, at t: Double) -> [Output] {
+        run(t) {
+            guard pressed.contains(key) else { return }
+            if chordBuf.contains(where: { $0.key == key }) { failChord() }
+            cancelled.insert(key)
+            if pending?.key == key { pending = nil }
+            buffer.removeAll { $0.key == key }
+            releaseKey(key)
+        }
+    }
+
+    /// The swipe gesture a key has right now, if any.
+    public func swipe(at key: Int) -> SwipeKind? {
+        if case .swipe(let kind, _) = action(at: key) { kind } else { nil }
     }
 
     public func tick(at t: Double) -> [Output] {
@@ -306,7 +328,8 @@ public final class Engine {
             releaseKey(e.key)
             return
         }
-        let a = action(at: e.key)
+        var a = action(at: e.key)
+        if case .swipe(_, let inner) = a { a = inner }
         if case .tapHold(let th) = a {
             if let last = lastTap[e.key], e.t - last < ms(th.tapTime) {
                 lastTap[e.key] = nil
@@ -440,6 +463,8 @@ public final class Engine {
         case .system(let s):
             output(.system(s))
             return []
+        case .swipe(_, let inner):
+            return press(inner, unshift: unshift)
         }
     }
 

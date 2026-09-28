@@ -38,9 +38,11 @@ public struct Options: Sendable, Equatable {
 
 public struct Config: Sendable, Equatable {
     public var keys: [SrcKey]
-    public var rows: Int
+    /// Width of each row in key units, gaps included.
+    public var rowWidths: [Double]
+    public var rows: Int { rowWidths.count }
     /// Widest row, in key units.
-    public var width: Double
+    public var width: Double { rowWidths.max() ?? 0 }
     public var layers: [Layer]
     public var chords: [Chord]
     /// The defsrc key itself, used when `_` falls through every layer.
@@ -106,7 +108,7 @@ private struct ConfigParser {
         }
 
         guard let srcForm else { throw ConfigError("missing defsrc") }
-        let (keys, rows, width) = try parseSrc(srcForm)
+        let (keys, rowWidths) = try parseSrc(srcForm)
         for (i, k) in keys.enumerated() {
             if srcNames[k.name] != nil {
                 throw ConfigError("defsrc key \(k.name) appears twice", at: srcForm.pos)
@@ -153,7 +155,7 @@ private struct ConfigParser {
             defaults.append((try? atomAction(k.name, at: srcForm.pos)) ?? .none)
         }
         return Config(
-            keys: keys, rows: rows, width: width, layers: layers, chords: chords,
+            keys: keys, rowWidths: rowWidths, layers: layers, chords: chords,
             defaults: defaults, options: options, warnings: warnings)
     }
 
@@ -181,7 +183,7 @@ private struct ConfigParser {
         }
     }
 
-    func parseSrc(_ f: SExpr) throws -> ([SrcKey], Int, Double) {
+    func parseSrc(_ f: SExpr) throws -> ([SrcKey], [Double]) {
         let atoms = f.list!.dropFirst()
         var keys: [SrcKey] = []
         var rowWidths: [Double] = []
@@ -207,7 +209,7 @@ private struct ConfigParser {
             rowWidths[row] += width
         }
         guard !keys.isEmpty else { throw ConfigError("defsrc is empty", at: f.pos) }
-        return (keys, rowWidths.count, rowWidths.max() ?? 0)
+        return (keys, rowWidths)
     }
 
     mutating func parseChords(_ args: [SExpr], at pos: SourcePos) throws -> [Chord] {
@@ -361,6 +363,9 @@ private struct ConfigParser {
                 CapsWord(
                     timeout: try int(args[0]), shifted: try keySet(args[1]),
                     continuing: try keySet(args[2]), toggle: head.hasSuffix("toggle")))
+        case "swipe-cursor", "swipe-delete":
+            try need(1)
+            return .swipe(head == "swipe-cursor" ? .cursor : .delete, try action(args[0]))
         case "switch":
             guard args.count % 3 == 0 else {
                 throw ConfigError("switch takes (condition) action break|fallthrough triples", at: p)
