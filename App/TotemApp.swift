@@ -48,6 +48,8 @@ struct ConfigEditor: View {
           .textInputAutocapitalization(.never)
           .scrollContentBackground(.hidden)
           .background(Theme.bg)
+          .attributedTextFormattingDefinition(Colors.self)
+          .textInputFormattingControlVisibility(.hidden, for: .all)
           .onChange(of: text) { recolor() }
         status
       }
@@ -72,6 +74,12 @@ struct ConfigEditor: View {
         Button("Replace", role: .destructive) { source = Self.colored(Config.defaultSource) }
       }
     }
+  }
+
+  /// The only attribute the editor keeps, so pasted or shortcut formatting
+  /// cannot stick; the formatting controls themselves are hidden.
+  struct Colors: AttributeScope {
+    let foregroundColor: AttributeScopes.SwiftUIAttributes.ForegroundColorAttribute
   }
 
   /// Recolour in place: only attributes change, so the cursor stays put.
