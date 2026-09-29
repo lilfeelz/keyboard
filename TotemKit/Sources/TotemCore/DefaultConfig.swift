@@ -121,6 +121,12 @@ extension Config {
           ae  (tap-hold $tap-time $alt-time a (text "ä"))
           oe  (tap-hold $tap-time $alt-time o (text "ö"))
           ue  (tap-hold $tap-time $alt-time u (text "ü"))
+          ;; z x c v give undo, cut, copy, paste; w deletes a word back
+          zh  (tap-hold $tap-time $alt-time z @und)
+          xh  (tap-hold $tap-time $alt-time x @cut)
+          ch  (tap-hold $tap-time $alt-time c @cpy)
+          vh  (tap-hold $tap-time $alt-time v @pst)
+          wh  (tap-hold $tap-time $alt-time w @bwd)
           ;; home row: hold s d f for sticky ⌥ ⌃ ⌘, mirrored on l k j; ⌥s is ß
           ;; (as on a Mac)
           ms  (tap-hold $tap-time $alt-time s (one-shot-press $one-shot-time lalt))
@@ -165,9 +171,9 @@ extension Config {
         )
 
         (deflayer base
-          @bs   q    w    @eu  r    t         y    @ue  i    @oe  p    @bs
+          @bs   q    @wh  @eu  r    t         y    @ue  i    @oe  p    @bs
           @tbf  @ae  @ms  @md  @mf  g         h    @mj  @mk  @ml  @/q  @rtf
-          @oss  z    x    c    v    b         n    m    @,h  @.h  @-x  @oss
+          @oss  @zh  @xh  @ch  @vh  b         n    m    @,h  @.h  @-x  @oss
           @glb  @nav      @sp                                 @sym      term
         )
 
