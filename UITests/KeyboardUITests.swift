@@ -77,8 +77,8 @@ final class KeyboardUITests: XCTestCase {
     }
     XCTAssertEqual(buffer, "one two▏")
 
-    // backspace thumb dragged one word left, lifted: "two" goes
-    drag("⌫", dx: -24)
+    // backspace thumb dragged three characters left (12pt each), lifted: "two" goes
+    drag("⌫", dx: -40)
     XCTAssertEqual(buffer, "one ▏")
 
     // space bar dragged two characters left
