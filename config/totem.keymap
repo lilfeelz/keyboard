@@ -237,37 +237,37 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                &kp Q  &kp W  &kp E         &kp R               &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
-                &kp A  &kp S  &kp D         &kp F               &kp G        &kp H      &kp J         &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
-&lt_caps 3 0    &kp Z  &kp X  &kp C         &kp V               &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                   &lt_caps 3 0
-                              &sk LEFT_SHIFT  &sk_mo 1 BACKSPACE  &kp SPACE    &kp SPACE  &lt 2 ESCAPE  &sk RIGHT_SHIFT
+              &kp Q  &kp W  &kp E           &kp R               &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
+              &kp A  &kp S  &kp D           &kp F               &kp G        &kp H      &kp J         &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
+&lt_caps 3 0  &kp Z  &kp X  &kp C           &kp V               &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                   &lt_caps 3 0
+                            &sk LEFT_SHIFT  &sk_mo 1 BACKSPACE  &kp SPACE    &kp SPACE  &lt 2 ESCAPE  &sk RIGHT_SHIFT
             >;
         };
 
         left {
             bindings = <
-        &kp N1           &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7           &kp N8     &kp N9     &kp N0
-        &mt GLOBE LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN         &kp UP     &kp RIGHT  &cmd_tab
-&none   &kp LG(Z)        &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN        &kp PG_UP  &kp END    &cmd_stb  &trans
-                                         &trans           &trans          &none            &trans    &sk RIGHT_SHIFT  &trans
+       &kp N1           &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7         &kp N8     &kp N9     &kp N0
+       &mt GLOBE LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN       &kp UP     &kp RIGHT  &cmd_tab
+&none  &kp LG(Z)        &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN      &kp PG_UP  &kp END    &cmd_stb  &trans
+                                        &trans           &trans          &none            &trans    &sk LC(COMMA)  &trans
             >;
         };
 
         right {
             bindings = <
-       &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET  &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS        &kp GLOBE
-       &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL  &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT    &mt GLOBE TILDE
-&trans &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(N)  &kp LG(M)       &kp LG(COMMA)            &kp LG(PERIOD)  &kp LG(SLASH)    &none
-                                    &none                 &sk LEFT_SHIFT         &trans                 &none      &trans          &none
+        &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET  &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS        &kp GLOBE
+        &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL  &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT    &mt GLOBE TILDE
+&trans  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(N)  &kp LG(M)       &kp LG(COMMA)            &kp LG(PERIOD)  &kp LG(SLASH)    &none
+                                     &trans                &kp LC(COMMA)          &trans                 &none      &trans          &none
             >;
         };
 
         fun {
             bindings = <
-          &kp F1        &kp F2        &kp F3         &kp F4                &kp F5      &kp F6      &kp F7             &kp F8           &kp F9        &kp F10
-          &out OUT_TOG  &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &kp F11     &kp F12     &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp C_MUTE    &out OUT_TOG
-&trans    &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1   &bt BT_SEL 0          &bt BT_CLR  &bt BT_CLR  &bt BT_SEL 0       &bt BT_SEL 1     &bt BT_SEL 2  &bt BT_SEL 3  &trans
-                                      &none          &none                 &none       &none       &none              &none
+        &kp F1        &kp F2        &kp F3         &kp F4                &kp F5        &kp F6      &kp F7             &kp F8           &kp F9        &kp F10
+        &out OUT_TOG  &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &kp F11       &kp F12     &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp C_MUTE    &out OUT_TOG
+&trans  &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1   &bt BT_SEL 0          &bt BT_CLR    &bt BT_CLR  &bt BT_SEL 0       &bt BT_SEL 1     &bt BT_SEL 2  &bt BT_SEL 3  &trans
+                                    &none          &none                 &none         &none       &none              &none
             >;
         };
     };
