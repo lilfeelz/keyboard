@@ -71,7 +71,7 @@ Four layers (BASE, NAV, SYM, FUN). The layer table, thumb bindings and combos li
 - **5 combos**: see [`docs/totem/keymap.md`](docs/totem/keymap.md#combos)
 - **5 mod-morphs**: comma↔semicolon, period↔colon, cmd+tab↔F21, cmd+shift+tab↔F22, shift+caps
 - **5 macros**: ≤, ≥, ←, →, := and vim-style yank-line, yank-inner-word
-- **Sticky keys**: one-shot shift on the outer bottom-row keys; `sk_mo` thumb (hold NAV, tap Backspace)
+- **Sticky keys**: one-shot shift on the outer thumb keys; `sk_mo` thumb (hold NAV, tap Backspace)
 
 ## Build Targets
 
