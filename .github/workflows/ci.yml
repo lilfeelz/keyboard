@@ -18,3 +18,10 @@ jobs:
       scheme: Totem
       runs-on: macos-26
       xcode-version: "26.6"
+      # The scheme only holds the UI tests; the core tests are the TotemKit package. Boot the
+      # simulator first: a cold one makes the UI tests time out launching the app.
+      test-cmd: >-
+        (cd TotemKit && swift test) &&
+        xcrun simctl bootstatus 'iPad Air 11-inch (M4)' -b &&
+        xcodebuild -project Totem.xcodeproj -scheme Totem
+        -destination 'platform=iOS Simulator,name=iPad Air 11-inch (M4)' test
