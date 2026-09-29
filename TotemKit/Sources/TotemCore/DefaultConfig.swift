@@ -185,7 +185,7 @@ extension Config {
         )
 
         (deflayer right
-          _     @!   @@   @#   @$   @%        @^   @&   @*   @+   nextkbd _
+          _     @!   @@   @#   @$   @%        @^   @&   @*   @+   S-/  _
           _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
           _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
           _     @ssl      _                                   @bse      _

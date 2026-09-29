@@ -45,7 +45,7 @@ A keyboard extension can insert text, delete backward and move the cursor. So:
   gives keyboards no selection API and no way to reach the app's commands (select all, save,
   find). In the bundled config the nav layer's ⌘A ⌘S ⌘D ⌘F slots are sticky ⇧ ⌥ ⌃ ⌘ (tap, then the next
   key gets it; with the arrows that is word and line jumps), `M-g` is `rpt`, the esc thumb hides
-  the keyboard in text mode, and the sym layer's `fn` is the globe key
+  the keyboard in text mode, and the sym layer's `fn` slot is `?`
 * not shown in secure fields or while a hardware keyboard is attached
 
 ## Build
