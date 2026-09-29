@@ -23,7 +23,7 @@ extension Config {
         ;;
         ;; Extra actions: nextkbd (globe), dismiss, term, copy, cut, paste,
         ;; (text "..."), (swipe-cursor a) and (swipe-delete a): `a` on tap and
-        ;; hold, a drag moves the cursor or deletes words instead. switch also
+        ;; hold, a drag moves the cursor or deletes characters instead. switch also
         ;; takes (mode text) and (mode terminal).
 
         (defcfg
@@ -140,8 +140,8 @@ extension Config {
           nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-switch left))
           sym (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held right)) (layer-switch right))
           bse (layer-switch base)
-          ;; drag either backspace left to delete words back, right to delete
-          ;; words forward (lift to apply); drag space to move the cursor
+          ;; drag either backspace left to delete characters back, right to
+          ;; delete forward (lift to apply); drag space to move the cursor
           bs  (swipe-delete @bsp)
           sp  (swipe-cursor spc)
           ;; inner thumb on nav / sym: sticky shift
