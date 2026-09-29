@@ -26,17 +26,17 @@ Thumbs, left to right: 32 left outer, 33 left middle, 34 left inner,
 
 | # | Node | Name | How to reach | Contents |
 |---|------|------|--------------|----------|
-| 0 | `base` | BASE | default | QWERTY alphas; `/` on 19 (hold: Ctrl+Alt+Cmd); `-` on 30; sticky Shift on 20 and 31 |
+| 0 | `base` | BASE | default | QWERTY alphas; `/` on 19 (hold: Ctrl+Alt+Cmd); `-` on 30; hold FUN, tap caps word on 20 and 31 |
 | 1 | `left` | NAV | hold left middle thumb (33) | Numbers, arrows, Home/PgDn/PgUp/End, Cmd+letter shortcuts, `cmd_tab`/`cmd_stb` |
 | 2 | `right` | SYM | hold right middle thumb (36) | Shifted symbols, brackets, pipe, arrow and comparison macros |
-| 3 | `fun` | FUN | hold either outer thumb (32 or 37) | F1 to F12, brightness, volume, mute, output toggle, BT select 0 to 3 (mirrored), BT clear |
+| 3 | `fun` | FUN | hold either outer pinky (20 or 31) | F1 to F12, brightness, volume, mute, output toggle, BT select 0 to 3 (mirrored), BT clear |
 
 FUN in detail:
 
 ```
          F1     F2     F3     F4     F5        F6     F7     F8     F9     F10
          out    .      bri-   bri+   F11       F12    vol-   vol+   mute   out
-  .      BT3    BT2    BT1    BT0    BTclr     BTclr  BT0    BT1    BT2    BT3    .
+  held   BT3    BT2    BT1    BT0    BTclr     BTclr  BT0    BT1    BT2    BT3    held
 ```
 
 `out` is `&out OUT_TOG` (USB / BLE output).
@@ -45,14 +45,15 @@ FUN in detail:
 
 | Layer | 32 L outer | 33 L middle | 34 L inner | 35 R inner | 36 R middle | 37 R outer |
 |-------|------------|-------------|------------|------------|-------------|------------|
-| BASE | hold FUN, tap caps word | hold NAV, tap Backspace | Space | Space | hold SYM, tap Esc | hold FUN, tap caps word |
-| NAV | none | (held) | none | Space | sticky Shift | hold FUN, tap caps word |
-| SYM | hold FUN, tap caps word | sticky Shift | Space | none | (held) | none |
-| FUN | (held) | none | none | none | none | (held) |
+| BASE | sticky Shift | hold NAV, tap Backspace | Space | Space | hold SYM, tap Esc | sticky Shift |
+| NAV | sticky Shift | (held) | none | Space | sticky Shift | sticky Shift |
+| SYM | none | sticky Shift | Space | none | (held) | none |
+| FUN | none | none | none | none | none | none |
 
 Bindings behind the BASE thumbs:
 
-- 32, 37: `&lt_caps 3 0`. Hold is `&lt 3`, tap is `&caps` (caps word; with Shift held, Caps Lock).
+- 32, 37: `&sk LEFT_SHIFT`, `&sk RIGHT_SHIFT`.
+- 20, 31 (outer pinkies): `&lt_caps 3 0`. Hold is `&lt 3`, tap is `&caps` (caps word; with Shift held, Caps Lock).
 - 33: `&sk_mo 1 BACKSPACE`. Hold is `&mo 1`, tap is `&sk BACKSPACE`.
 - 36: `&lt 2 ESCAPE`.
 - NAV 36: `&sk RIGHT_SHIFT`, SYM 33: `&sk LEFT_SHIFT`.
