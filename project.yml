@@ -3,7 +3,7 @@ name: Totem
 options:
   bundleIdPrefix: dev.feelz
   deploymentTarget:
-    iOS: "18.0"
+    iOS: "26.0"
   createIntermediateGroups: true
   xcodeVersion: "26.0"
 settings:
