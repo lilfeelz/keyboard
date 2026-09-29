@@ -244,7 +244,8 @@ public final class Engine {
         let cands = candidates(Set(down))
         let exact = cands.first { config.chords[$0].keys == Set(down) }
         if let exact, cands.count == 1 { return fireChord(exact, consumed: chordBuf.count) }
-        if now - first.t >= chordWindow() {
+        // Same expression as nextDeadline, so a tick at the deadline resolves it.
+        if now >= first.t + chordWindow() {
             if let exact { fireChord(exact, consumed: chordBuf.count) } else { failChord() }
         }
     }

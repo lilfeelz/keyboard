@@ -111,14 +111,22 @@ extension Config {
           ;; tab / enter: hold for the fun layer, sticky for the next key
           tbf (tap-hold-release $tap-time $hold-time tab (one-shot-press $one-shot-time (layer-while-held fun)))
           rtf (tap-hold-release $tap-time $hold-time ret (one-shot-press $one-shot-time (layer-while-held fun)))
-          ;; long holds type alternates: a o u s give ä ö ü ß (shift and caps
-          ;; lock give Ä Ö Ü), / gives ?, - gives !
+          ;; long holds type alternates: a o u give ä ö ü (shift and caps lock
+          ;; give Ä Ö Ü), / gives ?, - gives !
           /q  (tap-hold $tap-time $alt-time / S-/)
           -x  (tap-hold $tap-time $alt-time - S-1)
           ae  (tap-hold $tap-time $alt-time a (text "ä"))
           oe  (tap-hold $tap-time $alt-time o (text "ö"))
           ue  (tap-hold $tap-time $alt-time u (text "ü"))
-          sz  (tap-hold $tap-time $alt-time s (text "ß"))
+          ;; home row: hold s d f for sticky ⌥ ⌃ ⌘, mirrored on l k j; ⌥s is ß
+          ;; (as on a Mac); hold g for the globe
+          ms  (tap-hold $tap-time $alt-time s (one-shot-press $one-shot-time lalt))
+          md  (tap-hold $tap-time $alt-time d (one-shot-press $one-shot-time lctl))
+          mf  (tap-hold $tap-time $alt-time f (one-shot-press $one-shot-time lmet))
+          mj  (tap-hold $tap-time $alt-time j (one-shot-press $one-shot-time rmet))
+          mk  (tap-hold $tap-time $alt-time k (one-shot-press $one-shot-time rctl))
+          ml  (tap-hold $tap-time $alt-time l (one-shot-press $one-shot-time ralt))
+          mg  (tap-hold $tap-time $alt-time g nextkbd)
           ;; nav / sym keys beside backspace and hide-keyboard: tap is sticky
           ;; (next key only), hold locks the layer; the same key unlocks
           nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-switch left))
@@ -156,7 +164,7 @@ extension Config {
 
         (deflayer base
           @bs   q    w    e    r    t         y    @ue  i    @oe  p    @bs
-          @tbf  @ae  @sz  d    f    g         h    j    k    l    @/q  @rtf
+          @tbf  @ae  @ms  @md  @mf  @mg       h    @mj  @mk  @ml  @/q  @rtf
           @oss  z    x    c    v    b         n    m    @,   @.   @-x  @oss
           @glb  @nav      @sp                                 @sym      term
         )

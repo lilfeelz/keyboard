@@ -32,9 +32,12 @@ final class Harness {
 
     func wait(_ ms: Double) {
         let end = t + ms / 1000
+        var spins = 0
         while let d = engine.nextDeadline, d <= end {
             t = max(t, d)
             record(engine.tick(at: t))
+            spins += 1
+            precondition(spins < 10_000, "deadline \(d) never clears at t=\(t)")
         }
         t = end
         record(engine.tick(at: t))
@@ -233,13 +236,13 @@ final class Harness {
 
     @Test func umlautsOnHold() {
         let h = Harness()
-        for k in ["a", "o", "u", "s"] {
+        for k in ["a", "o", "u"] {
             h.down(k)
             h.wait(320)
             h.up(k)
         }
         h.tap("a")
-        #expect(h.typed == "äöüßa")
+        #expect(h.typed == "äöüa")
     }
 
     @Test func umlautsFollowShift() {
@@ -248,10 +251,43 @@ final class Harness {
         h.down("u")
         h.wait(320)
         h.up("u")
-        h.down("s")
+        #expect(h.typed == "Ü")
+    }
+
+    func hold(_ h: Harness, _ k: String) {
+        h.down(k)
         h.wait(320)
-        h.up("s")
-        #expect(h.typed == "Üß")
+        h.up(k)
+    }
+
+    @Test func homeRowHoldsAreStickyMods() {
+        let h = Harness()
+        for (k, m) in [("s", Mods.alt), ("d", .ctrl), ("f", .meta), ("l", .alt), ("k", .ctrl), ("j", .meta)] {
+            h.outputs = []
+            hold(h, k)
+            h.tap("x")
+            #expect(h.outputs == [.stroke(Key("x"), m)], "\(k)")
+        }
+    }
+
+    @Test func altSIsEszett() {
+        let h = Harness()
+        hold(h, "s")
+        h.tap("s")
+        let edits = h.outputs.flatMap { Translator.edits($0, mode: .text, context: TextContext()) ?? [] }
+        #expect(edits == [.insert("ß")])
+    }
+
+    @Test func homeRowTapsAreLetters() {
+        let h = Harness()
+        h.type("s", "d", "f", "g", "j", "k", "l")
+        #expect(h.typed == "sdfgjkl")
+    }
+
+    @Test func gHoldIsGlobe() {
+        let h = Harness()
+        hold(h, "g")
+        #expect(h.outputs == [.system(.nextKeyboard)])
     }
 
     @Test func chordEnter() {

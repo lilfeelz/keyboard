@@ -73,6 +73,8 @@ public enum Translator {
         let noShift = m.subtracting(.shift)
         if let c = k.char {
             if noShift.isEmpty { return [.insert(String(m.contains(.shift) ? Keys.shifted(c) : c))] }
+            // ⌥ letters as on a Mac, where the character has a use here.
+            if noShift == .alt, let ch = optionChars[c] { return [.insert(ch)] }
             if noShift == .meta {
                 switch c {
                 case "c": return [.copy]
@@ -110,6 +112,8 @@ public enum Translator {
         default: return nil
         }
     }
+
+    static let optionChars: [Character: String] = ["s": "ß"]
 
     static func nonEmpty(_ e: Edit) -> [Edit] {
         if case .deleteForward(let s) = e, s.isEmpty { return [] }
