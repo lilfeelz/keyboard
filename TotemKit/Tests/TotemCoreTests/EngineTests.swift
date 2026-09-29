@@ -284,12 +284,6 @@ final class Harness {
         #expect(h.typed == "sdfgjkl")
     }
 
-    @Test func gHoldIsGlobe() {
-        let h = Harness()
-        hold(h, "g")
-        #expect(h.outputs == [.system(.nextKeyboard)])
-    }
-
     @Test func chordEnter() {
         let h = Harness()
         h.down("j")

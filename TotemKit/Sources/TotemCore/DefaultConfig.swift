@@ -119,14 +119,13 @@ extension Config {
           oe  (tap-hold $tap-time $alt-time o (text "ö"))
           ue  (tap-hold $tap-time $alt-time u (text "ü"))
           ;; home row: hold s d f for sticky ⌥ ⌃ ⌘, mirrored on l k j; ⌥s is ß
-          ;; (as on a Mac); hold g for the globe
+          ;; (as on a Mac)
           ms  (tap-hold $tap-time $alt-time s (one-shot-press $one-shot-time lalt))
           md  (tap-hold $tap-time $alt-time d (one-shot-press $one-shot-time lctl))
           mf  (tap-hold $tap-time $alt-time f (one-shot-press $one-shot-time lmet))
           mj  (tap-hold $tap-time $alt-time j (one-shot-press $one-shot-time rmet))
           mk  (tap-hold $tap-time $alt-time k (one-shot-press $one-shot-time rctl))
           ml  (tap-hold $tap-time $alt-time l (one-shot-press $one-shot-time ralt))
-          mg  (tap-hold $tap-time $alt-time g nextkbd)
           ;; nav / sym keys beside backspace and hide-keyboard: tap is sticky
           ;; (next key only), hold locks the layer; the same key unlocks
           nav (tap-hold-release $tap-time $hold-time (one-shot-press $one-shot-time (layer-while-held left)) (layer-switch left))
@@ -164,7 +163,7 @@ extension Config {
 
         (deflayer base
           @bs   q    w    e    r    t         y    @ue  i    @oe  p    @bs
-          @tbf  @ae  @ms  @md  @mf  @mg       h    @mj  @mk  @ml  @/q  @rtf
+          @tbf  @ae  @ms  @md  @mf  g         h    @mj  @mk  @ml  @/q  @rtf
           @oss  z    x    c    v    b         n    m    @,   @.   @-x  @oss
           @glb  @nav      @sp                                 @sym      term
         )
