@@ -41,24 +41,6 @@
             key-positions = <12 13>;
             layers = <0>;
         };
-
-        left_right {
-            bindings = <&yank_line>;
-            key-positions = <15 18>;
-            layers = <1>;
-        };
-
-        up_down {
-            bindings = <&yank_inner_word>;
-            key-positions = <16 17>;
-            layers = <1>;
-        };
-
-        bwd {
-            bindings = <&kp BACKSPACE>;
-            key-positions = <11 12 13>;
-            layers = <0>;
-        };
     };
 
     behaviors {
@@ -246,19 +228,19 @@
 
         left {
             bindings = <
-       &kp N1           &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7         &kp N8     &kp N9     &kp N0
-       &mt GLOBE LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN       &kp UP     &kp RIGHT  &cmd_tab
-&none  &kp LG(Z)        &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN      &kp PG_UP  &kp END    &cmd_stb  &trans
-                                        &trans           &trans          &none            &trans    &sk LC(COMMA)  &trans
+       &kp N1           &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7     &kp N8     &kp N9     &kp N0
+       &mt GLOBE LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN   &kp UP     &kp RIGHT  &cmd_tab
+&none  &kp LG(Z)        &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN  &kp PG_UP  &kp END    &cmd_stb  &trans
+                                        &trans           &trans          &none            &trans    &trans     &trans
             >;
         };
 
         right {
             bindings = <
-        &kp LS(EXCL)  &kp LS(AT)     &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)          &kp CARET  &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS        &kp GLOBE
-        &kp BSLH      &kp LS(LBRC)   &kp LBKT              &kp RBKT               &kp LG(RIGHT_BRACE)    &kp EQUAL  &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT    &mt GLOBE TILDE
-&trans  &kp PIPE      &kp LESS_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN       &kp LG(N)  &kp LG(M)       &kp LG(COMMA)            &kp LG(PERIOD)  &kp LG(SLASH)    &none
-                                     &trans                &kp LC(COMMA)          &trans                 &none      &trans          &none
+        &kp LS(EXCL)  &kp LS(AT)      &kp LS(POUND)         &kp LS(N4)             &kp LS(PRCNT)       &kp CARET  &kp LS(AMPS)    &kp LS(STAR)             &kp PLUS        &kp QUESTION
+        &kp BSLH      &kp LEFT_BRACE  &kp LBKT              &kp RBKT               &kp RIGHT_BRACE     &kp EQUAL  &mt RGUI GRAVE  &mt RCTRL DOUBLE_QUOTES  &mt RALT SQT    &mt GLOBE TILDE
+&trans  &kp PIPE      &kp LESS_THAN   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp GREATER_THAN    &kp LG(N)  &kp LG(M)       &kp LG(COMMA)            &kp LG(PERIOD)  &kp LG(SLASH)    &none
+                                      &trans                &trans                 &trans              &none      &trans          &none
             >;
         };
 
