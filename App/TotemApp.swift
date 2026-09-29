@@ -29,9 +29,11 @@ struct ContentView: View {
 /// Edit the kanata-style config; it is checked as you type and saved to the
 /// app group, where the keyboard picks it up next time it appears.
 struct ConfigEditor: View {
-    @State private var text = ConfigStore.source() ?? Config.defaultSource
+    @State private var source = ConfigEditor.colored(ConfigStore.source() ?? Config.defaultSource)
     @State private var saved = ConfigStore.source() ?? Config.defaultSource
     @State private var confirmReset = false
+
+    private var text: String { String(source.characters) }
 
     private var result: Result<Config, Error> {
         Result { try Config.parse(text) }
@@ -40,12 +42,13 @@ struct ConfigEditor: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                TextEditor(text: $text)
+                TextEditor(text: $source)
                     .font(.system(size: 13, design: .monospaced))
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .scrollContentBackground(.hidden)
                     .background(Theme.bg)
+                    .onChange(of: text) { recolor() }
                 status
             }
             .background(Theme.bg)
@@ -64,8 +67,42 @@ struct ConfigEditor: View {
                 }
             }
             .confirmationDialog("Replace the config with the bundled default?", isPresented: $confirmReset) {
-                Button("Replace", role: .destructive) { text = Config.defaultSource }
+                Button("Replace", role: .destructive) { source = Self.colored(Config.defaultSource) }
             }
+        }
+    }
+
+    /// Recolour in place: only attributes change, so the cursor stays put.
+    private func recolor() { Self.paint(&source) }
+
+    static func colored(_ s: String) -> AttributedString {
+        var a = AttributedString(s)
+        paint(&a)
+        return a
+    }
+
+    static func paint(_ a: inout AttributedString) {
+        let plain = String(a.characters)
+        let u = plain.utf16
+        a.foregroundColor = Theme.fg
+        for span in Highlight.spans(plain) {
+            let lo = u.index(u.startIndex, offsetBy: span.start)
+            let hi = u.index(lo, offsetBy: span.length)
+            guard let x = AttributedString.Index(lo, within: a),
+                let y = AttributedString.Index(hi, within: a)
+            else { continue }
+            a[x..<y].foregroundColor = color(span.kind)
+        }
+    }
+
+    static func color(_ kind: Highlight.Kind) -> Color {
+        switch kind {
+        case .comment: Theme.muted
+        case .string: Theme.green
+        case .paren: Theme.frame
+        case .head: Theme.pink
+        case .alias: Theme.accent
+        case .variable: Theme.purple
         }
     }
 
