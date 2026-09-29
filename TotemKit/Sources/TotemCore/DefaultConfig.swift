@@ -112,9 +112,12 @@ extension Config {
           tbf (tap-hold-release $tap-time $hold-time tab (one-shot-press $one-shot-time (layer-while-held fun)))
           rtf (tap-hold-release $tap-time $hold-time ret (one-shot-press $one-shot-time (layer-while-held fun)))
           ;; long holds type alternates: a o u give ä ö ü (shift and caps lock
-          ;; give Ä Ö Ü), / gives ?, - gives !
+          ;; give Ä Ö Ü), e gives €, / gives ?, - gives !, , gives ; and . gives :
           /q  (tap-hold $tap-time $alt-time / S-/)
           -x  (tap-hold $tap-time $alt-time - S-1)
+          ,h  (tap-hold $tap-time $alt-time @, (unshift ;))
+          .h  (tap-hold $tap-time $alt-time @. S-;)
+          eu  (tap-hold $tap-time $alt-time e (text "€"))
           ae  (tap-hold $tap-time $alt-time a (text "ä"))
           oe  (tap-hold $tap-time $alt-time o (text "ö"))
           ue  (tap-hold $tap-time $alt-time u (text "ü"))
@@ -162,9 +165,9 @@ extension Config {
         )
 
         (deflayer base
-          @bs   q    w    e    r    t         y    @ue  i    @oe  p    @bs
+          @bs   q    w    @eu  r    t         y    @ue  i    @oe  p    @bs
           @tbf  @ae  @ms  @md  @mf  g         h    @mj  @mk  @ml  @/q  @rtf
-          @oss  z    x    c    v    b         n    m    @,   @.   @-x  @oss
+          @oss  z    x    c    v    b         n    m    @,h  @.h  @-x  @oss
           @glb  @nav      @sp                                 @sym      term
         )
 

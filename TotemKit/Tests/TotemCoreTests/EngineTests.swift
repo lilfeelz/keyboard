@@ -525,4 +525,15 @@ final class Harness {
         }
         #expect(h.typed == "/-?!")
     }
+
+    @Test func commaPeriodAndEuroHolds() {
+        let h = Harness()
+        h.type(",", ".", "e")
+        for k in [",", ".", "e"] {
+            h.down(k, after: 400)
+            h.wait(320)
+            h.up(k)
+        }
+        #expect(h.typed == ",.e;:€")
+    }
 }
