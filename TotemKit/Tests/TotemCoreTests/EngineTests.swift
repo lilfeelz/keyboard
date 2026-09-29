@@ -536,4 +536,14 @@ final class Harness {
         }
         #expect(h.typed == ",.e;:€")
     }
+
+    @Test func copyHold() {
+        let h = Harness()
+        h.tap("c")
+        h.down("c", after: 400)
+        h.wait(320)
+        h.up("c")
+        #expect(h.outputs.contains(.stroke(Key("c"), .meta)))
+        #expect(h.typed == "c")
+    }
 }
