@@ -1,0 +1,20 @@
+name: ci
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # GitHub-hosted, pinned to what mimi runs (macOS 26, Xcode 26.6). The org's self-hosted
+  # runner serves JakobMelchard repos only; hosted macOS minutes are free for public repos.
+  ci:
+    uses: JakobMelchard/.github/.github/workflows/xcode.yml@main
+    with:
+      scheme: Totem
+      runs-on: macos-26
+      xcode-version: "26.6"
