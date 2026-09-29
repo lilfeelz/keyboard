@@ -34,8 +34,8 @@ public indirect enum Action: Sendable, Equatable {
 public enum SwipeKind: Sendable, Equatable {
     /// Horizontal drag moves by characters, vertical by lines.
     case cursor
-    /// Drag left pulls the cursor back word by word, drag right gives words
-    /// back; lifting deletes what was covered.
+    /// Drag left pulls the cursor back character by character, drag right
+    /// gives them back; lifting deletes what was covered.
     case delete
 }
 

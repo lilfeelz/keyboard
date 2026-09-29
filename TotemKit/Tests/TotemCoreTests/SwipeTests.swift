@@ -34,59 +34,78 @@ struct Field {
 
 @Suite struct SwipeTests {
     @Test func deletePreviewsThenDeletesOnLift() {
-        var f = Field(before: "one two three", after: "!")
+        var f = Field(before: "one two", after: "!")
         var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
-        f.apply(s.move(dx: -40, dy: 0))  // two words back
+        f.apply(s.move(dx: -40, dy: 0))  // three characters back
         #expect(f.before == "one ")
-        f.apply(s.move(dx: -20, dy: 0))  // drag back right: "two " is given back
-        #expect(f.before == "one two ")
+        f.apply(s.move(dx: -20, dy: 0))  // drag back right: two are given back
+        #expect(f.before == "one tw")
         f.apply(s.end())
-        #expect(f.before == "one two ")
+        #expect(f.before == "one tw")
         #expect(f.after == "!")
     }
 
-    @Test func deleteTwoWordsKeepsOrder() {
-        var f = Field(before: "one two three", after: "!")
+    @Test func deletePartOfWord() {
+        var f = Field(before: "one three", after: "!")
         var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
         f.apply(s.move(dx: -40, dy: 0))
         f.apply(s.end())
-        #expect(f.before == "one ")
+        #expect(f.before == "one th")
         #expect(f.after == "!")
+    }
+
+    @Test func deleteCountsGraphemes() {
+        var f = Field(before: "aü👍🏽", after: "")
+        var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
+        f.apply(s.move(dx: -25, dy: 0))
+        f.apply(s.end())
+        #expect(f.before == "a")
+    }
+
+    @Test func deletePastStartKeepsFingerInStep() {
+        var f = Field(before: "ab", after: "")
+        var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
+        f.apply(s.move(dx: -50, dy: 0))  // four steps, two characters
+        f.apply(s.move(dx: -25, dy: 0))  // two steps back: still past the start
+        #expect(f.before == "")
+        f.apply(s.end())
+        #expect(f.before == "")
     }
 
     @Test func deleteDraggedBackToStartDeletesNothing() {
         var f = Field(before: "abc def", after: "")
         var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
         f.apply(s.move(dx: -60, dy: 0))
-        f.apply(s.move(dx: 30, dy: 0))
+        f.apply(s.move(dx: 5, dy: 0))
         f.apply(s.end())
         #expect(f.before == "abc def")
     }
 
     @Test func deleteForwardOnRightDrag() {
-        var f = Field(before: "one ", after: "two three!")
+        var f = Field(before: "one ", after: "two!")
         var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
         f.apply(s.move(dx: 40, dy: 0))
-        #expect(f.before == "one two three")
-        f.apply(s.move(dx: 20, dy: 0))
+        #expect(f.before == "one two")
+        f.apply(s.move(dx: 25, dy: 0))
         f.apply(s.end())
         #expect(f.before == "one ")
-        #expect(f.after == " three!")
+        #expect(f.after == "o!")
     }
 
     @Test func dragAcrossStartSwitchesSide() {
         var f = Field(before: "one two", after: " three")
         var s = SwipeTracker(kind: .delete, mode: .text, context: TextContext(before: f.before, after: f.after))
-        f.apply(s.move(dx: -20, dy: 0))
-        f.apply(s.move(dx: 20, dy: 0))
+        f.apply(s.move(dx: -25, dy: 0))
+        f.apply(s.move(dx: 25, dy: 0))
         f.apply(s.end())
         #expect(f.before == "one two")
-        #expect(f.after == "")
+        #expect(f.after == "hree")
     }
 
     @Test func deleteInTerminalIsImmediate() {
         var s = SwipeTracker(kind: .delete, mode: .terminal, context: TextContext())
-        #expect(s.move(dx: -37, dy: 0) == [.insert("\u{1b}\u{7f}"), .insert("\u{1b}\u{7f}")])
+        #expect(s.move(dx: -25, dy: 0) == [.deleteBackward(1), .deleteBackward(1)])
+        #expect(s.move(dx: 13, dy: 0) == [.insert("\u{1b}[3~")])
         #expect(s.end() == [])
     }
 

@@ -22,7 +22,7 @@ actions: keys with `S- C- A- M-` prefixes, modifiers, `tap-hold(-press|-release)
 `layer-while-held`/`layer-toggle`/`layer-switch`, `fork`, `unshift`, `multi`, `macro`,
 `unicode`, `caps-word*`, `switch` (`and or not layer base-layer`, plus `mode text|terminal`), `rpt`. Extras: `nextkbd`,
 `dismiss`, `term`, `copy`, `cut`, `paste`, `(text "...")`, and the swipe wrappers
-`(swipe-delete a)` / `(swipe-cursor a)`: `a` on tap and hold, but a drag deletes words
+`(swipe-delete a)` / `(swipe-cursor a)`: `a` on tap and hold, but a drag deletes characters
 (previewed by moving the cursor back, applied on lift) or moves the cursor (vertical drag moves
 by lines). The default puts them on the backspace and esc thumbs.
 
