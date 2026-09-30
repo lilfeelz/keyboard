@@ -142,7 +142,18 @@ struct ConfigEditor: View {
 /// can be tried without switching keyboards (and in the simulator).
 struct TryView: View {
   @State private var buffer = Buffer()
-  @State private var controller = KeyboardController(config: ConfigStore.load().config)
+  @State private var controller = KeyboardController(config: Self.config())
+
+  /// `--var <name> <value>` overrides a defvar here, for UI tests: on a slow CI runner two
+  /// synthesized taps can land further apart than the default one-shot-time.
+  static func config() -> Config {
+    let a = ProcessInfo.processInfo.arguments
+    guard let i = a.firstIndex(of: "--var"), i + 2 < a.count,
+      let c = try? Config.parse(
+        ConfigStore.source() ?? Config.defaultSource, vars: [a[i + 1]: a[i + 2]])
+    else { return ConfigStore.load().config }
+    return c
+  }
 
   var body: some View {
     VStack(spacing: 0) {

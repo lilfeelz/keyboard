@@ -188,6 +188,15 @@ final class Harness {
     #expect(h.typed == "a")
   }
 
+  @Test func varOverrideOutlastsTheDefault() throws {
+    let c = try Config.parse(Config.defaultSource, vars: ["one-shot-time": "10000"])
+    let h = Harness(c)
+    h.tap("lsft")
+    h.wait(2100)
+    h.tap("a")
+    #expect(h.typed == "A")
+  }
+
   @Test func oneShotShiftTwiceCancels() {
     let h = Harness()
     h.type("lsft", "lsft", "a")

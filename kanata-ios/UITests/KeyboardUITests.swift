@@ -7,7 +7,9 @@ final class KeyboardUITests: XCTestCase {
   override func setUp() {
     continueAfterFailure = false
     app = XCUIApplication()
-    app.launchArguments = ["--try"]
+    // Hosted CI runners can space two taps over the default 2 s one-shot window; the engine
+    // tests pin the real timing.
+    app.launchArguments = ["--try", "--var", "one-shot-time", "10000"]
     app.launch()
   }
 
