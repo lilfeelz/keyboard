@@ -1,6 +1,6 @@
 name: zmk-docs
 
-# Keymap SVG (keymap-drawer) plus the honkit site under zmk/docs, published to the
+# Keymap SVG (keymap-drawer) plus the docs under zmk/docs (org docs action), published to the
 # gh-pages branch: https://lilfeelz.github.io/keyboard/
 
 on:
@@ -8,7 +8,6 @@ on:
     branches: [main]
     paths:
       - zmk/docs/**
-      - zmk/docs/book.json
       - zmk/package.json
       - zmk/keymap_drawer.config.yaml
       - zmk/index.html
@@ -43,9 +42,12 @@ jobs:
           keymap -c keymap_drawer.config.yaml parse -z config/totem.keymap -o /tmp/keymap.yaml
           keymap -c keymap_drawer.config.yaml draw /tmp/keymap.yaml -o docs/totem/images/keymap.svg
 
-      - run: npx --yes honkit build ./docs ./temp
-
-      - run: mv docs/temp site
+      - uses: JakobMelchard/.github/actions/docs@main
+        with:
+          title: lilfeelz keyboard
+          src: zmk/docs
+          out: zmk/site
+          assets: https://docs.lilfeelz.org/assets
 
       - uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
