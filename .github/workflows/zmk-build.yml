@@ -100,6 +100,7 @@ jobs:
             -DZMK_EXTRA_MODULES="$GITHUB_WORKSPACE/zmk"
 
       - name: collect firmware
+        shell: bash
         run: |
           mkdir -p artifacts
           name="${shield}-${board//\//_}-zmk"
