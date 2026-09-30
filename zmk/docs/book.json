@@ -1,5 +1,4 @@
 {
-  "root": "./docs",
   "title": "lilfeelz ZMK Configuration",
   "styles": {
     "website": "dark.css"
