@@ -164,7 +164,7 @@ public enum Translator {
       case ("x", []): return [.cut]
       case ("v", []): return [.paste]
       case ("bspc", []): return [.insert("\u{15}")]  // kill line (^U)
-      default: return nil
+      default: return superKey(k, m).map { [.insert($0)] }
       }
     }
     if m.contains(.fn) { return nil }
@@ -209,6 +209,18 @@ public enum Translator {
       let code = [15, 17, 18, 19, 20, 21, 23, 24][n - 5]
       return .insert(csi + "\(code)~")
     }
+  }
+
+  /// Any other ⌘ chord in the kitty keyboard protocol with the super bit (8), so a terminal
+  /// app can take it as its own shortcut (attach does): ⌘P is `CSI 112;9u`, ⌘← `CSI 1;9D`.
+  static func superKey(_ k: Key, _ m: Mods) -> String? {
+    let p = param(m) + 8
+    let csi = esc + "["
+    if let v = k.char?.unicodeScalars.first?.value { return csi + "\(v);\(p)u" }
+    let arrows = ["up": "A", "down": "B", "rght": "C", "left": "D", "home": "H", "end": "F"]
+    if let final = arrows[k.name] { return csi + "1;\(p)" + final }
+    let codes = ["ret": 13, "tab": 9, "esc": 27, "spc": 32]
+    return codes[k.name].map { csi + "\($0);\(p)u" }
   }
 
   /// xterm modifier parameter: 1 + shift + 2*alt + 4*ctrl.

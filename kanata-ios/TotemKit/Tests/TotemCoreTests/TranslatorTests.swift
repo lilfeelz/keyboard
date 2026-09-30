@@ -91,6 +91,18 @@ import Testing
     #expect(term("f13") == nil)
   }
 
+  @Test func terminalSuperChords() {
+    // ⌘C/X/V/Z/⌫ stay local; the rest become kitty CSI u with the super bit.
+    #expect(term("c", .meta) == [.copy])
+    #expect(term("p", .meta) == [.insert("\u{1b}[112;9u")])
+    #expect(term("p", [.meta, .shift]) == [.insert("\u{1b}[112;10u")])
+    #expect(term("/", .meta) == [.insert("\u{1b}[47;9u")])
+    #expect(term("left", .meta) == [.insert("\u{1b}[1;9D")])
+    #expect(term("ret", [.meta, .ctrl]) == [.insert("\u{1b}[13;13u")])
+    #expect(term("f13", .meta) == nil)
+    #expect(text("p", .meta) == nil)
+  }
+
   @Test func keyCaps() {
     let c = Config.default
     let base = c.layers[0].actions
