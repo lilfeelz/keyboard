@@ -47,6 +47,7 @@ parse_config:
     SEMICOLON: ";"
     COLON: ":"
     SLASH: "/"
+    QUESTION: "?"
     BSLH: "\\"
     CARET: "^"
     EQUAL: "="
