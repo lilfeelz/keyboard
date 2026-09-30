@@ -30,6 +30,7 @@ cd kanata-ios
 make project      # xcodegen generate (Totem.xcodeproj is git-ignored)
 make test-core    # cd TotemKit && swift test
 make test         # core tests + XCUITest on the "Totem iPad Air 11-inch (M4)" simulator
+make ipa          # build/Totem.ipa for SideStore
 ```
 
 Format with `xcrun swift-format format --in-place --recursive .` from `kanata-ios/`; CI lints
