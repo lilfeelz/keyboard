@@ -56,3 +56,6 @@ make device DEVICE=<devicectl id>
 ```
 
 Then Settings > General > Keyboard > Keyboards > Add New Keyboard > Totem, and Allow Full Access.
+
+CI (`../.github/workflows/kanata-ios.yml`) runs the same from the repo root through
+`JakobMelchard/.github` xcode.yml with `working-directory: kanata-ios`.

@@ -1,7 +1,7 @@
 # Keymap
 
 This page is the one hand-written layer and thumb reference. Source of truth
-is [`config/totem.keymap`](https://github.com/lilfeelz/zmk/blob/main/config/totem.keymap);
+is [`config/totem.keymap`](https://github.com/lilfeelz/keyboard/blob/main/zmk/config/totem.keymap);
 if this page and the keymap disagree, the keymap wins. The diagram below is
 generated from the keymap by keymap-drawer on every docs deploy.
 

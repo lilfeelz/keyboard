@@ -72,7 +72,7 @@ west build -b xiao_ble//zmk -d build/left -s zmk/app -- -DSHIELD=totem_left
 west build -b xiao_ble//zmk -d build/right -s zmk/app -- -DSHIELD=totem_right
 ```
 
-CI builds via `.github/workflows/build.yml`. Parse without errors means the
+CI builds via `../.github/workflows/zmk-build.yml`. Parse without errors means the
 keymap is valid.
 
 ## Docs preview
@@ -83,7 +83,7 @@ npx honkit serve          # http://localhost:4000
 ```
 
 Docs deploy on push to `main` touching `docs/**` or `book.json`
-(`.github/workflows/docs.yml`). The keymap SVG is generated in CI by
+(`../.github/workflows/zmk-docs.yml`). The keymap SVG is generated in CI by
 keymap-drawer. To regenerate it locally into the docs tree:
 
 ```sh

@@ -30,26 +30,21 @@ Firmware `.uf2` files land in `build/<side>/zephyr/zmk.uf2`. Flash by copying to
 
 ## CI Build
 
-`.github/workflows/build.yml` triggers on:
-- Push to `main` touching `config/**`, `boards/**`, `build.yaml`, `zephyr/**`
-- PRs targeting `main` with same path filters
+`../.github/workflows/zmk-build.yml` (repo root) triggers on:
+- Push to `main` touching `zmk/config/**`, `zmk/boards/**`, `zmk/build.yaml`, `zmk/zephyr/**`
+- PRs with same path filters
 - Manual trigger via `workflow_dispatch`
 
-Uses `zmkfirmware/zmk/.github/workflows/build-user-config.yml@main` — the official ZMK build action.
+Same steps as `zmkfirmware/zmk/.github/workflows/build-user-config.yml` (the official ZMK build
+action), run inside `zmk/`: that workflow's `config_path` cannot point below the repo root, since
+west makes the config's parent its workspace and the workflow then runs from the repo root.
 
 ## CI Docs
 
-`.github/workflows/docs.yml`:
+`../.github/workflows/zmk-docs.yml`:
 - Generates `keymap.svg` via `keymap-drawer` with `keymap_drawer.config.yaml` for symbol rendering
 - Builds honkit documentation site from `docs/` directory
-- Deploys to GH Pages via `peaceiris/actions-gh-pages`
-
-## CI Release
-
-`.github/workflows/release.yml`:
-- Runs only after successful build
-- Creates automated releases via `release-please`
-- Tags firmware versions
+- Deploys to GH Pages via `peaceiris/actions-gh-pages` (https://lilfeelz.github.io/keyboard/)
 
 ## West Manifest
 
