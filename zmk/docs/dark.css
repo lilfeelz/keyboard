@@ -1,0 +1,32 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: #1a1a1a;
+  color: #d4d4d4;
+}
+
+.book-summary {
+  background: #111;
+  color: #ccc;
+}
+
+.book-summary ul.summary li a {
+  color: #aaa;
+}
+
+.book-body .page-wrapper .page-inner {
+  background: #1a1a1a;
+}
+
+.book-body .page-wrapper .page-inner section {
+  color: #d4d4d4;
+}
+
+pre, code {
+  background: #2d2d2d;
+  color: #ccc;
+}
+
+a { color: #7aadff; }

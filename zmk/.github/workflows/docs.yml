@@ -1,0 +1,45 @@
+on:
+  push:
+    branches: [main]
+    paths:
+      - docs/**
+      - book.json
+      - package.json
+      - keymap_drawer.config.yaml
+      - index.html
+      - config/totem.keymap
+      - .github/workflows/docs.yml
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate keymap SVG
+        run: |
+          pip install keymap-drawer
+          mkdir -p docs/totem/images
+          keymap -c keymap_drawer.config.yaml parse -z config/totem.keymap -o /tmp/keymap.yaml
+          keymap -c keymap_drawer.config.yaml draw /tmp/keymap.yaml -o docs/totem/images/keymap.svg
+
+      - run: npx --yes honkit build ./docs ./temp
+
+      - run: mv docs/temp site
+
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          force_orphan: true
