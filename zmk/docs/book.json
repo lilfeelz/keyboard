@@ -1,0 +1,6 @@
+{
+  "title": "lilfeelz keyboard",
+  "plugins": ["-fontsettings", "-sharing"],
+  "styles": { "website": "dark.css" },
+  "links": { "sidebar": { "GitHub": "https://github.com/lilfeelz/keyboard" } }
+}
