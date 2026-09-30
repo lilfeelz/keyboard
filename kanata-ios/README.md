@@ -40,8 +40,10 @@ A keyboard extension can insert text, delete backward and move the cursor. So:
 * `M-z` / `M-S-z` undo and redo this keyboard's own edits (typing by word, deletes, swipes,
   cursor moves); the host app's undo stack is out of reach. In terminal mode `M-z` sends `^_`.
 * the `>_` key switches to terminal mode: `C-x`, `A-x`, esc, arrows, F1-F12 go out as control
-  codes and xterm sequences (Blink, SSH apps)
-* other Cmd shortcuts, selection (`S-`arrows), media keys: impossible, drawn dimmed. iOS
+  codes and xterm sequences (Blink, SSH apps). Other Cmd chords go out as kitty keyboard
+  protocol sequences with the super bit (`M-p` is `ESC[112;9u`, `M-left` `ESC[1;9D`), which
+  attach (JakobMelchard/attach) takes as its own hotkeys
+* in text mode, other Cmd shortcuts, selection (`S-`arrows), media keys: impossible, drawn dimmed. iOS
   gives keyboards no selection API and no way to reach the app's commands (select all, save,
   find). In the bundled config the nav layer's ⌘A ⌘S ⌘D ⌘F slots are sticky ⇧ ⌥ ⌃ ⌘ (tap, then the next
   key gets it; with the arrows that is word and line jumps), `M-g` is `rpt`, the esc thumb hides

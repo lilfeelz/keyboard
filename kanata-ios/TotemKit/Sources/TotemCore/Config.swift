@@ -54,8 +54,10 @@ public struct Config: Sendable, Equatable {
     layers.firstIndex { $0.name == name }
   }
 
-  public static func parse(_ text: String) throws -> Config {
+  /// `vars` replace the config's own `defvar` values of the same name.
+  public static func parse(_ text: String, vars: [String: String] = [:]) throws -> Config {
     var p = ConfigParser()
+    p.overrides = try vars.compactMapValues { try Reader.read($0).first }
     return try p.parse(Reader.read(text))
   }
 
@@ -70,6 +72,7 @@ public struct Config: Sendable, Equatable {
 
 private struct ConfigParser {
   var vars: [String: SExpr] = [:]
+  var overrides: [String: SExpr] = [:]
   var aliasExprs: [String: SExpr] = [:]
   var aliasCache: [String: Action] = [:]
   var resolving: [String] = []
@@ -92,7 +95,7 @@ private struct ConfigParser {
       case "defcfg":
         try parseCfg(args, into: &options, at: f.pos)
       case "defvar":
-        try pairs(args, at: f.pos) { k, v in vars[k] = try subst(v) }
+        try pairs(args, at: f.pos) { k, v in vars[k] = try overrides[k] ?? subst(v) }
       case "defalias":
         try pairs(args, at: f.pos) { k, v in aliasExprs[k] = v }
       case "defsrc":
