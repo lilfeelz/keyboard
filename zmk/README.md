@@ -1,6 +1,6 @@
-[![Build](https://github.com/lilfeelz/zmk/actions/workflows/build.yml/badge.svg)](https://github.com/lilfeelz/zmk/actions/workflows/build.yml)
-[![Docs](https://github.com/lilfeelz/zmk/actions/workflows/docs.yml/badge.svg)](https://lilfeelz.github.io/zmk/)
-[![GH Pages](https://img.shields.io/badge/docs-lilfeelz.github.io/zmk-9ee7ff?logo=github&labelColor=0b0d10)](https://lilfeelz.github.io/zmk/)
+[![Build](https://github.com/lilfeelz/keyboard/actions/workflows/zmk-build.yml/badge.svg)](https://github.com/lilfeelz/keyboard/actions/workflows/zmk-build.yml)
+[![Docs](https://github.com/lilfeelz/keyboard/actions/workflows/zmk-docs.yml/badge.svg)](https://lilfeelz.github.io/keyboard/)
+[![GH Pages](https://img.shields.io/badge/docs-lilfeelz.github.io/keyboard-9ee7ff?logo=github&labelColor=0b0d10)](https://lilfeelz.github.io/keyboard/)
 
 # TOTEM ZMK Configuration
 
@@ -71,7 +71,7 @@ with 19 of its 20 positions used.
 
 Four layers (BASE, NAV, SYM, FUN). The layer table, thumb bindings and combos live in one place:
 [`docs/totem/keymap.md`](docs/totem/keymap.md) (published at
-[lilfeelz.github.io/zmk](https://lilfeelz.github.io/zmk/totem/keymap.html)).
+[lilfeelz.github.io/keyboard](https://lilfeelz.github.io/keyboard/totem/keymap.html)).
 
 ## Key Features
 
@@ -92,9 +92,10 @@ Four layers (BASE, NAV, SYM, FUN). The layer table, thumb bindings and combos li
 
 ## CI/CD
 
-- **build.yml**: Builds firmware on push/PR touching `config/**` or `boards/**`
-- **docs.yml**: Generates keymap SVG + honkit docs site, deploys to GH Pages
-- **release.yml**: Release-Please on successful build (tag + release notes)
+Workflows live at the repo root (`../.github/workflows/`):
+
+- **zmk-build.yml**: Builds firmware on push/PR touching `zmk/config/**` or `zmk/boards/**`
+- **zmk-docs.yml**: Generates keymap SVG + honkit docs site, deploys to GH Pages
 
 ## Structure
 
@@ -105,7 +106,6 @@ zmk/
 │   ├── totem.conf            # Board config (sleep, BT, idle)
 │   ├── west.yml              # West manifest (ZMK revision: main — FLOATING)
 │   └── boards/shields/totem/ # Shield definition (dtsi, overlay, Kconfig)
-├── .github/workflows/        # 3 workflows: build, docs, release
 ├── docs/                     # Honkit documentation site
 ├── keymap_drawer.config.yaml # SVG rendering config
 └── .agents/                  # Agent rules for this repo
