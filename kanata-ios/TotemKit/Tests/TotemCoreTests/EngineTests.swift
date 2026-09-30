@@ -66,7 +66,7 @@ final class Harness {
   @Test func defaultConfigParses() throws {
     let c = Config.default
     #expect(c.layers.map(\.name) == ["base", "left", "right", "fun"])
-    #expect(c.keys.count == 41)
+    #expect(c.keys.count == 43)
     #expect(c.rows == 4)
     #expect(c.chords.count == 2)
     #expect(c.warnings.isEmpty)
@@ -358,8 +358,8 @@ final class Harness {
   @Test func escTapAndShiftedDoubleEsc() {
     let h = Harness()
     h.engine.mode = .terminal
-    h.tap("fn")
-    h.type("lsft", "fn")
+    h.tap("esc")
+    h.type("lsft", "esc")
     #expect(h.typed == "\u{1b}\u{1b}\u{1b}")
   }
 
@@ -421,11 +421,29 @@ final class Harness {
     #expect(h.outputs == [.system(.nextKeyboard)])
   }
 
-  @Test func escIsEscInTerminalMode() {
+  @Test func globeIsStickyCtrlInTerminalMode() {
     let h = Harness()
     h.engine.mode = .terminal
-    h.tap("fn")
+    h.type("fn", "c")
+    #expect(h.typed == "\u{3}")
+  }
+
+  @Test func cornersAreEscAndDeleteWord() {
+    let h = Harness()
+    h.engine.mode = .terminal
+    h.tap("esc")
     #expect(h.typed == "\u{1b}")
+    h.outputs = []
+    h.tap("bspr")
+    #expect(h.outputs == [.stroke(Key("bspc"), .alt)])
+  }
+
+  @Test func wHasNoHold() {
+    let h = Harness()
+    h.down("w")
+    h.wait(400)
+    h.up("w")
+    #expect(h.typed == "w")
   }
 
   @Test func stickyModsOnNav() {
@@ -452,7 +470,7 @@ final class Harness {
     let globe = c.keys.firstIndex { $0.name == "fn" }!
     let a = c.layers[0].actions[globe]
     #expect(KeyCap.of(a, shifted: false, mode: .text).symbol == "globe")
-    #expect(KeyCap.of(a, shifted: false, mode: .terminal).main == "esc")
+    #expect(KeyCap.of(a, shifted: false, mode: .terminal).main == "⌃")
   }
 }
 

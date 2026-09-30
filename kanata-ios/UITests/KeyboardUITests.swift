@@ -65,6 +65,23 @@ final class KeyboardUITests: XCTestCase {
     XCTAssertEqual(app.staticTexts["mode"].label, "terminal")
     key("esc").tap()
     XCTAssertEqual(buffer, "h11q^[▏")
+
+    // the globe spot is a sticky ctrl in terminal mode
+    let ctrl = point("⌃")
+    let c = point("c")
+    ctrl.tap()
+    c.tap()
+    XCTAssertEqual(buffer, "h11q^[^C▏")
+  }
+
+  func testTopRightDeletesAWord() {
+    for k in ["a", "b", "spc", "c", "d"] {
+      k == "spc"
+        ? app.coordinate(withNormalizedOffset: .zero).withOffset(spaceCentre).tap() : key(k).tap()
+    }
+    XCTAssertEqual(buffer, "ab cd▏")
+    key("⌥⌫").tap()
+    XCTAssertEqual(buffer, "ab ▏")
   }
 
   func drag(_ label: String, dx: CGFloat, dy: CGFloat = 0) {
@@ -97,10 +114,10 @@ final class KeyboardUITests: XCTestCase {
     XCTAssertEqual(buffer, "abc\nde▏")
   }
 
-  /// The space bar has no label; it sits between the nav and sym keys.
+  /// The space bar has no label; its left half sits between the nav key and the backspace.
   var spaceCentre: CGVector {
     let l = key("left").frame
-    let r = key("right").frame
+    let r = key("⌫").frame
     return CGVector(dx: (l.maxX + r.minX) / 2, dy: l.midY)
   }
 
