@@ -1,0 +1,112 @@
+name: zmk-build
+
+# The upstream reusable workflow (zmkfirmware/zmk build-user-config.yml) takes a config_path,
+# but west makes the parent of that directory its workspace and the workflow then runs
+# `west update` and `west build -s zmk/app` from the repo root, outside it. With the config
+# in zmk/config that fails, so this is the same sequence run inside zmk/.
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - zmk/config/**
+      - zmk/boards/**
+      - zmk/build.yaml
+      - zmk/zephyr/**
+      - .github/workflows/zmk-build.yml
+  pull_request:
+    paths:
+      - zmk/config/**
+      - zmk/boards/**
+      - zmk/build.yaml
+      - zmk/zephyr/**
+      - .github/workflows/zmk-build.yml
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      build_matrix: ${{ steps.fetch.outputs.build_matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - id: fetch
+        run: echo "build_matrix=$(yq -oj -I0 zmk/build.yaml)" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: matrix
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.matrix.outputs.build_matrix) }}
+    name: build (${{ matrix.shield }})
+    env:
+      # An isolated workspace, as upstream does when the config repo is also a zephyr
+      # module: west clones zmk and zephyr next to the config, and zmk/zephyr/module.yml
+      # would collide with the zephyr checkout.
+      base: ${{ runner.temp }}/zmk-config
+      board: ${{ matrix.board }}
+      shield: ${{ matrix.shield }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+
+      - name: copy config
+        run: |
+          mkdir -p "$base"
+          cp -R zmk/config "$base/config"
+          echo "zephyr_version=${ZEPHYR_VERSION}" >> "$GITHUB_ENV"
+
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        continue-on-error: true
+        with:
+          path: |
+            ${{ env.base }}/modules/
+            ${{ env.base }}/tools/
+            ${{ env.base }}/zephyr/
+            ${{ env.base }}/bootloader/
+            ${{ env.base }}/zmk/
+          key: ${{ runner.os }}-build-cache-zephyr-${{ env.zephyr_version }}-modules-${{ hashFiles('zmk/config/west.yml', 'zmk/build.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-cache-zephyr-${{ env.zephyr_version }}-modules-
+
+      - name: west init
+        working-directory: ${{ env.base }}
+        run: west init -l config
+
+      - name: west update
+        working-directory: ${{ env.base }}
+        run: west update --fetch-opt=--filter=tree:0
+
+      - name: west zephyr-export
+        working-directory: ${{ env.base }}
+        run: west zephyr-export
+
+      - name: west build
+        working-directory: ${{ env.base }}
+        run: |
+          west build -s zmk/app -d build -b "$board" -- \
+            -DZMK_CONFIG="$base/config" -DSHIELD="$shield" \
+            -DZMK_EXTRA_MODULES="$GITHUB_WORKSPACE/zmk"
+
+      - name: collect firmware
+        run: |
+          mkdir -p artifacts
+          name="${shield}-${board//\//_}-zmk"
+          echo "artifact_name=$name" >> "$GITHUB_ENV"
+          cp "$base/build/zephyr/zmk.uf2" "artifacts/$name.uf2"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ env.artifact_name }}
+          path: artifacts/

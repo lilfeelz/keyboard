@@ -1,0 +1,17 @@
+name: hooks
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  prek:
+    uses: JakobMelchard/.github/.github/workflows/hooks.yml@main
+    with:
+      # swift-format is linted on macOS by the kanata-ios workflow
+      skip: swift-format
