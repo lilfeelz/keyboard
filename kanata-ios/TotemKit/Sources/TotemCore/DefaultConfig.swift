@@ -17,9 +17,11 @@ extension Config {
     ;;   * the `term` key switches to terminal mode, where C-x, A-x, esc,
     ;;     arrows and f1-f12 send control codes and escape sequences
     ;;     (Blink, SSH apps)
-    ;;   * other Cmd chords, selection (S-arrows) and media keys draw dimmed;
-    ;;     iOS gives keyboards no way to send them. The kanata slots that
-    ;;     held ⌘A ⌘S ⌘D ⌘F ⌘G carry sticky modifiers and rpt here.
+    ;;   * in terminal mode other Cmd chords go out as kitty CSI u sequences
+    ;;     (attach takes them as hotkeys); in text mode they, selection
+    ;;     (S-arrows) and media keys draw dimmed: iOS gives keyboards no way
+    ;;     to send them. The kanata slots that held ⌘A ⌘S ⌘D ⌘F ⌘G carry
+    ;;     sticky modifiers and rpt here.
     ;;
     ;; Extra actions: nextkbd (globe), dismiss, term, copy, cut, paste,
     ;; (text "..."), (swipe-cursor a) and (swipe-delete a): `a` on tap and
@@ -44,10 +46,10 @@ extension Config {
     )
 
     (defsrc
-      bspc  q    w    e    r    t  y    u    i    o    p    bspr
+      esc   q    w    e    r    t  y    u    i    o    p    bspr
       tab   a    s    d    f    g  h    j    k    l    ;    ret
       lsft  z    x    c    v    b  n    m    ,    .    /    rsft
-      fn    lmet:2    spc:6                             rmet:2    menu
+      fn    lmet:2    spc:2     bspc:2    spcr:2          rmet:2    menu
     )
 
     (defalias
@@ -101,8 +103,9 @@ extension Config {
 
 
       esc (fork esc (macro esc esc) (lsft rsft))
-      ;; globe: switches keyboard, esc in terminal mode
-      glb (switch ((mode terminal)) @esc break () nextkbd break)
+      ;; globe: switches keyboard, sticky ctrl in terminal mode (esc has its
+      ;; own key top left)
+      glb (switch ((mode terminal)) (one-shot-press $one-shot-time lctl) break () nextkbd break)
     )
 
     (defalias
@@ -121,12 +124,11 @@ extension Config {
       ae  (tap-hold $tap-time $alt-time a (text "ä"))
       oe  (tap-hold $tap-time $alt-time o (text "ö"))
       ue  (tap-hold $tap-time $alt-time u (text "ü"))
-      ;; z x c v give undo, cut, copy, paste; w deletes a word back
+      ;; z x c v give undo, cut, copy, paste (delete word is top right)
       zh  (tap-hold $tap-time $alt-time z @und)
       xh  (tap-hold $tap-time $alt-time x @cut)
       ch  (tap-hold $tap-time $alt-time c @cpy)
       vh  (tap-hold $tap-time $alt-time v @pst)
-      wh  (tap-hold $tap-time $alt-time w @bwd)
       ;; home row: hold s d f for sticky ⌥ ⌃ ⌘, mirrored on l k j; ⌥s is ß
       ;; (as on a Mac)
       ms  (tap-hold $tap-time $alt-time s (one-shot-press $one-shot-time lalt))
@@ -171,24 +173,24 @@ extension Config {
     )
 
     (deflayer base
-      @bs   q    @wh  @eu  r    t         y    @ue  i    @oe  p    @bs
+      @esc  q    w    @eu  r    t         y    @ue  i    @oe  p    @bwd
       @tbf  @ae  @ms  @md  @mf  g         h    @mj  @mk  @ml  @/q  @rtf
       @oss  @zh  @xh  @ch  @vh  b         n    m    @,h  @.h  @-x  @oss
-      @glb  @nav      @sp                                 @sym      term
+      @glb  @nav      @sp       @bs       @sp                 @sym      term
     )
 
     (deflayer left
       _     1    2    3    4    5         6    7    8    9    0    _
       _     @osa @osl @osc @osm rpt       left down up   rght @tab _
       _     @und @cut @cpy @pst @rdo      home pgdn pgup end  @stb _
-      _     @bse      _                                   @ssr      _
+      _     @bse      _         _         _                   @ssr      _
     )
 
     (deflayer right
       _     @!   @@   @#   @$   @%        @^   @&   @*   @+   S-/  _
       _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
       _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
-      _     @ssl      _                                   @bse      _
+      _     @ssl      _         _         _                   @bse      _
     )
 
     ;; fun: bluetooth has no meaning here, those keys stay empty
@@ -196,7 +198,7 @@ extension Config {
       _     f1   f2   f3   f4   f5        f6   f7   f8   f9   f10  _
       _     XX   dismiss brdn brup f11    f12  vold volu mute XX   _
       XX    XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX
-      _     XX        _                                   XX        _
+      _     XX        _         _         _                   XX        _
     )
     """#
 }
