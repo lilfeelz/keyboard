@@ -54,7 +54,7 @@ jobs:
       # An isolated workspace, as upstream does when the config repo is also a zephyr
       # module: west clones zmk and zephyr next to the config, and zmk/zephyr/module.yml
       # would collide with the zephyr checkout.
-      base: ${{ runner.temp }}/zmk-config
+      base: /tmp/zmk-config
       board: ${{ matrix.board }}
       shield: ${{ matrix.shield }}
     steps:
@@ -71,11 +71,11 @@ jobs:
         continue-on-error: true
         with:
           path: |
-            ${{ env.base }}/modules/
-            ${{ env.base }}/tools/
-            ${{ env.base }}/zephyr/
-            ${{ env.base }}/bootloader/
-            ${{ env.base }}/zmk/
+            /tmp/zmk-config/modules/
+            /tmp/zmk-config/tools/
+            /tmp/zmk-config/zephyr/
+            /tmp/zmk-config/bootloader/
+            /tmp/zmk-config/zmk/
           key: ${{ runner.os }}-build-cache-zephyr-${{ env.zephyr_version }}-modules-${{ hashFiles('zmk/config/west.yml', 'zmk/build.yaml') }}
           restore-keys: |
             ${{ runner.os }}-build-cache-zephyr-${{ env.zephyr_version }}-modules-
