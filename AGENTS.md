@@ -1,11 +1,12 @@
 # ZMK — TOTEM Firmware
 
-ZMK user config for TOTEM 36-key split keyboard. Seeed XIAO BLE (nRF52840).
+ZMK user config for TOTEM 38-key split keyboard. Seeed XIAO BLE (nRF52840).
 
 Edit `config/totem.keymap`; the root keymap overrides the shield built-in.
-Matrix: rows 0-1 have 10 columns, row 2 has 12 (extra pinky flanking), row 3
-has 6 (thumbs). Hold-tap defaults live in the `&mt {};` block, custom behaviors
-in `/behaviors {};`.
+Matrix: 38 keys. Rows 0-1 have 10 columns, row 2 has 12 (extra pinky
+flanking), row 3 has 6 (thumbs). The flanking pinkies (positions 20 and 31) are
+wired on electrical row 3, `RC(3,0)` and `RC(3,9)`. Hold-tap defaults live in
+the `&mt {};` block, custom behaviors in `/behaviors {};`.
 
 ## Structure
 
@@ -33,9 +34,9 @@ repeat the table here.
 ### Hold-taps
 
 - `mt_left` (balanced, 250ms, hold-trigger-on-release, require-prior-idle=100)
-  - Trigger positions (22): right-hand keys at RC(0,5..9), RC(1,5..9), RC(2,5..9), RC(3,5..7)
+  - Trigger positions (22): right hand 5-9, 15-19, 26-31 and all six thumbs 32-37
 - `mt_right` (balanced, 250ms, hold-trigger-on-release, require-prior-idle=100)
-  - Trigger positions (22): left-hand keys at RC(0,0..4), RC(1,0..4), RC(2,0..4), RC(3,0..4), RC(2,12-13)
+  - Trigger positions (22): left hand 0-4, 10-14, 20-25 and all six thumbs 32-37
 - `lt_caps` (150ms tap): `&lt` on hold, caps-word on tap
 - `sk_mo` (150ms tap): `&mo` on hold, `&sk` on tap
 
@@ -43,11 +44,15 @@ repeat the table here.
 
 `comma_semicolon`, `period_colon`, `cmd_tab` (TAB→F21 with GUI), `cmd_stb` (LS(TAB)→F22 with GUI), `bwd_dwd`, `caps` (caps_word→CAPSLOCK with shift).
 
-### Combos (5)
+### Combos (2)
 
-See `docs/totem/keymap.md#combos`.
+`enter` (16 17) and `bs_df` (12 13), both BASE only. See
+`docs/totem/keymap.md#combos`.
 
-## Macros (7)
+## Macros (7, all unbound)
+
+Defined but referenced by no key or combo since the NAV yank combos were
+removed.
 
 Typing: leq, geq, left_arrow, right_arrow, colon_equals
 Vim: yank_inner_word (esc y i w i), yank_line (esc V Y I)
@@ -63,8 +68,8 @@ python3 -m venv /tmp/kv && /tmp/kv/bin/pip install keymap-drawer
 ## Build (needs ZMK SDK)
 
 ```sh
-west build -b xiao_ble -d build/left -s zmk/app -- -DSHIELD=totem_left
-west build -b xiao_ble -d build/right -s zmk/app -- -DSHIELD=totem_right
+west build -b xiao_ble//zmk -d build/left -s zmk/app -- -DSHIELD=totem_left
+west build -b xiao_ble//zmk -d build/right -s zmk/app -- -DSHIELD=totem_right
 ```
 
 CI builds via `.github/workflows/build.yml`. Parse without errors means the
