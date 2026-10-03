@@ -65,7 +65,7 @@ final class Harness {
 @Suite struct ParseTests {
   @Test func defaultConfigParses() throws {
     let c = Config.default
-    #expect(c.layers.map(\.name) == ["base", "left", "right", "fun"])
+    #expect(c.layers.map(\.name) == ["base", "left", "right", "emoji", "fun"])
     #expect(c.keys.count == 43)
     #expect(c.rows == 4)
     #expect(c.chords.count == 2)
@@ -436,6 +436,19 @@ final class Harness {
     h.outputs = []
     h.tap("bspr")
     #expect(h.outputs == [.stroke(Key("bspc"), .alt)])
+  }
+
+  @Test func topLeftOpensEmojiLayerInTextMode() {
+    let h = Harness()
+    h.type("esc", "q", "w", "esc", "q")
+    #expect(h.typed == "😀😂q")
+  }
+
+  @Test func topLeftCapFollowsMode() {
+    let c = Config.default
+    let a = c.layers[0].actions[c.keys.firstIndex { $0.name == "esc" }!]
+    #expect(KeyCap.of(a, shifted: false, mode: .text).main == "emoji")
+    #expect(KeyCap.of(a, shifted: false, mode: .terminal).main == "esc")
   }
 
   @Test func wHasNoHold() {

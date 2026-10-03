@@ -17,6 +17,9 @@ extension Config {
     ;;   * the `term` key switches to terminal mode, where C-x, A-x, esc,
     ;;     arrows and f1-f12 send control codes and escape sequences
     ;;     (Blink, SSH apps)
+    ;;   * the top left key is esc in terminal mode and opens the emoji layer
+    ;;     in text mode: a keyboard can only cycle to the next keyboard
+    ;;     (globe) or show the globe's list, never pick the emoji keyboard
     ;;   * in terminal mode other Cmd chords go out as kitty CSI u sequences
     ;;     (attach takes them as hotkeys); in text mode they, selection
     ;;     (S-arrows) and media keys draw dimmed: iOS gives keyboards no way
@@ -102,7 +105,13 @@ extension Config {
       )
 
 
-      esc (fork esc (macro esc esc) (lsft rsft))
+      ;; top left: esc in terminal mode (shift sends two), the emoji layer in
+      ;; text mode (iOS lets a keyboard open no other keyboard, so no system
+      ;; emoji picker); its top left key goes back
+      esc (switch
+        ((mode terminal)) (fork esc (macro esc esc) (lsft rsft)) break
+        () (layer-switch emoji) break
+      )
       ;; globe: switches keyboard, sticky ctrl in terminal mode (esc has its
       ;; own key top left)
       glb (switch ((mode terminal)) (one-shot-press $one-shot-time lctl) break () nextkbd break)
@@ -191,6 +200,13 @@ extension Config {
       _     @\   @{   [    ]    @}        @=   @`m  @''c @'a  @~h  _
       _     @|   @<   @pl  @pr  @>        @la  @leq @geq @ra  @ceq _
       _     @ssl      _         _         _                   @bse      _
+    )
+
+    (deflayer emoji
+      @bse  (text "😀") (text "😂") (text "🥲") (text "😊") (text "😍")  (text "😘") (text "😎") (text "🤔") (text "😅") (text "😭") _
+      _     (text "👍") (text "👎") (text "👏") (text "🙏") (text "💪")  (text "👀") (text "🤷") (text "🤦") (text "🙌") (text "👋") _
+      _     (text "❤️") (text "🔥") (text "✨") (text "🎉") (text "💯")  (text "✅") (text "❌") (text "⚠️") (text "🚀") (text "☕") _
+      _     _         _         _         _                   _         _
     )
 
     ;; fun: bluetooth has no meaning here, those keys stay empty

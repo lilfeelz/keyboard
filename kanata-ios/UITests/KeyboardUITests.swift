@@ -60,18 +60,26 @@ final class KeyboardUITests: XCTestCase {
     q.tap()
     XCTAssertEqual(buffer, "h11q▏")
 
+    // text mode: the top left key opens the emoji layer, its top left key goes back
+    key("emoji").tap()
+    XCTAssertEqual(app.staticTexts["layer"].label, "emoji")
+    key("😀").tap()
+    key("base").tap()
+    XCTAssertEqual(app.staticTexts["layer"].label, "base")
+    XCTAssertEqual(buffer, "h11q😀▏")
+
     // terminal mode: esc goes out as ESC
     key(">_").tap()
     XCTAssertEqual(app.staticTexts["mode"].label, "terminal")
     key("esc").tap()
-    XCTAssertEqual(buffer, "h11q^[▏")
+    XCTAssertEqual(buffer, "h11q😀^[▏")
 
     // the globe spot is a sticky ctrl in terminal mode
     let ctrl = point("⌃")
     let c = point("c")
     ctrl.tap()
     c.tap()
-    XCTAssertEqual(buffer, "h11q^[^C▏")
+    XCTAssertEqual(buffer, "h11q😀^[^C▏")
   }
 
   func testTopRightDeletesAWord() {
