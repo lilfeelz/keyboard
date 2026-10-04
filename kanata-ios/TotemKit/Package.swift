@@ -12,5 +12,6 @@ let package = Package(
     .target(name: "TotemCore"),
     .target(name: "TotemUI", dependencies: ["TotemCore"]),
     .testTarget(name: "TotemCoreTests", dependencies: ["TotemCore"]),
+    .testTarget(name: "TotemUITests", dependencies: ["TotemUI"]),
   ]
 )

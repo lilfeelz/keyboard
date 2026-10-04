@@ -5,7 +5,15 @@ import TotemCore
 /// keyboard can read it. The keyboard only sees the group with Full Access;
 /// without it, it runs the bundled default.
 public enum ConfigStore {
-  public static let appGroup = "group.dev.feelz.totem"
+  public static let appGroup = group(for: Bundle.main.bundleIdentifier ?? "dev.feelz.totem")
+
+  /// The group is "group." plus the app's bundle id. SideStore appends ".<team id>" to both
+  /// (dev.feelz.totem.TEAM, group.dev.feelz.totem.TEAM); the keyboard is the app's id + ".keyboard".
+  static func group(for bundleID: String) -> String {
+    let app =
+      bundleID.hasSuffix(".keyboard") ? String(bundleID.dropLast(".keyboard".count)) : bundleID
+    return "group." + app
+  }
 
   public static var url: URL? {
     FileManager.default
