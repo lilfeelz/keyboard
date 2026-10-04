@@ -76,9 +76,12 @@ private struct ConfigParser {
   var heights: [String: Int] = [:]
   var overrides: [String: SExpr] = [:]
   var aliasExprs: [String: SExpr] = [:]
-  var aliasCache: [String: Action] = [:]
+  /// Each resolved alias with the number of levels its action nests.
+  var aliasCache: [String: (action: Action, height: Int)] = [:]
   var resolving: [String] = []
   var depth = 0
+  /// Deepest `depth` since the innermost alias began resolving; it gives that alias its height.
+  var deepest = 0
   var srcNames: [String: Int] = [:]
   var layerRefs: [(String, SourcePos)] = []
   var warnings: [String] = []
@@ -301,6 +304,7 @@ private struct ConfigParser {
     // Aliases and variables can stack actions deeper than the reader's own limit.
     depth += 1
     defer { depth -= 1 }
+    deepest = max(deepest, depth)
     guard depth <= Reader.maxDepth else {
       throw ConfigError("actions nested deeper than \(Reader.maxDepth)", at: e.pos)
     }
@@ -333,15 +337,25 @@ private struct ConfigParser {
   }
 
   mutating func alias(_ name: String, at p: SourcePos) throws -> Action {
-    if let a = aliasCache[name] { return a }
+    if let c = aliasCache[name] {
+      // A cached action is not parsed again, so its levels count here.
+      guard depth + c.height <= Reader.maxDepth else {
+        throw ConfigError("actions nested deeper than \(Reader.maxDepth)", at: p)
+      }
+      deepest = max(deepest, depth + c.height)
+      return c.action
+    }
     guard let e = aliasExprs[name] else { throw ConfigError("unknown alias @\(name)", at: p) }
     if resolving.contains(name) {
       throw ConfigError("alias cycle: \((resolving + [name]).joined(separator: " -> "))", at: p)
     }
     resolving.append(name)
     defer { resolving.removeLast() }
+    let outer = deepest
+    deepest = depth
     let a = try action(e)
-    aliasCache[name] = a
+    aliasCache[name] = (a, deepest - depth)
+    deepest = max(outer, deepest)
     return a
   }
 
@@ -462,6 +476,7 @@ private struct ConfigParser {
   mutating func conditionItem(_ e: SExpr) throws -> Condition {
     depth += 1
     defer { depth -= 1 }
+    deepest = max(deepest, depth)
     guard depth <= Reader.maxDepth else {
       throw ConfigError("conditions nested deeper than \(Reader.maxDepth)", at: e.pos)
     }

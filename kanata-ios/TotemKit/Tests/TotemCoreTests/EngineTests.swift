@@ -141,6 +141,20 @@ final class Harness {
     }
   }
 
+  @Test func aliasLadderThrows() {
+    // Each alias nests the one before it. Resolved in order, every step finds the last one
+    // cached, so the parser itself never goes deep while the action it builds does.
+    func wrap(_ s: String) -> String {
+      String(repeating: "(multi ", count: 20) + s + String(repeating: ")", count: 20)
+    }
+    let aliases = (1...200).map { "a\($0) \(wrap("@a\($0 - 1)"))" }.joined(separator: " ")
+    let keys = (0...200).map { "k\($0)" }.joined(separator: " ")
+    let layer = (0...200).map { "@a\($0)" }.joined(separator: " ")
+    #expect(throws: ConfigError.self) {
+      _ = try Config.parse("(defsrc \(keys)) (defalias a0 a \(aliases)) (deflayer x \(layer))")
+    }
+  }
+
   @Test func deepVariableChainThrows() {
     let chain = (1...10_000).map { "v\($0) (multi $v\($0 - 1))" }.joined(separator: " ")
     #expect(throws: ConfigError.self) {
