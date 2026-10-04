@@ -11,7 +11,8 @@ settings:
     SWIFT_VERSION: "6.0"
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: JY4PD9Q24B
-    MARKETING_VERSION: "0.1.0"
+    MARKETING_VERSION: "1.0"
+    # Placeholder: the SideStore release job sets it to main's commit count.
     CURRENT_PROJECT_VERSION: "1"
     TARGETED_DEVICE_FAMILY: "1,2"
     ENABLE_USER_SCRIPT_SANDBOXING: YES
@@ -37,6 +38,8 @@ targets:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: Totem
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UILaunchScreen: {}
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: true
@@ -69,6 +72,8 @@ targets:
       path: Keyboard/Info.plist
       properties:
         CFBundleDisplayName: Totem
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.keyboard-service
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
