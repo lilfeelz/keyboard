@@ -46,6 +46,11 @@ public indirect enum SExpr: Sendable, Equatable {
 }
 
 public enum Reader {
+  /// Lists (and, in the config parser, actions) nested deeper than this are an error, so a
+  /// pathological config cannot overflow the stack. A debug build's action parser overflows a
+  /// 512 KB thread stack at 60 to 80 levels; real configs nest less than ten.
+  static let maxDepth = 32
+
   public static func read(_ text: String) throws -> [SExpr] {
     var r = Scanner(Array(text))
     var out: [SExpr] = []
@@ -61,6 +66,7 @@ private struct Scanner {
   var i = 0
   var line = 1
   var col = 1
+  var depth = 0
 
   init(_ chars: [Character]) { self.chars = chars }
 
@@ -119,6 +125,11 @@ private struct Scanner {
     guard let c = peek() else { throw ConfigError("unexpected end of input", at: start) }
     switch c {
     case "(":
+      depth += 1
+      defer { depth -= 1 }
+      guard depth <= Reader.maxDepth else {
+        throw ConfigError("nested deeper than \(Reader.maxDepth)", at: start)
+      }
       advance()
       var items: [SExpr] = []
       while true {

@@ -4,14 +4,16 @@ import TotemUI
 import UIKit
 
 final class KeyboardViewController: UIInputViewController {
-  private var controller: KeyboardController!
-  private var height: NSLayoutConstraint!
+  // Both are set in viewDidLoad; a callback that arrives before it does nothing.
+  private var controller: KeyboardController?
+  private var height: NSLayoutConstraint?
 
   override func viewDidLoad() {
     super.viewDidLoad()
     let saved = UserDefaults.standard.string(forKey: "mode")
-    controller = KeyboardController(
+    let controller = KeyboardController(
       config: currentConfig(), mode: saved.map { $0 == "terminal" ? .terminal : .text })
+    self.controller = controller
     controller.perform = { [weak self] in self?.apply($0) }
     controller.context = { [weak self] in
       let p = self?.textDocumentProxy
@@ -34,28 +36,29 @@ final class KeyboardViewController: UIInputViewController {
       host.view.topAnchor.constraint(equalTo: view.topAnchor),
       host.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
     ])
-    height = view.heightAnchor.constraint(equalToConstant: keyboardHeight)
+    let height = view.heightAnchor.constraint(equalToConstant: keyboardHeight)
     height.priority = .init(999)
     height.isActive = true
+    self.height = height
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    controller.load(currentConfig())
-    controller.resetHistory()
-    height.constant = keyboardHeight
+    controller?.load(currentConfig())
+    controller?.resetHistory()
+    height?.constant = keyboardHeight
   }
 
   override func textDidChange(_ textInput: (any UITextInput)?) {
-    controller.contextChanged()
+    controller?.contextChanged()
   }
 
   override func selectionDidChange(_ textInput: (any UITextInput)?) {
-    controller.contextChanged()
+    controller?.contextChanged()
   }
 
   private var keyboardHeight: CGFloat {
-    let o = controller.config.options
+    let o = (controller?.config ?? .default).options
     return traitCollection.userInterfaceIdiom == .pad ? o.heightTablet : o.heightPhone
   }
 
