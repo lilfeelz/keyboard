@@ -271,6 +271,9 @@ struct SetupView: View {
           Text(
             "The >_ key switches to terminal mode: Ctrl and Alt chords, esc, arrows and F1 to F12 go out as control codes and escape sequences (Blink and other SSH apps)."
           )
+          Text(
+            "The top left key is esc in terminal mode and opens an emoji layer in text mode; its top left key goes back. iOS lets a keyboard open no other keyboard, so the system emoji picker stays behind the globe."
+          )
         }
         Section("What iOS does not allow") {
           Text(
