@@ -2,7 +2,6 @@ import Foundation
 import Observation
 import QuartzCore
 import TotemCore
-import os
 
 /// Glue between touches, the engine and whatever applies the edits: the
 /// keyboard extension's text proxy, or a string in the app's preview.
@@ -46,15 +45,11 @@ public final class KeyboardController {
     state = engine.state
   }
 
-  @ObservationIgnored private let log = Logger(subsystem: "dev.feelz.totem", category: "keys")
-
   public func press(_ key: Int) {
-    log.debug("down \(self.config.keys[key].name, privacy: .public) \(CACurrentMediaTime())")
     handle(engine.press(key, at: CACurrentMediaTime()))
   }
 
   public func release(_ key: Int) {
-    log.debug("up \(self.config.keys[key].name, privacy: .public) \(CACurrentMediaTime())")
     handle(engine.release(key, at: CACurrentMediaTime()))
   }
 
