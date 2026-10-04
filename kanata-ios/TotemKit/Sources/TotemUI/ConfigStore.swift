@@ -10,7 +10,8 @@ public enum ConfigStore {
   /// The group is "group." plus the app's bundle id. SideStore appends ".<team id>" to both
   /// (dev.feelz.totem.TEAM, group.dev.feelz.totem.TEAM); the keyboard is the app's id + ".keyboard".
   static func group(for bundleID: String) -> String {
-    let app = bundleID.hasSuffix(".keyboard") ? String(bundleID.dropLast(".keyboard".count)) : bundleID
+    let app =
+      bundleID.hasSuffix(".keyboard") ? String(bundleID.dropLast(".keyboard".count)) : bundleID
     return "group." + app
   }
 
