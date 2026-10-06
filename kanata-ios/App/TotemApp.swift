@@ -30,7 +30,7 @@ struct ContentView: View {
 /// app group, where the keyboard picks it up next time it appears.
 struct ConfigEditor: View {
   @State private var source = ConfigEditor.colored(ConfigStore.source() ?? Config.defaultSource)
-  @State private var saved = ConfigStore.source() ?? Config.defaultSource
+  @State private var saved = ConfigStore.Saved(ConfigStore.source() ?? Config.defaultSource)
   @State private var confirmReset = false
 
   private var text: String { String(source.characters) }
@@ -61,11 +61,8 @@ struct ConfigEditor: View {
           Button("Default") { confirmReset = true }
         }
         ToolbarItem(placement: .topBarTrailing) {
-          Button("Save") {
-            try? ConfigStore.save(text)
-            saved = text
-          }
-          .disabled(text == saved || (try? result.get()) == nil)
+          Button("Save") { saved.save(text) }
+            .disabled(text == saved.text || (try? result.get()) == nil)
         }
       }
       .confirmationDialog(
@@ -130,7 +127,10 @@ struct ConfigEditor: View {
         Text(String(describing: e)).foregroundStyle(Theme.red).lineLimit(3)
       }
       Spacer()
-      if text != saved { Text("unsaved").foregroundStyle(Theme.muted) }
+      if let e = saved.error {
+        Text("not saved: \(e)").foregroundStyle(Theme.red).lineLimit(2)
+      }
+      if text != saved.text { Text("unsaved").foregroundStyle(Theme.muted) }
     }
     .font(.system(size: 12, design: .monospaced))
     .padding(10)
@@ -230,7 +230,8 @@ struct Buffer {
         text.removeSubrange(start..<end)
       }
     case .deleteForward(let s):
-      let end = text.utf16.index(index, offsetBy: s.utf16.count)
+      let end =
+        text.utf16.index(index, offsetBy: s.utf16.count, limitedBy: text.endIndex) ?? text.endIndex
       text.removeSubrange(index..<end)
     case .move(let n):
       cursor = min(max(0, cursor + n), text.utf16.count)

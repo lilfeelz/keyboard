@@ -32,6 +32,25 @@ public enum ConfigStore {
     try text.write(to: url, atomically: true, encoding: .utf8)
   }
 
+  /// What the editor knows to be on disk, and why the last write failed. `text` only moves
+  /// when a write succeeds, so a failed save stays unsaved.
+  public struct Saved {
+    public var text: String
+    public var error: String?
+
+    public init(_ text: String) { self.text = text }
+
+    public mutating func save(_ new: String, write: (String) throws -> Void = ConfigStore.save) {
+      do {
+        try write(new)
+        text = new
+        error = nil
+      } catch {
+        self.error = "\(error)"
+      }
+    }
+  }
+
   public static func reset() {
     if let url { try? FileManager.default.removeItem(at: url) }
   }

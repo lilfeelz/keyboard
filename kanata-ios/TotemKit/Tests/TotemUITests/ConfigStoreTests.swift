@@ -1,4 +1,5 @@
 import Testing
+import TotemCore
 
 @testable import TotemUI
 
@@ -11,5 +12,15 @@ import Testing
   ])
   func groupFollowsAppBundleID(bundleID: String, group: String) {
     #expect(ConfigStore.group(for: bundleID) == group)
+  }
+
+  @Test func failedSaveStaysUnsaved() {
+    var s = ConfigStore.Saved("old")
+    s.save("new") { _ in throw ConfigError("disk full") }
+    #expect(s.text == "old")
+    #expect(s.error == "disk full")
+    s.save("new") { _ in }
+    #expect(s.text == "new")
+    #expect(s.error == nil)
   }
 }

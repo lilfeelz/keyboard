@@ -105,6 +105,78 @@ final class Harness {
     }
   }
 
+  @Test(arguments: [
+    "repeat-interval 0", "repeat-interval -50", "repeat-delay 0", "height-phone 0",
+    "height-tablet -1",
+  ])
+  func defcfgNumbersMustBePositive(cfg: String) {
+    #expect(throws: ConfigError.self) {
+      try Config.parse("(defcfg \(cfg)) (defsrc a) (deflayer x a)")
+    }
+  }
+
+  @Test func defcfgErrorNamesTheOption() {
+    #expect(
+      throws: ConfigError("repeat-interval must be 1 or more", at: SourcePos(line: 1, col: 25))
+    ) {
+      try Config.parse("(defcfg repeat-interval 0) (defsrc a) (deflayer x a)")
+    }
+  }
+
+  @Test func deepNestingThrows() {
+    let n = 100_000
+    #expect(throws: ConfigError.self) {
+      try Reader.read(String(repeating: "(", count: n) + String(repeating: ")", count: n))
+    }
+    let nested = String(repeating: "(multi ", count: n) + "a" + String(repeating: ")", count: n)
+    #expect(throws: ConfigError.self) {
+      try Config.parse("(defsrc a) (deflayer x \(nested))")
+    }
+  }
+
+  @Test func deepAliasChainThrows() {
+    let chain = (1...10_000).map { "a\($0) (multi @a\($0 - 1))" }.joined(separator: " ")
+    #expect(throws: ConfigError.self) {
+      try Config.parse("(defsrc a) (defalias a0 a \(chain)) (deflayer x @a10000)")
+    }
+  }
+
+  @Test func aliasLadderThrows() {
+    // Each alias nests the one before it. Resolved in order, every step finds the last one
+    // cached, so the parser itself never goes deep while the action it builds does.
+    func wrap(_ s: String) -> String {
+      String(repeating: "(multi ", count: 20) + s + String(repeating: ")", count: 20)
+    }
+    let aliases = (1...200).map { "a\($0) \(wrap("@a\($0 - 1)"))" }.joined(separator: " ")
+    let keys = (0...200).map { "k\($0)" }.joined(separator: " ")
+    let layer = (0...200).map { "@a\($0)" }.joined(separator: " ")
+    #expect(throws: ConfigError.self) {
+      _ = try Config.parse("(defsrc \(keys)) (defalias a0 a \(aliases)) (deflayer x \(layer))")
+    }
+  }
+
+  @Test func deepVariableChainThrows() {
+    let chain = (1...10_000).map { "v\($0) (multi $v\($0 - 1))" }.joined(separator: " ")
+    #expect(throws: ConfigError.self) {
+      try Config.parse("(defvar v0 a \(chain)) (defsrc a) (deflayer x $v10000)")
+    }
+    #expect(throws: ConfigError.self) {
+      try Config.parse("(defvar v0 a \(chain)) (defsrc a) (deflayer x a)")
+    }
+  }
+
+  @Test func nestingAtTheLimitParses() throws {
+    // deflayer is the first level, so 31 more lists reach the limit of 32.
+    func layer(_ n: Int) -> String {
+      let nested = String(repeating: "(multi ", count: n) + "a" + String(repeating: ")", count: n)
+      return "(defsrc a) (deflayer x \(nested))"
+    }
+    #expect(try Config.parse(layer(31)).layers[0].actions.count == 1)
+    #expect(throws: ConfigError("nested deeper than 32", at: SourcePos(line: 1, col: 241))) {
+      try Config.parse(layer(32))
+    }
+  }
+
   @Test func commentsAndStrings() throws {
     let c = try Config.parse(
       """

@@ -72,10 +72,16 @@ public struct Config: Sendable, Equatable {
 
 private struct ConfigParser {
   var vars: [String: SExpr] = [:]
+  /// List nesting of each variable's value; a chain of variables can outgrow the reader's limit.
+  var heights: [String: Int] = [:]
   var overrides: [String: SExpr] = [:]
   var aliasExprs: [String: SExpr] = [:]
-  var aliasCache: [String: Action] = [:]
+  /// Each resolved alias with the number of levels its action nests.
+  var aliasCache: [String: (action: Action, height: Int)] = [:]
   var resolving: [String] = []
+  var depth = 0
+  /// Deepest `depth` since the innermost alias began resolving; it gives that alias its height.
+  var deepest = 0
   var srcNames: [String: Int] = [:]
   var layerRefs: [(String, SourcePos)] = []
   var warnings: [String] = []
@@ -95,7 +101,14 @@ private struct ConfigParser {
       case "defcfg":
         try parseCfg(args, into: &options, at: f.pos)
       case "defvar":
-        try pairs(args, at: f.pos) { k, v in vars[k] = try overrides[k] ?? subst(v) }
+        try pairs(args, at: f.pos) { k, v in
+          let h = height(overrides[k] ?? v)
+          guard h <= Reader.maxDepth else {
+            throw ConfigError("variable \(k) nests deeper than \(Reader.maxDepth)", at: v.pos)
+          }
+          heights[k] = h
+          vars[k] = try overrides[k] ?? subst(v)
+        }
       case "defalias":
         try pairs(args, at: f.pos) { k, v in aliasExprs[k] = v }
       case "defsrc":
@@ -176,11 +189,11 @@ private struct ConfigParser {
     try pairs(args, at: pos) { k, v in
       let v = try subst(v)
       switch k {
-      case "repeat-delay": o.repeatDelay = try int(v)
-      case "repeat-interval": o.repeatInterval = try int(v)
+      case "repeat-delay": o.repeatDelay = try positive(k, v)
+      case "repeat-interval": o.repeatInterval = try positive(k, v)
       case "terminal-mode": o.terminal = v.atom == "yes"
-      case "height-phone": o.heightPhone = Double(try int(v))
-      case "height-tablet": o.heightTablet = Double(try int(v))
+      case "height-phone": o.heightPhone = Double(try positive(k, v))
+      case "height-tablet": o.heightTablet = Double(try positive(k, v))
       default: break  // kanata's own options mean nothing on a touch screen
       }
     }
@@ -264,14 +277,37 @@ private struct ConfigParser {
     }
   }
 
+  /// How deep `e` nests once its variables are replaced.
+  func height(_ e: SExpr) -> Int {
+    switch e {
+    case .atom(let s, _) where s.hasPrefix("$"): heights[String(s.dropFirst())] ?? 0
+    case .list(let items, _): 1 + (items.map(height).max() ?? 0)
+    default: 0
+    }
+  }
+
   func int(_ e: SExpr) throws -> Int {
     guard let s = e.atom, let n = Int(s) else { throw ConfigError("expected a number", at: e.pos) }
+    return n
+  }
+
+  /// A defcfg number. Zero or less would stall the engine's repeat loop or collapse the keyboard.
+  func positive(_ name: String, _ e: SExpr) throws -> Int {
+    let n = try int(e)
+    guard n > 0 else { throw ConfigError("\(name) must be 1 or more", at: e.pos) }
     return n
   }
 
   // MARK: - actions
 
   mutating func action(_ e: SExpr) throws -> Action {
+    // Aliases and variables can stack actions deeper than the reader's own limit.
+    depth += 1
+    defer { depth -= 1 }
+    deepest = max(deepest, depth)
+    guard depth <= Reader.maxDepth else {
+      throw ConfigError("actions nested deeper than \(Reader.maxDepth)", at: e.pos)
+    }
     switch e {
     case .string(let s, _):
       return .text(s)
@@ -301,15 +337,25 @@ private struct ConfigParser {
   }
 
   mutating func alias(_ name: String, at p: SourcePos) throws -> Action {
-    if let a = aliasCache[name] { return a }
+    if let c = aliasCache[name] {
+      // A cached action is not parsed again, so its levels count here.
+      guard depth + c.height <= Reader.maxDepth else {
+        throw ConfigError("actions nested deeper than \(Reader.maxDepth)", at: p)
+      }
+      deepest = max(deepest, depth + c.height)
+      return c.action
+    }
     guard let e = aliasExprs[name] else { throw ConfigError("unknown alias @\(name)", at: p) }
     if resolving.contains(name) {
       throw ConfigError("alias cycle: \((resolving + [name]).joined(separator: " -> "))", at: p)
     }
     resolving.append(name)
     defer { resolving.removeLast() }
+    let outer = deepest
+    deepest = depth
     let a = try action(e)
-    aliasCache[name] = a
+    aliasCache[name] = (a, deepest - depth)
+    deepest = max(outer, deepest)
     return a
   }
 
@@ -428,6 +474,12 @@ private struct ConfigParser {
   }
 
   mutating func conditionItem(_ e: SExpr) throws -> Condition {
+    depth += 1
+    defer { depth -= 1 }
+    deepest = max(deepest, depth)
+    guard depth <= Reader.maxDepth else {
+      throw ConfigError("conditions nested deeper than \(Reader.maxDepth)", at: e.pos)
+    }
     if e.atom != nil { return .held(try heldName(e)) }
     guard let items = e.list, let head = e.head else {
       throw ConfigError("expected a condition", at: e.pos)
