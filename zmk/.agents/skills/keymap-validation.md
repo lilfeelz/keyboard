@@ -8,7 +8,7 @@ description: Validate ZMK keymap with keymap-drawer. Parse .keymap → YAML, dra
 ```sh
 python3 -m venv /tmp/kv
 /tmp/kv/bin/pip install keymap-drawer
-/tmp/kv/bin/keymap parse -z config/totem.keymap -c keymap_drawer.config.yaml -o /tmp/keymap.yaml
+/tmp/kv/bin/keymap parse -z ../config/totem.keymap -c keymap_drawer.config.yaml -o /tmp/keymap.yaml
 /tmp/kv/bin/keymap draw /tmp/keymap.yaml -c keymap_drawer.config.yaml -o docs/totem/images/keymap.svg
 ```
 

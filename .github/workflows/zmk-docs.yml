@@ -11,7 +11,7 @@ on:
       - zmk/docs/book.json
       - zmk/package.json
       - zmk/keymap_drawer.config.yaml
-      - zmk/config/totem.keymap
+      - config/totem.keymap
       - .github/workflows/zmk-docs.yml
   workflow_dispatch:
 
@@ -40,7 +40,7 @@ jobs:
         run: |
           pip install keymap-drawer==0.23.0
           mkdir -p docs/totem/images
-          keymap -c keymap_drawer.config.yaml parse -z config/totem.keymap -o /tmp/keymap.yaml
+          keymap -c keymap_drawer.config.yaml parse -z ../config/totem.keymap -o /tmp/keymap.yaml
           keymap -c keymap_drawer.config.yaml draw /tmp/keymap.yaml -o docs/totem/images/keymap.svg
 
       - run: npx --yes honkit@6.2.2 build ./docs "$PWD/site" # HonKit resolves a relative output path against the book root
