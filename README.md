@@ -9,12 +9,13 @@ One layout, the TOTEM 36-key split, kept in step across the places it runs:
 
 | dir | what |
 | --- | --- |
-| [`zmk/`](zmk/) | ZMK firmware config for the TOTEM (Seeed XIAO BLE). Keymap, shield, honkit docs. |
+| [`config/`](config/) | ZMK keymap, shield and west manifest for the TOTEM. At the root so the [keymap editor](https://nickcoutsos.github.io/keymap-editor/) finds it. |
+| [`zmk/`](zmk/) | ZMK build matrix, docs and tooling for the TOTEM (Seeed XIAO BLE). |
 | [`kanata-ios/`](kanata-ios/) | The same layout as an iOS keyboard extension (SwiftUI), configured in kanata's lisp. |
 
 The third copy is `~/.config/kanata/kanata.kbd` (dotfiles), which drives kanata on the laptop
 and is the bundled default config of the iOS keyboard. A layer, thumb or chord change lands in
-`zmk/config/totem.keymap`, `kanata-ios/TotemKit/Sources/TotemCore/DefaultConfig.swift` and the
+`config/totem.keymap`, `kanata-ios/TotemKit/Sources/TotemCore/DefaultConfig.swift` and the
 dotfile together; that is why the two projects share a repo.
 
 Docs for the firmware keymap: [lilfeelz.github.io/keyboard](https://lilfeelz.github.io/keyboard/).
@@ -24,7 +25,7 @@ Docs for the firmware keymap: [lilfeelz.github.io/keyboard](https://lilfeelz.git
 Each directory keeps its own README and tooling; run commands from inside it.
 
 ```sh
-cd zmk && $EDITOR config/totem.keymap       # validate: see zmk/README.md
+$EDITOR config/totem.keymap               # validate: see zmk/README.md
 cd kanata-ios && make test-core             # TotemKit unit tests; make test adds the XCUITest
 ```
 

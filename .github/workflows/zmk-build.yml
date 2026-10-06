@@ -1,9 +1,9 @@
 name: zmk-build
 
 # The upstream reusable workflow (zmkfirmware/zmk build-user-config.yml) takes a config_path,
-# but west makes the parent of that directory its workspace and the workflow then runs
-# `west update` and `west build -s zmk/app` from the repo root, outside it. With the config
-# in zmk/config that fails, so this is the same sequence run inside zmk/.
+# but expects build.yaml at the repo root and runs west from there. The config sits at the
+# root (config/, where the keymap editor looks) while build.yaml, boards and the zephyr
+# module stay in zmk/, so this is the same sequence with those paths.
 
 permissions:
   contents: read
@@ -12,14 +12,14 @@ on:
   push:
     branches: [main]
     paths:
-      - zmk/config/**
+      - config/**
       - zmk/boards/**
       - zmk/build.yaml
       - zmk/zephyr/**
       - .github/workflows/zmk-build.yml
   pull_request:
     paths:
-      - zmk/config/**
+      - config/**
       - zmk/boards/**
       - zmk/build.yaml
       - zmk/zephyr/**
@@ -64,7 +64,7 @@ jobs:
       - name: copy config
         run: |
           mkdir -p "$base"
-          cp -R zmk/config "$base/config"
+          cp -R config "$base/config"
           echo "zephyr_version=${ZEPHYR_VERSION}" >> "$GITHUB_ENV"
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -76,7 +76,7 @@ jobs:
             /tmp/zmk-config/zephyr/
             /tmp/zmk-config/bootloader/
             /tmp/zmk-config/zmk/
-          key: ${{ runner.os }}-build-cache-zephyr-${{ env.zephyr_version }}-modules-${{ hashFiles('zmk/config/west.yml', 'zmk/build.yaml') }}
+          key: ${{ runner.os }}-build-cache-zephyr-${{ env.zephyr_version }}-modules-${{ hashFiles('config/west.yml', 'zmk/build.yaml') }}
           restore-keys: |
             ${{ runner.os }}-build-cache-zephyr-${{ env.zephyr_version }}-modules-
 

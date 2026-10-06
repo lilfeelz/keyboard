@@ -12,7 +12,7 @@
 
 ```sh
 # Edit root keymap (this overrides shield built-in)
-$EDITOR config/totem.keymap
+$EDITOR ../config/totem.keymap
 ```
 
 ### Validate
@@ -20,7 +20,7 @@ $EDITOR config/totem.keymap
 ```sh
 python3 -m venv /tmp/kv
 /tmp/kv/bin/pip install keymap-drawer
-/tmp/kv/bin/keymap parse -z config/totem.keymap -o /tmp/keymap.yaml
+/tmp/kv/bin/keymap parse -z ../config/totem.keymap -o /tmp/keymap.yaml
 /tmp/kv/bin/keymap draw /tmp/keymap.yaml -o /tmp/keymap.svg
 # No errors = valid
 ```
@@ -94,18 +94,19 @@ Four layers (BASE, NAV, SYM, FUN). The layer table, thumb bindings and combos li
 
 Workflows live at the repo root (`../.github/workflows/`):
 
-- **zmk-build.yml**: Builds firmware on push/PR touching `zmk/config/**` or `zmk/boards/**`
+- **zmk-build.yml**: Builds firmware on push/PR touching `config/**` or `zmk/boards/**`
 - **zmk-docs.yml**: Generates keymap SVG + honkit docs site, deploys to GH Pages
 
 ## Structure
 
 ```
+config/                       # repo root, where the keymap editor looks
+├── totem.keymap              # Root keymap (primary, overrides shield)
+├── totem.conf                # Board config (sleep, BT, idle)
+├── west.yml                  # West manifest (ZMK revision: main — FLOATING)
+└── boards/shields/totem/     # Shield definition (dtsi, overlay, Kconfig)
 zmk/
-├── config/
-│   ├── totem.keymap          # Root keymap (primary, overrides shield)
-│   ├── totem.conf            # Board config (sleep, BT, idle)
-│   ├── west.yml              # West manifest (ZMK revision: main — FLOATING)
-│   └── boards/shields/totem/ # Shield definition (dtsi, overlay, Kconfig)
+├── build.yaml                # Build matrix
 ├── docs/                     # Honkit documentation site
 ├── keymap_drawer.config.yaml # SVG rendering config
 └── .agents/                  # Agent rules for this repo
