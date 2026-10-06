@@ -1,12 +1,13 @@
 # keyboard
 
-Two projects, one layout. `zmk/` is the TOTEM firmware config, `kanata-ios/` the iOS keyboard
+Two projects, one layout. `zmk/` plus root `config/` is the TOTEM firmware config (`config/`
+stays at the root because the keymap editor only reads `config/` there), `kanata-ios/` the iOS keyboard
 extension configured in kanata lisp. The layout also lives in `~/.config/kanata/kanata.kbd`
 (dotfiles), which is the source of the iOS keyboard's bundled default.
 
 ## Rules
 
-- A layer, thumb, hold or chord change is a layout change: apply it to `zmk/config/totem.keymap`,
+- A layer, thumb, hold or chord change is a layout change: apply it to `config/totem.keymap`,
   `kanata-ios/TotemKit/Sources/TotemCore/DefaultConfig.swift` and the kanata dotfile in the same
   change, or say which copies were left behind and why.
 - Work inside the subproject directory; its README and Makefile are the entry points.

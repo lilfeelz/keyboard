@@ -31,13 +31,12 @@ Firmware `.uf2` files land in `build/<side>/zephyr/zmk.uf2`. Flash by copying to
 ## CI Build
 
 `../.github/workflows/zmk-build.yml` (repo root) triggers on:
-- Push to `main` touching `zmk/config/**`, `zmk/boards/**`, `zmk/build.yaml`, `zmk/zephyr/**`
+- Push to `main` touching `config/**`, `zmk/boards/**`, `zmk/build.yaml`, `zmk/zephyr/**`
 - PRs with same path filters
 - Manual trigger via `workflow_dispatch`
 
 Same steps as `zmkfirmware/zmk/.github/workflows/build-user-config.yml` (the official ZMK build
-action), run inside `zmk/`: that workflow's `config_path` cannot point below the repo root, since
-west makes the config's parent its workspace and the workflow then runs from the repo root.
+action), with the config at the root and build.yaml, boards and the zephyr module in `zmk/`.
 
 ## CI Docs
 

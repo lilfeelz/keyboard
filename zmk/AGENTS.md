@@ -11,10 +11,11 @@ the `&mt {};` block, custom behaviors in `/behaviors {};`.
 ## Structure
 
 ```
-config/
+../config/                  # at the repo root: the keymap editor only reads config/ there
   totem.keymap              # Root keymap — THIS IS THE SOURCE OF TRUTH
   totem.conf                # Board-level config (sleep, idle, BT)
   west.yml                  # West manifest (ZMK revision — currently floating on main)
+  info.json                 # Keymap editor layout (keymap-drawer TOTEM geometry, row/col = transform)
   boards/shields/totem/     # Shield definitions (dtsi, overlay, Kconfig)
     totem.keymap            # DEAD CODE — uses different layout than root
     totem_left.overlay      # Left half column GPIOs
@@ -61,7 +62,7 @@ Vim: yank_inner_word (esc y i w i), yank_line (esc V Y I)
 
 ```sh
 python3 -m venv /tmp/kv && /tmp/kv/bin/pip install keymap-drawer
-/tmp/kv/bin/keymap parse -z config/totem.keymap -o /tmp/keymap.yaml
+/tmp/kv/bin/keymap parse -z ../config/totem.keymap -o /tmp/keymap.yaml
 /tmp/kv/bin/keymap draw /tmp/keymap.yaml -o /tmp/keymap.svg
 ```
 
@@ -87,7 +88,7 @@ Docs deploy on push to `main` touching `docs/**` or `book.json`
 keymap-drawer. To regenerate it locally into the docs tree:
 
 ```sh
-/tmp/kv/bin/keymap parse -z config/totem.keymap -o /tmp/keymap.yaml
+/tmp/kv/bin/keymap parse -z ../config/totem.keymap -o /tmp/keymap.yaml
 /tmp/kv/bin/keymap draw /tmp/keymap.yaml -o docs/totem/images/keymap.svg
 ```
 
