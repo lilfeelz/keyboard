@@ -42,7 +42,7 @@ A keyboard extension can insert text, delete backward and move the cursor. So:
 * the `>_` key switches to terminal mode: `C-x`, `A-x`, esc, arrows, F1-F12 go out as control
   codes and xterm sequences (Blink, SSH apps). Other Cmd chords go out as kitty keyboard
   protocol sequences with the super bit (`M-p` is `ESC[112;9u`, `M-left` `ESC[1;9D`), which
-  attach (JakobMelchard/attach) takes as its own hotkeys
+  attach (lilfeelz/workspaces, attach/) takes as its own hotkeys
 * in text mode, other Cmd shortcuts, selection (`S-`arrows), media keys: impossible, drawn dimmed. iOS
   gives keyboards no selection API and no way to reach the app's commands (select all, save,
   find). In the bundled config the nav layer's ⌘A ⌘S ⌘D ⌘F slots are sticky ⇧ ⌥ ⌃ ⌘ (tap, then the next
