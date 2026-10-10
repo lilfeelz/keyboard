@@ -78,6 +78,33 @@ import TotemCore
     #expect(host.after == "g")
   }
 
+  /// A controller on `(tap-hold 20 40 a b)` over the same host.
+  func tapHoldController() throws -> KeyboardController {
+    let k = KeyboardController(
+      config: try Config.parse("(defsrc a c) (deflayer x (tap-hold 20 40 a b) c)"), mode: .text)
+    k.perform = { [host] in host.apply($0) }
+    k.context = { [host] in TextContext(before: host.before, after: host.after) }
+    return k
+  }
+
+  @Test func holdResolvesOnTheTimer() async throws {
+    let k = try tapHoldController()
+    k.press(0)
+    #expect(host.before == "")
+    try await Task.sleep(for: .milliseconds(150))
+    #expect(host.before == "b")
+    k.release(0)
+  }
+
+  @Test func releaseCancelsThePendingTimer() async throws {
+    let k = try tapHoldController()
+    k.press(0)
+    k.release(0)
+    #expect(host.before == "a")
+    try await Task.sleep(for: .milliseconds(150))
+    #expect(host.before == "a")
+  }
+
   @Test func modeChangeIsReported() {
     var seen: [Mode] = []
     c.onModeChange = { seen.append($0) }

@@ -21,7 +21,8 @@ public final class KeyboardController {
   @ObservationIgnored public var onModeChange: (Mode) -> Void = { _ in }
 
   @ObservationIgnored private var engine: Engine
-  @ObservationIgnored private var timer: DispatchWorkItem?
+  @ObservationIgnored private var timer: Task<Void, Never>?
+  @ObservationIgnored private var settleTimeout: Task<Void, Never>?
   @ObservationIgnored private var swipes: [Int: SwipeTracker] = [:]
   @ObservationIgnored private var history = History()
   @ObservationIgnored private var lineQueue: [Int] = []
@@ -142,14 +143,20 @@ public final class KeyboardController {
   public func contextChanged() {
     guard let s = settled else { return }
     settled = nil
-    DispatchQueue.main.async(execute: s)
+    settleTimeout?.cancel()
+    Task { s() }
   }
+
+  /// How long a line move waits for the host to report its context before reading it anyway.
+  private static let settleWait = Duration.milliseconds(60)
 
   private func afterContextSettles(_ f: @escaping () -> Void) {
     settled = f
     // Hosts do not always report the change; fall back to a short wait.
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.06) { [weak self] in
-      guard let self, let s = self.settled else { return }
+    settleTimeout?.cancel()
+    settleTimeout = Task { [weak self] in
+      try? await Task.sleep(for: Self.settleWait)
+      guard !Task.isCancelled, let self, let s = self.settled else { return }
       self.settled = nil
       s()
     }
@@ -164,13 +171,11 @@ public final class KeyboardController {
   private func schedule() {
     timer?.cancel()
     guard let deadline = engine.nextDeadline else { return }
-    let item = DispatchWorkItem { [weak self] in
-      guard let self else { return }
+    timer = Task { [weak self] in
+      try? await Task.sleep(for: .seconds(max(0, deadline - CACurrentMediaTime())))
+      guard !Task.isCancelled, let self else { return }
       self.handle(self.engine.tick(at: CACurrentMediaTime()))
     }
-    timer = item
-    DispatchQueue.main.asyncAfter(
-      deadline: .now() + max(0, deadline - CACurrentMediaTime()), execute: item)
   }
 
   // MARK: - drawing state
