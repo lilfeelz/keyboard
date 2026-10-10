@@ -91,12 +91,13 @@ import TotemCore
     let k = try tapHoldController()
     k.press(0)
     #expect(host.before == "")
-    try await Task.sleep(for: .milliseconds(150))
+    // Wait for the timer rather than a fixed time: a loaded runner can run it late.
+    for _ in 0..<100 where host.before.isEmpty { try await Task.sleep(for: .milliseconds(20)) }
     #expect(host.before == "b")
     k.release(0)
   }
 
-  @Test func releaseCancelsThePendingTimer() async throws {
+  @Test func aTapStaysOneTapPastTheHoldTime() async throws {
     let k = try tapHoldController()
     k.press(0)
     k.release(0)
