@@ -7,9 +7,6 @@ parse_config:
   raw_binding_map:
     "&out OUT_TOG": "⟳"
     "&caps_word": "⇪"
-    "&leq": "≤"
-    "&geq": "≥"
-    "&colon_equals": ":="
     "&kp LS(EXCL)": "!"
     "&kp LS(AT)": "@"
     "&kp LS(POUND)": "#"

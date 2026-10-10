@@ -48,14 +48,6 @@ repeat the table here.
 `enter` (16 17) and `bs_df` (12 13), both BASE only. See
 `docs/totem/keymap.md#combos`.
 
-## Macros (7, all unbound)
-
-Defined but referenced by no key or combo since the NAV yank combos were
-removed.
-
-Typing: leq, geq, left_arrow, right_arrow, colon_equals
-Vim: yank_inner_word (esc y i w i), yank_line (esc V Y I)
-
 ## Validate
 
 ```sh
