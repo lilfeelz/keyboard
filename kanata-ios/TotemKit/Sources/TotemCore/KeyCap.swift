@@ -120,10 +120,13 @@ public struct KeyCap: Sendable, Equatable {
     }
   }
 
-  static let glyphs: [String: String] = [
-    "spc": "", "ret": "⏎", "tab": "⇥", "bspc": "⌫", "del": "⌦", "esc": "esc",
-    "left": "◀", "rght": "▶", "up": "▲", "down": "▼",
-    "home": "home", "end": "end", "pgup": "pgup", "pgdn": "pgdn", "ins": "ins",
+  static let glyphs: [SpecialKey: String] = [
+    .space: "", .enter: "⏎", .tab: "⇥", .backspace: "⌫", .delete: "⌦", .escape: "esc",
+    .left: "◀", .right: "▶", .up: "▲", .down: "▼",
+    .home: "home", .end: "end", .pageUp: "pgup", .pageDown: "pgdn", .insert: "ins",
+  ]
+  /// Other kanata key names with a shorter label.
+  static let labels: [String: String] = [
     "vold": "vol-", "volu": "vol+", "brdn": "bri-", "brup": "bri+",
   ]
 
@@ -140,7 +143,7 @@ public struct KeyCap: Sendable, Equatable {
         ? bare.glyphs + ch : m.glyphs + c.uppercased()
       return KeyCap(label, style: ok ? .special : .inert)
     }
-    let name = glyphs[k.name] ?? k.name
+    let name = k.special.flatMap { glyphs[$0] } ?? labels[k.name] ?? k.name
     return KeyCap(m.glyphs + name, style: ok ? .special : .inert)
   }
 }

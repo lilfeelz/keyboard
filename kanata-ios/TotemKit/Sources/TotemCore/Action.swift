@@ -65,8 +65,7 @@ public struct CapsWord: Sendable, Equatable {
 
   public static func standard(timeout: Int, toggle: Bool) -> CapsWord {
     let letters = Set("abcdefghijklmnopqrstuvwxyz".map { Key(String($0)) })
-    let cont = Set(
-      ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "bspc", "del"].map(Key.init))
+    let cont = Set("1234567890-".map { Key(String($0)) } + [Key(.backspace), Key(.delete)])
     return CapsWord(timeout: timeout, shifted: letters, continuing: cont, toggle: toggle)
   }
 }
@@ -101,7 +100,7 @@ public struct SwitchCase: Sendable, Equatable {
 }
 
 /// Things only an iOS keyboard does.
-public enum SystemAction: String, Sendable, Equatable, CaseIterable {
+public enum SystemAction: String, Sendable, Equatable {
   /// The globe key; Apple requires one when the device has no other way to switch.
   case nextKeyboard = "nextkbd"
   case dismiss

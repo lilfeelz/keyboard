@@ -378,7 +378,8 @@ public final class Engine {
 
   private static func repeats(_ o: Output) -> Bool {
     guard case .stroke(let k, _) = o else { return false }
-    return ["bspc", "del", "left", "rght", "up", "down", "spc"].contains(k.name)
+    guard let s = k.special else { return false }
+    return [.backspace, .delete, .left, .right, .up, .down, .space].contains(s)
   }
 
   private func releaseKey(_ key: Int) {

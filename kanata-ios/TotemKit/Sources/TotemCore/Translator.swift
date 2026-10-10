@@ -26,7 +26,8 @@ public enum Edit: Sendable, Equatable {
   case toggleTerminal
 }
 
-public enum Mode: Sendable, Equatable {
+/// The raw value is what the keyboard persists and `(mode ...)` conditions spell.
+public enum Mode: String, Sendable, Equatable {
   case text
   case terminal
 }
@@ -87,28 +88,30 @@ public enum Translator {
       return nil
     }
     // Selection cannot be extended from a keyboard extension, so shift+motion is out.
-    let motion = ["left", "rght", "up", "down", "home", "end", "pgup", "pgdn"].contains(k.name)
-    if motion, m.contains(.shift) { return nil }
-    switch (k.name, noShift) {
-    case ("spc", []): return [.insert(" ")]
-    case ("ret", []): return [.insert("\n")]
-    case ("tab", []) where !m.contains(.shift): return [.insert("\t")]
-    case ("bspc", []): return [.deleteBackward(1)]
-    case ("bspc", .alt): return [.deleteBackward(max(1, wordBefore(ctx.before).count))]
-    case ("bspc", .meta): return [.deleteBackward(max(1, lineBefore(ctx.before).count))]
-    case ("del", []): return ctx.after.isEmpty ? [] : [.deleteForward(String(ctx.after.prefix(1)))]
-    case ("del", .alt): return nonEmpty(.deleteForward(wordAfter(ctx.after)))
-    case ("del", .meta): return nonEmpty(.deleteForward(lineAfter(ctx.after)))
-    case ("left", []): return [.move(-(ctx.before.last.map { String($0).utf16.count } ?? 1))]
-    case ("rght", []): return [.move(ctx.after.first.map { String($0).utf16.count } ?? 1)]
-    case ("left", .alt): return [.move(-wordBefore(ctx.before).utf16.count)]
-    case ("rght", .alt): return [.move(wordAfter(ctx.after).utf16.count)]
-    case ("left", .meta), ("home", []): return [.move(-lineBefore(ctx.before).utf16.count)]
-    case ("rght", .meta), ("end", []): return [.move(lineAfter(ctx.after).utf16.count)]
-    case ("up", []): return [.line(-1)]
-    case ("down", []): return [.line(1)]
-    case ("up", .meta), ("pgup", []): return [.move(-ctx.before.utf16.count)]
-    case ("down", .meta), ("pgdn", []): return [.move(ctx.after.utf16.count)]
+    guard let s = k.special else { return nil }
+    let motion: Set<SpecialKey> = [.left, .right, .up, .down, .home, .end, .pageUp, .pageDown]
+    if motion.contains(s), m.contains(.shift) { return nil }
+    switch (s, noShift) {
+    case (.space, []): return [.insert(" ")]
+    case (.enter, []): return [.insert("\n")]
+    case (.tab, []) where !m.contains(.shift): return [.insert("\t")]
+    case (.backspace, []): return [.deleteBackward(1)]
+    case (.backspace, .alt): return [.deleteBackward(max(1, wordBefore(ctx.before).count))]
+    case (.backspace, .meta): return [.deleteBackward(max(1, lineBefore(ctx.before).count))]
+    case (.delete, []):
+      return ctx.after.isEmpty ? [] : [.deleteForward(String(ctx.after.prefix(1)))]
+    case (.delete, .alt): return nonEmpty(.deleteForward(wordAfter(ctx.after)))
+    case (.delete, .meta): return nonEmpty(.deleteForward(lineAfter(ctx.after)))
+    case (.left, []): return [.move(-(ctx.before.last.map { String($0).utf16.count } ?? 1))]
+    case (.right, []): return [.move(ctx.after.first.map { String($0).utf16.count } ?? 1)]
+    case (.left, .alt): return [.move(-wordBefore(ctx.before).utf16.count)]
+    case (.right, .alt): return [.move(wordAfter(ctx.after).utf16.count)]
+    case (.left, .meta), (.home, []): return [.move(-lineBefore(ctx.before).utf16.count)]
+    case (.right, .meta), (.end, []): return [.move(lineAfter(ctx.after).utf16.count)]
+    case (.up, []): return [.line(-1)]
+    case (.down, []): return [.line(1)]
+    case (.up, .meta), (.pageUp, []): return [.move(-ctx.before.utf16.count)]
+    case (.down, .meta), (.pageDown, []): return [.move(ctx.after.utf16.count)]
     default: return nil
     }
   }
@@ -158,12 +161,12 @@ public enum Translator {
 
   static func terminal(_ k: Key, _ m: Mods) -> [Edit]? {
     if m.contains(.meta) {
-      switch (k.name, m.subtracting([.meta, .shift])) {
-      case ("c", []): return [.copy]
-      case ("z", []) where !m.contains(.shift): return [.insert("\u{1f}")]  // readline undo (^_)
-      case ("x", []): return [.cut]
-      case ("v", []): return [.paste]
-      case ("bspc", []): return [.insert("\u{15}")]  // kill line (^U)
+      switch (k.char, k.special, m.subtracting([.meta, .shift])) {
+      case ("c", _, []): return [.copy]
+      case ("z", _, []) where !m.contains(.shift): return [.insert("\u{1f}")]  // readline undo (^_)
+      case ("x", _, []): return [.cut]
+      case ("v", _, []): return [.paste]
+      case (_, .backspace, []): return [.insert("\u{15}")]  // kill line (^U)
       default: return superKey(k, m).map { [.insert($0)] }
       }
     }
@@ -186,29 +189,25 @@ public enum Translator {
       return control(ch).map { .insert(String($0)) }
     }
     let csi = esc + "["
-    switch k.name {
-    case "spc": return .insert(m.contains(.ctrl) ? "\u{0}" : " ")
-    case "ret": return .insert("\r")
-    case "tab": return .insert(m.contains(.shift) ? csi + "Z" : "\t")
-    case "bspc": return m.contains(.ctrl) ? .insert("\u{17}") : .deleteBackward(1)
-    case "esc": return .insert(esc)
-    case "up", "down", "rght", "left", "home", "end":
-      let final = ["up": "A", "down": "B", "rght": "C", "left": "D", "home": "H", "end": "F"][
-        k.name]!
+    if let s = k.special {
       let p = param(m)
-      return .insert(p == 1 ? csi + final : csi + "1;\(p)" + final)
-    case "ins", "del", "pgup", "pgdn":
-      let n = ["ins": 2, "del": 3, "pgup": 5, "pgdn": 6][k.name]!
-      let p = param(m)
-      return .insert(p == 1 ? csi + "\(n)~" : csi + "\(n);\(p)~")
-    default:
-      guard k.name.hasPrefix("f"), let n = Int(k.name.dropFirst()), (1...12).contains(n) else {
-        return nil
+      if let final = csiFinals[s] { return .insert(p == 1 ? csi + final : csi + "1;\(p)" + final) }
+      if let n = tildeCodes[s] { return .insert(p == 1 ? csi + "\(n)~" : csi + "\(n);\(p)~") }
+      switch s {
+      case .space: return .insert(m.contains(.ctrl) ? "\u{0}" : " ")
+      case .enter: return .insert("\r")
+      case .tab: return .insert(m.contains(.shift) ? csi + "Z" : "\t")
+      case .backspace: return m.contains(.ctrl) ? .insert("\u{17}") : .deleteBackward(1)
+      case .escape: return .insert(esc)
+      default: return nil
       }
-      if n <= 4 { return .insert(esc + "O" + ["P", "Q", "R", "S"][n - 1]) }
-      let code = [15, 17, 18, 19, 20, 21, 23, 24][n - 5]
-      return .insert(csi + "\(code)~")
     }
+    guard k.name.hasPrefix("f"), let n = Int(k.name.dropFirst()), (1...12).contains(n) else {
+      return nil
+    }
+    if n <= 4 { return .insert(esc + "O" + ["P", "Q", "R", "S"][n - 1]) }
+    let code = [15, 17, 18, 19, 20, 21, 23, 24][n - 5]
+    return .insert(csi + "\(code)~")
   }
 
   /// Any other ⌘ chord in the kitty keyboard protocol with the super bit (8), so a terminal
@@ -217,11 +216,19 @@ public enum Translator {
     let p = param(m) + 8
     let csi = esc + "["
     if let v = k.char?.unicodeScalars.first?.value { return csi + "\(v);\(p)u" }
-    let arrows = ["up": "A", "down": "B", "rght": "C", "left": "D", "home": "H", "end": "F"]
-    if let final = arrows[k.name] { return csi + "1;\(p)" + final }
-    let codes = ["ret": 13, "tab": 9, "esc": 27, "spc": 32]
-    return codes[k.name].map { csi + "\($0);\(p)u" }
+    guard let s = k.special else { return nil }
+    if let final = csiFinals[s] { return csi + "1;\(p)" + final }
+    return keyCodes[s].map { csi + "\($0);\(p)u" }
   }
+
+  /// Final byte of the CSI sequence for a motion key.
+  static let csiFinals: [SpecialKey: String] = [
+    .up: "A", .down: "B", .right: "C", .left: "D", .home: "H", .end: "F",
+  ]
+  /// Parameter of the `CSI n ~` sequence for an editing key.
+  static let tildeCodes: [SpecialKey: Int] = [.insert: 2, .delete: 3, .pageUp: 5, .pageDown: 6]
+  /// Codepoints for the kitty keyboard protocol.
+  static let keyCodes: [SpecialKey: Int] = [.enter: 13, .tab: 9, .escape: 27, .space: 32]
 
   /// xterm modifier parameter: 1 + shift + 2*alt + 4*ctrl.
   static func param(_ m: Mods) -> Int {
