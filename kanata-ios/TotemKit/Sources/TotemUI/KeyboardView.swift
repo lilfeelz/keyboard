@@ -52,9 +52,9 @@
       if pressed { return Theme.pink }
       if active { return Theme.purple }
       switch cap.style {
-      case .char: return Theme.panel
+      case .char: return Theme.card
       case .blank: return .clear
-      default: return Theme.card
+      default: return Theme.bg
       }
     }
 
@@ -65,7 +65,7 @@
       case .layer: return Theme.purple
       case .mod: return Theme.accent
       case .inert: return Theme.muted.opacity(0.5)
-      default: return Theme.frame
+      default: return Theme.muted
       }
     }
 

@@ -1,19 +1,19 @@
 import SwiftUI
 
-/// House dark palette (Dracula, as in ~/.config and the Keyman theme it replaces).
+/// JakobMelchard v1 tokens (JakobMelchard/.config tokens/tokens.json): Dracula on near-black. The
+/// values live in the vendored `GeneratedTokens.swift` (`config-sync tokens`); this type names the
+/// ones used here.
 public enum Theme {
-  public static let bg = Color(hex: 0x0B0D10)
-  public static let card = Color(hex: 0x15171F)
-  public static let panel = Color(hex: 0x282A36)
-  public static let fg = Color(hex: 0xF8F8F2)
-  public static let muted = Color(hex: 0x6272A4)
-  public static let frame = Color(hex: 0x7F8490)
-  public static let accent = Color(hex: 0x8BE9FD)
-  public static let pink = Color(hex: 0xFF79C6)
-  public static let purple = Color(hex: 0xBD93F9)
-  public static let green = Color(hex: 0x50FA7B)
-  public static let red = Color(hex: 0xFF5555)
-  public static let radius: CGFloat = 6
+  public static let bg = GeneratedTokens.bg
+  public static let card = GeneratedTokens.card
+  public static let fg = GeneratedTokens.fg
+  public static let muted = GeneratedTokens.muted
+  public static let accent = GeneratedTokens.accent
+  public static let pink = GeneratedTokens.pink
+  public static let purple = GeneratedTokens.purple
+  public static let green = GeneratedTokens.green
+  public static let red = GeneratedTokens.red
+  public static let radius = GeneratedTokens.radiusMd
 }
 
 extension Color {
