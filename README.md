@@ -14,7 +14,7 @@ One layout, the TOTEM 36-key split, kept in step across the places it runs:
 
 The third copy is `~/.config/kanata/kanata.kbd` (dotfiles), which drives kanata on the laptop
 and is the bundled default config of the iOS keyboard. A layer, thumb or chord change lands in
-`zmk/config/totem.keymap`, `kanata-ios/TotemKit/Sources/TotemCore/DefaultConfig.swift` and the
+`zmk/config/totem.keymap`, `kanata-ios/TotemKit/Sources/TotemCore/default.kbd` and the
 dotfile together; that is why the two projects share a repo.
 
 Docs for the firmware keymap: [lilfeelz.github.io/keyboard](https://lilfeelz.github.io/keyboard/).

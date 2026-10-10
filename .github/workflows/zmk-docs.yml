@@ -37,12 +37,12 @@ jobs:
 
       - name: keymap svg
         run: |
-          pip install keymap-drawer
+          pip install keymap-drawer==0.23.0
           mkdir -p docs/totem/images
           keymap -c keymap_drawer.config.yaml parse -z config/totem.keymap -o /tmp/keymap.yaml
           keymap -c keymap_drawer.config.yaml draw /tmp/keymap.yaml -o docs/totem/images/keymap.svg
 
-      - run: npx --yes honkit build ./docs "$PWD/site" # HonKit resolves a relative output path against the book root
+      - run: npx --yes honkit@6.2.2 build ./docs "$PWD/site" # HonKit resolves a relative output path against the book root
 
       - uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:

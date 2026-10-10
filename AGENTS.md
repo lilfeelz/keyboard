@@ -7,7 +7,7 @@ extension configured in kanata lisp. The layout also lives in `~/.config/kanata/
 ## Rules
 
 - A layer, thumb, hold or chord change is a layout change: apply it to `zmk/config/totem.keymap`,
-  `kanata-ios/TotemKit/Sources/TotemCore/DefaultConfig.swift` and the kanata dotfile in the same
+  `kanata-ios/TotemKit/Sources/TotemCore/default.kbd` and the kanata dotfile in the same
   change, or say which copies were left behind and why.
 - Work inside the subproject directory; its README and Makefile are the entry points.
   `zmk/AGENTS.md` and `zmk/.agents/skills/` hold the firmware rules (validation, layers).

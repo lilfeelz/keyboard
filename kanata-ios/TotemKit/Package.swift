@@ -9,7 +9,7 @@ let package = Package(
     .library(name: "TotemUI", targets: ["TotemUI"]),
   ],
   targets: [
-    .target(name: "TotemCore"),
+    .target(name: "TotemCore", resources: [.copy("default.kbd")]),
     .target(name: "TotemUI", dependencies: ["TotemCore"]),
     .testTarget(name: "TotemCoreTests", dependencies: ["TotemCore"]),
     .testTarget(name: "TotemUITests", dependencies: ["TotemUI"]),

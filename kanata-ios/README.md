@@ -12,7 +12,7 @@ only emit text, so tap-hold, chords, one-shot, caps-word and terminal keys were 
 | `TotemKit/Sources/TotemUI` | SwiftUI keyboard view, multi-touch surface, controller, app-group config store |
 | `Keyboard/` | the `UIInputViewController` extension |
 | `App/` | container app: config editor, in-app keyboard to try it, setup notes |
-| `TotemKit/Sources/TotemCore/DefaultConfig.swift` | bundled config: `~/.config/kanata/kanata.kbd` on the TOTEM grid |
+| `TotemKit/Sources/TotemCore/default.kbd` | bundled config: `~/.config/kanata/kanata.kbd` on the TOTEM grid |
 
 ## Config
 
