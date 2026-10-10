@@ -19,6 +19,7 @@
 #define NAV  1
 #define SYM  2
 #define FUN  3
+#define PNAV 4
 
 &caps_word { continue-list = <UNDERSCORE BACKSPACE DELETE LEFT_ARROW DOWN_ARROW UP_ARROW RIGHT_ARROW HOME END PAGE_DOWN PAGE_UP MINUS LEFT_SHIFT RIGHT_SHIFT>; };
 
@@ -220,7 +221,7 @@
 
             bindings = <
               &kp Q  &kp W  &kp E           &kp R               &kp T        &kp Y      &kp U         &kp I             &kp O          &kp P
-              &kp A  &kp S  &kp D           &kp F               &kp G        &kp H      &kp J         &kp K             &kp L          &mt LC(LA(LEFT_GUI)) SLASH
+              &kp A  &kp S  &kp D           &kp F               &kp G        &kp H      &kp J         &kp K             &kp L          &lt PNAV SLASH
 &lt_caps 3 0  &kp Z  &kp X  &kp C           &kp V               &kp B        &kp N      &kp M         &comma_semicolon  &period_colon  &kp MINUS                   &lt_caps 3 0
                             &sk LEFT_SHIFT  &sk_mo 1 BACKSPACE  &kp SPACE    &kp SPACE  &lt 2 ESCAPE  &sk RIGHT_SHIFT
             >;
@@ -250,6 +251,16 @@
         &out OUT_TOG  &none         &kp C_BRI_DEC  &kp C_BRIGHTNESS_INC  &kp F11       &kp F12     &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp C_MUTE    &out OUT_TOG
 &trans  &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1   &bt BT_SEL 0          &bt BT_CLR    &bt BT_CLR  &bt BT_SEL 0       &bt BT_SEL 1     &bt BT_SEL 2  &bt BT_SEL 3  &trans
                                     &none          &none                 &none         &none       &none              &none
+            >;
+        };
+
+        pnav {
+            label = "PNAV";
+            bindings = <
+        &none        &none        &none        &none        &none        &none      &none      &kp TAB    &kp LS(TAB)  &none
+        &kp GLOBE    &kp LALT     &kp LCTRL    &kp LGUI     &none        &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT    &trans
+&none   &none        &none        &none        &none        &none        &kp HOME   &kp PG_DN  &kp PG_UP  &kp END      &none      &none
+                                   &trans       &trans       &trans       &trans     &trans     &trans
             >;
         };
     };
