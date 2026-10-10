@@ -25,7 +25,7 @@ Common errors:
 `keymap_drawer.config.yaml` maps ZMK keycodes to display labels:
 - Raw codes → Unicode symbols (e.g., `LEFT_SHIFT` → "⇧")
 - Modifier formatting (e.g., `&kp LS(EXCL)` → "!")
-- Custom macro labels (e.g., `&leq` → "≤")
+- Raw binding labels (e.g., `&caps_word` → "⇪")
 
 ## CI
 

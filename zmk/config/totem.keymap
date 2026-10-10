@@ -146,57 +146,6 @@
         };
     };
 
-    macros {
-        leq: leq {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LESS_THAN &kp EQUAL>;
-            label = "LEQ";
-        };
-
-        geq: geq {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp EQUAL &kp GREATER_THAN>;
-            label = "GEQ";
-        };
-
-        left_arrow: left_arrow {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LESS_THAN &kp MINUS>;
-            label = "left_arrow";
-        };
-
-        right_arrow: right_arrow {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp MINUS &kp GREATER_THAN>;
-            label = "right_arrow";
-        };
-
-        colon_equals: colon_equals {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp COLON &kp EQUAL>;
-            label = "colon_equals";
-        };
-
-        yank_inner_word: yank_inner_word {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp ESCAPE &kp Y &kp I &kp W &kp I>;
-            label = "yank_inner_word";
-        };
-
-        yank_line: yank_line {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp ESCAPE &kp LS(V) &kp Y &kp I>;
-            label = "yank_line";
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 

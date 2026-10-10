@@ -69,15 +69,3 @@ These keys don't dismiss caps_word. Shift keys within caps_word produce shifted 
 ## Combos
 
 See [`docs/totem/keymap.md`](../docs/totem/keymap.md#combos).
-
-## Macros
-
-| Macro | Output | Use case |
-|-------|--------|----------|
-| `leq` | `<` `=` | ≤ missing from keyboard |
-| `geq` | `=` `>` | ≥ missing from keyboard |
-| `left_arrow` | `<` `-` | ← |
-| `right_arrow` | `-` `>` | → |
-| `colon_equals` | `:` `=` | := assignment |
-| `yank_inner_word` | `esc` `y` `i` `w` `i` | Vim: yank inside word |
-| `yank_line` | `esc` `V` `Y` `I` | Vim: yank current line |

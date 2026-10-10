@@ -72,11 +72,9 @@ Cells marked "(held)" or inherited from BASE are `&trans` in the keymap.
 
 ## Macros
 
-Seven macros are defined in `config/totem.keymap` (`leq`, `geq`, `left_arrow`,
-`right_arrow`, `colon_equals`, `yank_inner_word`, `yank_line`) but none is
-bound to a key or a combo right now. The NAV combos that used to fire
-`yank_line` (15 18) and `yank_inner_word` (16 17), and the BASE `bwd` combo on
-11 12 13, were removed.
+None are defined. Seven that no key or combo used (`leq`, `geq`, `left_arrow`,
+`right_arrow`, `colon_equals`, `yank_inner_word`, `yank_line`) were removed from
+`config/totem.keymap`; they are in the git history if a key needs one again.
 
 ## Stale keymap comment
 

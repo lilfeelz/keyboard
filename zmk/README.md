@@ -79,7 +79,6 @@ Four layers (BASE, NAV, SYM, FUN). The layer table, thumb bindings and combos li
 - **Caps word**: `&caps_word` with continuation list (underscore, backspace, delete, arrows, etc.)
 - **2 combos**: see [`docs/totem/keymap.md`](docs/totem/keymap.md#combos)
 - **6 mod-morphs**: comma↔semicolon, period↔colon, cmd+tab↔F21, cmd+shift+tab↔F22, alt+backspace↔alt+delete, caps-word↔caps-lock
-- **7 macros** defined (≤, ≥, ←, →, := and vim-style yank-line, yank-inner-word) — all currently unbound
 - **Sticky keys**: one-shot shift on the outer thumb keys; `sk_mo` thumb (hold NAV, tap Backspace)
 
 ## Build Targets

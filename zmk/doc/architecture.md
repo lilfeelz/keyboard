@@ -39,12 +39,6 @@ Two variants (`mt_left`, `mt_right`) differ only in `hold-trigger-key-positions`
 
 Defined in the `combos` node. All on BASE layer. Key positions reference the 38-key physical layout (10+10+12+6).
 
-### Macros
-
-Standard `zmk,behavior-macro` for multi-key output. Used for:
-- Symbol shortcuts (≤, ≥, ←, →, :=)
-- Vim yank operations (escape+y+i+w, escape+V+Y+I)
-
 ### Mod-Morphs
 
 `zmk,behavior-mod-morph` changes output based on modifier state. For example:
