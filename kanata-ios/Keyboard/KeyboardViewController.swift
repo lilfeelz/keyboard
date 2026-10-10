@@ -10,7 +10,8 @@ final class KeyboardViewController: UIInputViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let saved = UserDefaults.standard.string(forKey: "mode").flatMap(Mode.init)
+    // Anything saved but unrecognised was always text; nothing saved defers to the config.
+    let saved = UserDefaults.standard.string(forKey: "mode").map { Mode(rawValue: $0) ?? .text }
     let controller = KeyboardController(config: currentConfig(), mode: saved)
     self.controller = controller
     controller.perform = { [weak self] in self?.apply($0) }
