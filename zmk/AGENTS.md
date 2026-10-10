@@ -16,7 +16,6 @@ config/
   totem.conf                # Board-level config (sleep, idle, BT)
   west.yml                  # West manifest (ZMK revision — currently floating on main)
   boards/shields/totem/     # Shield definitions (dtsi, overlay, Kconfig)
-    totem.keymap            # DEAD CODE — uses different layout than root
     totem_left.overlay      # Left half column GPIOs
     totem_right.overlay     # Right half (col-offset=5) + column GPIOs
     totem.dtsi              # Matrix transform (10 cols, 4 rows) + kscan definition
