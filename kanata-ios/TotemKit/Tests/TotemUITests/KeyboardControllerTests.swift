@@ -3,7 +3,8 @@ import TotemCore
 
 @testable import TotemUI
 
-/// A text field: applies the controller's edits to the text around the cursor.
+/// A text field: applies the controller's edits to the text around the cursor. Moves count
+/// UTF-16 units, as `adjustTextPosition` does.
 @MainActor final class Host {
   var before = ""
   var after = ""
@@ -13,13 +14,15 @@ import TotemCore
     case .insert(let s): before += s
     case .deleteBackward(let n): before.removeLast(min(n, before.count))
     case .move(let n) where n < 0:
-      let k = min(-n, before.count)
-      after = String(before.suffix(k)) + after
-      before.removeLast(k)
+      let b = Array(before.utf16)
+      let k = min(-n, b.count)
+      after = String(decoding: b.suffix(k), as: UTF16.self) + after
+      before = String(decoding: b.dropLast(k), as: UTF16.self)
     case .move(let n):
-      let k = min(n, after.count)
-      before += after.prefix(k)
-      after.removeFirst(k)
+      let a = Array(after.utf16)
+      let k = min(n, a.count)
+      before += String(decoding: a.prefix(k), as: UTF16.self)
+      after = String(decoding: a.dropFirst(k), as: UTF16.self)
     default: break
     }
   }
@@ -56,12 +59,13 @@ import TotemCore
 
   @Test func lineDownResumesWhenTheContextChanges() async throws {
     host.before = "ab"
-    host.after = "\ncd"
+    host.after = "\nc😀d"
     tap(3)
     #expect(host.before == "ab\n")
     c.contextChanged()
     try await Task.sleep(for: .milliseconds(20))
-    #expect(host.before == "ab\ncd")
+    #expect(host.before == "ab\nc😀")
+    #expect(host.after == "d")
   }
 
   @Test func queuedLineMovesKeepTheColumn() async throws {
