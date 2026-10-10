@@ -34,5 +34,6 @@ make ipa          # build/Totem.ipa for SideStore
 ```
 
 Format with `xcrun swift-format format --in-place --recursive .` from `kanata-ios/`; CI lints
-with `--strict`. Config parsing and the key engine are pure Swift in `TotemKit/Sources/TotemCore`
+with `--strict` using the root `.swift-format`, vendored from `JakobMelchard/.config` (refresh with
+`config-sync swift-format --ref <tag>`; never edit it by hand). Config parsing and the key engine are pure Swift in `TotemKit/Sources/TotemCore`
 and get unit tests; the SwiftUI view and the extension are covered by the UI test only.
