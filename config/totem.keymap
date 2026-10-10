@@ -230,8 +230,8 @@
         left {
             bindings = <
        &kp N1           &kp N2          &kp N3           &kp N4          &kp N5           &kp N6    &kp N7     &kp N8     &kp N9     &kp N0
-       &mt GLOBE LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)        &kp LEFT  &kp DOWN   &kp UP     &kp RIGHT  &cmd_tab
-&none  &kp LG(Z)        &kp LG(X)       &kp LG(C)        &kp LG(V)       &kp LS(LG(Z))    &kp HOME  &kp PG_DN  &kp PG_UP  &kp END    &cmd_stb  &trans
+       &trans  &trans  &trans  &trans  &trans        &kp LEFT  &kp DOWN   &kp UP     &kp RIGHT  &cmd_tab
+&none  &trans  &trans  &trans  &trans  &trans    &kp HOME  &kp PG_DN  &kp PG_UP  &kp END    &cmd_stb  &trans
                                         &trans           &trans          &none            &trans    &trans     &trans
             >;
         };
@@ -258,8 +258,8 @@
             label = "PNAV";
             bindings = <
         &none        &none        &none        &none        &none        &none      &none      &kp TAB    &kp LS(TAB)  &none
-        &kp GLOBE    &kp LALT     &kp LCTRL    &kp LGUI     &none        &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT    &trans
-&none   &none        &none        &none        &none        &none        &kp HOME   &kp PG_DN  &kp PG_UP  &kp END      &none      &none
+        &mt GLOBE LG(A)  &mt LALT LG(S)  &mt LCTRL LG(D)  &mt LGUI LG(F)  &kp LG(G)  &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT    &trans
+&none   &kp LG(Z)    &kp LG(X)    &kp LG(C)    &kp LG(V)    &kp LS(LG(Z))  &kp HOME   &kp PG_DN  &kp PG_UP  &kp END      &none      &none
                                    &trans       &trans       &trans       &trans     &trans     &trans
             >;
         };
