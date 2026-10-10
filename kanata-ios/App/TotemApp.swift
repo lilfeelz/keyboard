@@ -106,7 +106,7 @@ struct ConfigEditor: View {
     switch kind {
     case .comment: Theme.muted
     case .string: Theme.green
-    case .paren: Theme.frame
+    case .paren: Theme.muted
     case .head: Theme.pink
     case .alias: Theme.accent
     case .variable: Theme.purple
