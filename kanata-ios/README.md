@@ -53,7 +53,7 @@ A keyboard extension can insert text, delete backward and move the cursor. So:
 ## Build
 
 ```bash
-make test         # core unit tests + UI test on the "Totem iPad Air 11-inch (M4)" simulator
+make test         # core unit tests + UI test on the simulator named by `SIM` in the Makefile
 make device DEVICE=<devicectl id>
 ```
 

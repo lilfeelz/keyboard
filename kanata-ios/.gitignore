@@ -4,3 +4,6 @@ build/
 .swiftpm/
 xcuserdata/
 .DS_Store
+App/Info.plist
+Keyboard/Info.plist
+Config/*.entitlements

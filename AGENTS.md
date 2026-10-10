@@ -27,11 +27,14 @@ Validate with keymap-drawer before pushing (see `zmk/AGENTS.md`). CI builds ever
 
 ```sh
 cd kanata-ios
-make project      # xcodegen generate (Totem.xcodeproj is git-ignored)
+make project      # xcodegen generate (Totem.xcodeproj, the Info.plists and entitlements are git-ignored)
 make test-core    # cd TotemKit && swift test
-make test         # core tests + XCUITest on the "Totem iPad Air 11-inch (M4)" simulator
+make test         # core tests + XCUITest on the simulator named by SIM in the Makefile
 make ipa          # build/Totem.ipa for SideStore
 ```
+
+The signing team and the app group live in `kanata-ios/Config/Totem.xcconfig`; `project.yml` and the
+generated entitlements read them from there.
 
 Format with `xcrun swift-format format --in-place --recursive .` from `kanata-ios/`; CI lints
 with `--strict`. Config parsing and the key engine are pure Swift in `TotemKit/Sources/TotemCore`
