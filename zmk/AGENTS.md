@@ -14,7 +14,7 @@ the `&mt {};` block, custom behaviors in `/behaviors {};`.
 config/
   totem.keymap              # Root keymap — THIS IS THE SOURCE OF TRUTH
   totem.conf                # Board-level config (sleep, idle, BT)
-  west.yml                  # West manifest (ZMK revision — currently floating on main)
+  west.yml                  # West manifest (ZMK revision, pinned to a main commit)
   boards/shields/totem/     # Shield definitions (dtsi, overlay, Kconfig)
     totem.keymap            # DEAD CODE — uses different layout than root
     totem_left.overlay      # Left half column GPIOs
@@ -94,6 +94,5 @@ keymap-drawer. To regenerate it locally into the docs tree:
 ## Known Issues
 
 - Shield keymap (`config/boards/shields/totem/totem.keymap`) is dead code
-- `west.yml` uses `revision: main` (floating — pin to commit)
 - 3 empty .conf files in shield dir
 - `boards/shields/.gitkeep` is confusing/wrong

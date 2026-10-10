@@ -54,7 +54,8 @@ west makes the config's parent its workspace and the workflow then runs from the
 projects:
   - name: zmk
     remote: zmkfirmware
-    revision: main   # FLOATING — should pin to specific commit
+    revision: <sha> # main on <date>
 ```
 
-**Known issue:** `revision: main` pulls latest ZMK on every `west update`. Pin to a specific commit or tag for reproducible builds.
+ZMK is pinned to a commit on main for reproducible builds. Renovate does not read west manifests: bump the
+SHA by hand.

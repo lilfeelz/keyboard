@@ -104,7 +104,7 @@ zmk/
 ├── config/
 │   ├── totem.keymap          # Root keymap (primary, overrides shield)
 │   ├── totem.conf            # Board config (sleep, BT, idle)
-│   ├── west.yml              # West manifest (ZMK revision: main — FLOATING)
+│   ├── west.yml              # West manifest (ZMK pinned to a main commit)
 │   └── boards/shields/totem/ # Shield definition (dtsi, overlay, Kconfig)
 ├── docs/                     # Honkit documentation site
 ├── keymap_drawer.config.yaml # SVG rendering config
@@ -114,6 +114,5 @@ zmk/
 ## Known Issues
 
 - Shield keymap at `config/boards/shields/totem/totem.keymap` is dead code
-- `west.yml` pins ZMK to `revision: main` (floating — should pin to commit)
 - 3 empty `.conf` files in shield dir
 - `boards/shields/.gitkeep` confusing/wrong location
