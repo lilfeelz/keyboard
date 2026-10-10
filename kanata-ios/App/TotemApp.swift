@@ -151,7 +151,7 @@ struct TryView: View {
     guard let i = a.firstIndex(of: "--var"), i + 2 < a.count,
       let c = try? Config.parse(
         ConfigStore.source() ?? Config.defaultSource, vars: [a[i + 1]: a[i + 2]])
-    else { return ConfigStore.load().config }
+    else { return ConfigStore.load() }
     return c
   }
 
@@ -161,7 +161,7 @@ struct TryView: View {
         Text(controller.config.layers[controller.state.layer].name)
           .foregroundStyle(Theme.purple)
           .accessibilityIdentifier("layer")
-        Text(controller.mode == .terminal ? "terminal" : "text")
+        Text(controller.mode.rawValue)
           .foregroundStyle(Theme.muted)
           .accessibilityIdentifier("mode")
         Spacer()
@@ -183,7 +183,7 @@ struct TryView: View {
     }
     .background(Theme.bg)
     .onAppear {
-      controller.load(ConfigStore.load().config)
+      controller.load(ConfigStore.load())
       controller.perform = { buffer.apply($0) }
       controller.context = { buffer.context }
     }

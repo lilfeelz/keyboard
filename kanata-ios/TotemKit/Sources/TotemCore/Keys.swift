@@ -1,9 +1,31 @@
 /// Key names follow kanata's (`bspc`, `rght`, `grv`, ...), US layout. A key is
 /// either printable (canonical name is its unshifted character) or special.
 
+/// The special keys the engine, translator and key caps act on, by kanata name. Other kanata
+/// names (`menu`, `f1`, media keys) are plain strings: nothing here looks at them.
+public enum SpecialKey: String, Sendable, CaseIterable {
+  case space = "spc"
+  case enter = "ret"
+  case tab
+  case backspace = "bspc"
+  case delete = "del"
+  case escape = "esc"
+  case left
+  case right = "rght"
+  case up
+  case down
+  case home
+  case end
+  case pageUp = "pgup"
+  case pageDown = "pgdn"
+  case insert = "ins"
+}
+
 public struct Key: Hashable, Sendable, CustomStringConvertible {
   public let name: String
   public init(_ name: String) { self.name = name }
+  public init(_ special: SpecialKey) { name = special.rawValue }
+  public var special: SpecialKey? { SpecialKey(rawValue: name) }
   public var description: String { name }
 
   /// Unshifted character for printable keys.
@@ -71,14 +93,14 @@ public enum Keys {
   ]
 
   static let special: Set<String> = {
-    var s: Set<String> = [
-      "spc", "ret", "tab", "bspc", "del", "esc", "left", "rght", "up", "down",
-      "home", "end", "pgup", "pgdn", "ins", "menu",
+    var s = Set(SpecialKey.allCases.map(\.rawValue))
+    s.formUnion([
+      "menu",
       // kanata names that exist but cannot do anything from an iOS keyboard.
       "mute", "volu", "vold", "pp", "next", "prev", "brup", "brdn", "bru", "brdown",
       "mctl", "sls", "dtn", "dnd", "prnt", "slck", "pause", "nlck",
       "🔅", "🔆", "◀◀", "▶⏸", "▶▶", "🔇", "🔉", "🔊",
-    ]
+    ])
     for n in 1...24 { s.insert("f\(n)") }
     return s
   }()

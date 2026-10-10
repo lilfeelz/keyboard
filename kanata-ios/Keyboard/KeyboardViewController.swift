@@ -10,9 +10,9 @@ final class KeyboardViewController: UIInputViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let saved = UserDefaults.standard.string(forKey: "mode")
-    let controller = KeyboardController(
-      config: currentConfig(), mode: saved.map { $0 == "terminal" ? .terminal : .text })
+    // Anything saved but unrecognised was always text; nothing saved defers to the config.
+    let saved = UserDefaults.standard.string(forKey: "mode").map { Mode(rawValue: $0) ?? .text }
+    let controller = KeyboardController(config: currentConfig(), mode: saved)
     self.controller = controller
     controller.perform = { [weak self] in self?.apply($0) }
     controller.context = { [weak self] in
@@ -21,7 +21,7 @@ final class KeyboardViewController: UIInputViewController {
         before: p?.documentContextBeforeInput ?? "", after: p?.documentContextAfterInput ?? "")
     }
     controller.onModeChange = {
-      UserDefaults.standard.set($0 == .terminal ? "terminal" : "text", forKey: "mode")
+      UserDefaults.standard.set($0.rawValue, forKey: "mode")
     }
 
     let host = UIHostingController(rootView: KeyboardView(controller: controller))
@@ -64,7 +64,7 @@ final class KeyboardViewController: UIInputViewController {
 
   /// The app's saved config when Full Access lets us see the app group.
   private func currentConfig() -> Config {
-    hasFullAccess ? ConfigStore.load().config : .default
+    hasFullAccess ? ConfigStore.load() : .default
   }
 
   private func apply(_ e: Edit) {

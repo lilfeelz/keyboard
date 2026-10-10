@@ -66,11 +66,14 @@ struct Recorded {
 
   @Test func foreignChangeDropsHistory() {
     var r = Recorded()
+    r.type("one ")
     r.type("teh")
-    r.field.before = "the"  // autocorrect replaced it behind our back
+    r.field.before = "one the"  // autocorrect replaced it behind our back
     r.run([.undo])
-    #expect(r.field.before == "the")
-    #expect(!r.history.canUndo)
+    #expect(r.field.before == "one the")
+    r.field.before = "one "  // would match the older entry, were it still there
+    r.run([.undo])
+    #expect(r.field.before == "one ")
   }
 
   @Test func cmdZTranslates() {

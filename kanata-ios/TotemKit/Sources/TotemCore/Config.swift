@@ -491,11 +491,10 @@ private struct ConfigParser {
     case "not":
       return .not(.or(try args.map { try conditionItem($0) }))
     case "mode":
-      switch args.first?.atom {
-      case "text": return .mode(.text)
-      case "terminal": return .mode(.terminal)
-      default: throw ConfigError("expected (mode text) or (mode terminal)", at: e.pos)
+      guard let a = args.first?.atom, let m = Mode(rawValue: a) else {
+        throw ConfigError("expected (mode text) or (mode terminal)", at: e.pos)
       }
+      return .mode(m)
     case "layer", "base-layer":
       guard let n = args.first?.atom else { throw ConfigError("expected a layer", at: e.pos) }
       layerRefs.append((n, e.pos))

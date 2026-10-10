@@ -43,12 +43,12 @@ public struct SwipeTracker: Sendable {
       let tx = Int(dx / charStep)
       let ty = Int(dy / lineStep)
       while x != tx {
-        out += stroke(x < tx ? "rght" : "left")
+        out += stroke(x < tx ? .right : .left)
         x += x < tx ? 1 : -1
       }
       while y != ty {
         if mode == .terminal {
-          out += stroke(y < ty ? "down" : "up")
+          out += stroke(y < ty ? .down : .up)
         } else {
           out.append(.line(y < ty ? 1 : -1))
           // The line move lands wherever the host's text says; stop guessing.
@@ -86,7 +86,7 @@ public struct SwipeTracker: Sendable {
   /// cursor. Past the end of the known text a step still counts, with nothing
   /// covered, so dragging back lines up with the finger.
   private mutating func take(forward: Bool) -> [Edit] {
-    if mode == .terminal { return stroke(forward ? "del" : "bspc") }
+    if mode == .terminal { return stroke(forward ? .delete : .backspace) }
     if forward {
       let c = after.first
       ahead.append(c)
@@ -119,8 +119,8 @@ public struct SwipeTracker: Sendable {
 
   private var context: TextContext { TextContext(before: before, after: after) }
 
-  private mutating func stroke(_ name: String) -> [Edit] {
-    let edits = Translator.edits(.stroke(Key(name), []), mode: mode, context: context) ?? []
+  private mutating func stroke(_ key: SpecialKey) -> [Edit] {
+    let edits = Translator.edits(.stroke(Key(key), []), mode: mode, context: context) ?? []
     for case .move(let n) in edits { shift(n) }
     return edits
   }

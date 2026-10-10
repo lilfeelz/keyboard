@@ -51,17 +51,8 @@ public enum ConfigStore {
     }
   }
 
-  public static func reset() {
-    if let url { try? FileManager.default.removeItem(at: url) }
-  }
-
   /// The saved config, falling back to the default when it is missing or broken.
-  public static func load() -> (config: Config, error: String?) {
-    guard let text = source() else { return (.default, nil) }
-    do {
-      return (try Config.parse(text), nil)
-    } catch {
-      return (.default, "\(error)")
-    }
+  public static func load() -> Config {
+    source().flatMap { try? Config.parse($0) } ?? .default
   }
 }

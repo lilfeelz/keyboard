@@ -12,6 +12,20 @@ import Testing
     Translator.edits(.stroke(Key(k), m), mode: .terminal, context: TextContext())
   }
 
+  @Test func specialKeyNamesAreKanataNames() {
+    for s in SpecialKey.allCases {
+      #expect(Keys.key(s.rawValue) == Key(s))
+      #expect(Key(s).special == s)
+    }
+    #expect(Key("f5").special == nil)
+  }
+
+  @Test func modeRawValuesAreWhatIsPersisted() {
+    #expect(Mode(rawValue: "terminal") == .terminal)
+    #expect(Mode(rawValue: "text") == .text)
+    #expect(Mode(rawValue: "") == nil)
+  }
+
   @Test func printable() {
     #expect(text("a") == [.insert("a")])
     #expect(text("a", .shift) == [.insert("A")])

@@ -21,9 +21,6 @@ public struct History: Sendable {
 
   public init() {}
 
-  public var canUndo: Bool { !undos.isEmpty }
-  public var canRedo: Bool { !redos.isEmpty }
-
   public mutating func clear() {
     undos = []
     redos = []
