@@ -1,3 +1,4 @@
+# Local simulator; CI creates the stock "iPad Air 11-inch (M4)" (kanata-ios.yml).
 SIM ?= Totem iPad Air 11-inch (M4)
 DEST = platform=iOS Simulator,name=$(SIM)
 XB = xcodebuild -project Totem.xcodeproj -scheme Totem -derivedDataPath build/DerivedData
@@ -18,7 +19,7 @@ test-ui: project
 build: project
 	$(XB) -destination '$(DEST)' build
 
-# iPad on USB; automatic signing with team JY4PD9Q24B.
+# iPad on USB; automatic signing with the team in Config/Totem.xcconfig.
 device: project
 	$(XB) -destination 'generic/platform=iOS' -allowProvisioningUpdates build
 	xcrun devicectl device install app --device $(DEVICE) build/DerivedData/Build/Products/Debug-iphoneos/Totem.app
