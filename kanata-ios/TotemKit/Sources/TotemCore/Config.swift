@@ -175,8 +175,6 @@ private struct ConfigParser {
       defaults: defaults, options: options, warnings: warnings)
   }
 
-  // MARK: - top-level forms
-
   func pairs(_ args: [SExpr], at pos: SourcePos, _ body: (String, SExpr) throws -> Void) throws {
     guard args.count % 2 == 0 else { throw ConfigError("expected name/value pairs", at: pos) }
     for i in stride(from: 0, to: args.count, by: 2) {
@@ -261,8 +259,6 @@ private struct ConfigParser {
     return out
   }
 
-  // MARK: - vars and numbers
-
   func subst(_ e: SExpr) throws -> SExpr {
     switch e {
     case .atom(let s, let p) where s.hasPrefix("$") && s.count > 1:
@@ -297,8 +293,6 @@ private struct ConfigParser {
     guard n > 0 else { throw ConfigError("\(name) must be 1 or more", at: e.pos) }
     return n
   }
-
-  // MARK: - actions
 
   mutating func action(_ e: SExpr) throws -> Action {
     // Aliases and variables can stack actions deeper than the reader's own limit.

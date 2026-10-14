@@ -68,8 +68,6 @@ public enum Translator {
     edits(o, mode: mode, context: TextContext()) != nil
   }
 
-  // MARK: - text mode
-
   static func text(_ k: Key, _ m: Mods, _ ctx: TextContext) -> [Edit]? {
     let noShift = m.subtracting(.shift)
     if let c = k.char {
@@ -154,8 +152,6 @@ public enum Translator {
     if s.first == "\n" { return "\n" }
     return String(s.prefix { $0 != "\n" })
   }
-
-  // MARK: - terminal mode
 
   static let esc = "\u{1b}"
 
