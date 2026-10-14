@@ -86,6 +86,16 @@ final class Harness {
     #expect(c.width == 3.5)
   }
 
+  @Test func windowsLineEndings() throws {
+    // "\r\n" is one Character: a comment must end at it and defsrc rows split on it.
+    let c = try Config.parse("(defsrc ;; top\r\n  a b\r\n  c d)\r\n(deflayer x a b c d)\r\n")
+    #expect(c.keys.map(\.row) == [0, 0, 1, 1])
+    #expect(throws: ConfigError("layer x has 1 keys, defsrc has 2", at: SourcePos(line: 2, col: 1)))
+    {
+      try Config.parse("(defsrc a b)\r\n(deflayer x a)")
+    }
+  }
+
   @Test func errorsCarryPositions() {
     #expect(throws: ConfigError("layer x has 1 keys, defsrc has 2", at: SourcePos(line: 2, col: 1)))
     {
