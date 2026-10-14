@@ -77,7 +77,7 @@ private struct Scanner {
   }
 
   mutating func advance() {
-    if chars[i] == "\n" {
+    if chars[i].isNewline {
       line += 1
       col = 1
     } else {
@@ -91,7 +91,7 @@ private struct Scanner {
       if c.isWhitespace {
         advance()
       } else if c == ";", peek(1) == ";" {
-        while let c = peek(), c != "\n" { advance() }
+        while let c = peek(), !c.isNewline { advance() }
       } else if c == "#", peek(1) == "|" {
         let start = pos
         advance()
