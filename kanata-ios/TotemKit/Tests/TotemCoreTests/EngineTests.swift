@@ -486,6 +486,89 @@ final class Harness {
     #expect(h.typed == "\u{1b}[C")
   }
 
+  func chordHarness(_ release: String) throws -> Harness {
+    try Harness(
+      Config.parse(
+        """
+        (defsrc a b c)
+        (defchordsv2 (a b) lsft 100 \(release) ())
+        (deflayer x a b c)
+        """))
+  }
+
+  @Test func firstReleaseChordEndsWhenOneMemberLifts() throws {
+    for (release, want) in [("all-released", "C"), ("first-release", "c")] {
+      let h = try chordHarness(release)
+      h.down("a")
+      h.down("b", after: 10)
+      h.up("a", after: 20)
+      h.tap("c")
+      h.up("b")
+      #expect(h.typed == want, "\(release)")
+    }
+  }
+
+  func switchHarness(_ cases: String) throws -> Harness {
+    try Harness(
+      Config.parse(
+        """
+        (defsrc s t)
+        (deflayer one (switch \(cases)) (layer-switch two))
+        (deflayer two (switch \(cases)) (layer-switch one))
+        """))
+  }
+
+  @Test func switchFallthroughRunsTheNextCase() throws {
+    let h = try switchHarness("((layer one)) a fallthrough () b break () c break")
+    h.tap("s")
+    #expect(h.typed == "ab")
+    let b = try switchHarness("((layer one)) a break () b break")
+    b.tap("s")
+    #expect(b.typed == "a")
+  }
+
+  @Test func switchOnNotAndBaseLayer() throws {
+    let h = try Harness(
+      Config.parse(
+        """
+        (defsrc s h)
+        (deflayer one (switch ((and (base-layer one) (not (layer one)))) y break () n break) (layer-while-held two))
+        (deflayer two _ _)
+        """))
+    h.tap("s")
+    h.down("h")
+    h.tap("s")
+    h.up("h")
+    // held: two is on top of base layer one
+    #expect(h.typed == "ny")
+  }
+
+  @Test func capsWordToggleEndsOnSecondPress() throws {
+    let h = try Harness(
+      Config.parse(
+        """
+        (defsrc cw a)
+        (deflayer x (caps-word-toggle 2000) a)
+        """))
+    h.type("cw", "a", "cw", "a", "cw", "cw", "a")
+    #expect(h.typed == "Aaa")
+    let plain = try capsWordHarness()
+    plain.type("cw", "a", "cw", "a")
+    #expect(plain.typed == "AA")
+  }
+
+  @Test func capsWordCustomSets() throws {
+    let h = try Harness(
+      Config.parse(
+        """
+        (defsrc cw a b c)
+        (deflayer x (caps-word-custom 2000 (a) (b)) a b c)
+        """))
+    // a is shifted, b continues unshifted, c ends the word
+    h.type("cw", "a", "b", "a", "c", "a")
+    #expect(h.typed == "AbAca")
+  }
+
   @Test func textModeCmdChordsAreUnsupported() {
     #expect(Translator.edits(.stroke(Key("a"), .meta), mode: .text, context: TextContext()) == nil)
     #expect(
