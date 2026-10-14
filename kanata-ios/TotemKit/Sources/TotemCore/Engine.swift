@@ -98,8 +98,6 @@ public final class Engine {
     chordsByKey = byKey
   }
 
-  // MARK: - public API
-
   public func press(_ key: Int, at t: Double) -> [Output] {
     run(t) {
       pressed.insert(key)
@@ -166,8 +164,6 @@ public final class Engine {
     return config.defaults[key]
   }
 
-  // MARK: - driver
-
   private func run(_ t: Double, _ body: () -> Void) -> [Output] {
     now = max(now, t)
     out = []
@@ -190,8 +186,6 @@ public final class Engine {
     token += 1
     return token
   }
-
-  // MARK: - chord stage
 
   private func chordsEnabled(_ i: Int) -> Bool {
     !config.chords[i].disabledLayers.contains(config.layers[topLayer].name)
@@ -278,8 +272,6 @@ public final class Engine {
     if activeChords[i].remaining.isEmpty { activeChords.remove(at: i) }
   }
 
-  // MARK: - tap-hold stage
-
   private func emit(_ e: Event) {
     buffer.append(e)
     drain()
@@ -355,8 +347,6 @@ public final class Engine {
     }
     pressAction(e.key, a)
   }
-
-  // MARK: - actions
 
   /// How long a swipe key waits for movement before it counts as held.
   static let swipeWait = 200

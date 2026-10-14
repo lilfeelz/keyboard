@@ -54,8 +54,6 @@ public final class KeyboardController {
     handle(engine.release(key, at: CACurrentMediaTime()))
   }
 
-  // MARK: - swipes
-
   public func swipeKind(_ key: Int) -> SwipeKind? {
     engine.swipe(at: key)
   }
@@ -177,8 +175,6 @@ public final class KeyboardController {
       self.handle(self.engine.tick(at: CACurrentMediaTime()))
     }
   }
-
-  // MARK: - drawing state
 
   public func cap(at key: Int) -> KeyCap {
     let a = engine.action(at: key)
