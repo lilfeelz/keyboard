@@ -32,7 +32,8 @@ repeat the table here.
 
 ### Hold-taps
 
-The layers bind only the stock `&mt` (tapping-term 150ms, set in the `&mt {};` block).
+The layers bind the stock `&mt` (tapping-term 150ms, set in the `&mt {};` block) on the
+home rows of BASE (position 19), NAV and SYM, plus `lt_caps` and `sk_mo` on BASE.
 `mt_left` and `mt_right` are defined but not bound anywhere; kept for now, see #37.
 
 - `mt_left` (balanced, 250ms, hold-trigger-on-release, require-prior-idle=100)
