@@ -76,6 +76,14 @@ struct Recorded {
     #expect(r.field.before == "one ")
   }
 
+  @Test func deletePastContextDropsHistory() {
+    var h = History()
+    h.record(.insert("ab"), context: TextContext(before: "", after: ""))
+    // the host cut its context at a line break: the deleted text is not visible
+    h.record(.deleteBackward(1), context: TextContext(before: "", after: ""))
+    #expect(h.undo(context: TextContext(before: "a", after: "")) == [])
+  }
+
   @Test func cmdZTranslates() {
     let ctx = TextContext()
     #expect(Translator.edits(.stroke(Key("z"), .meta), mode: .text, context: ctx) == [.undo])

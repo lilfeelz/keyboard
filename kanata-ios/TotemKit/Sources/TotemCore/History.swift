@@ -31,7 +31,10 @@ public struct History: Sendable {
     let entry: Entry
     switch e {
     case .insert(let s): entry = .insert(s)
-    case .deleteBackward(let n): entry = .deleted(String(context.before.suffix(n)))
+    case .deleteBackward(let n):
+      // The host cuts the context at a line break; a delete past it cannot be played back.
+      guard context.before.count >= n else { return clear() }
+      entry = .deleted(String(context.before.suffix(n)))
     case .deleteForward(let s): entry = .deletedForward(s)
     case .move(let n): entry = .move(n)
     default: return
