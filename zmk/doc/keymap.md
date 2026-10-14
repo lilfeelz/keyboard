@@ -7,7 +7,7 @@ Behavior definitions only. Layers, thumb keys and combos:
 
 ### Hold-Tap: `mt_left` / `mt_right`
 
-Custom hold-tap behaviors with left/right-aware trigger positions.
+Custom hold-tap behaviors with left/right-aware trigger positions. Defined in `config/totem.keymap` but not bound in any layer (the layers use the stock `&mt`, 150ms, plus `lt_caps` and `sk_mo` below); kept for now, see #37.
 
 ```dts
 mt_left: mt_left {

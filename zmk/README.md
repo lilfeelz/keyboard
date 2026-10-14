@@ -75,7 +75,7 @@ Four layers (BASE, NAV, SYM, FUN). The layer table, thumb bindings and combos li
 
 ## Key Features
 
-- **Homerow mods** via custom `mt_left`/`mt_right` hold-tap (250ms, balanced, hold-trigger-on-release)
+- **Hold-taps**: stock `&mt` (150ms) on the home rows: `/` on BASE (hold Ctrl+Alt+Cmd), Cmd+A/S/D/F on NAV and `` ` `` `"` `'` `~` on SYM, each holding Cmd, Ctrl, Alt or Globe; `lt_caps` on the outer pinkies (hold FUN, tap caps word) and `sk_mo` on the left middle thumb (hold NAV, tap Backspace). The positional `mt_left`/`mt_right` hold-taps (250ms, balanced, hold-trigger-on-release) are defined but bound nowhere, kept for now (#37)
 - **Caps word**: `&caps_word` with continuation list (underscore, backspace, delete, arrows, etc.)
 - **2 combos**: see [`docs/totem/keymap.md`](docs/totem/keymap.md#combos)
 - **6 mod-morphs**: comma↔semicolon, period↔colon, cmd+tab↔F21, cmd+shift+tab↔F22, alt+backspace↔alt+delete, caps-word↔caps-lock
