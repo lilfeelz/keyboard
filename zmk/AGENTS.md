@@ -32,6 +32,9 @@ repeat the table here.
 
 ### Hold-taps
 
+The layers bind only the stock `&mt` (tapping-term 150ms, set in the `&mt {};` block).
+`mt_left` and `mt_right` are defined but not bound anywhere; kept for now, see #37.
+
 - `mt_left` (balanced, 250ms, hold-trigger-on-release, require-prior-idle=100)
   - Trigger positions (22): right hand 5-9, 15-19, 26-31 and all six thumbs 32-37
 - `mt_right` (balanced, 250ms, hold-trigger-on-release, require-prior-idle=100)

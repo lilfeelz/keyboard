@@ -29,7 +29,7 @@ Note: Row 3 has mixed positions — RC(3,0) is the left pinky column, RC(3,2-7) 
 
 ### Hold-Tap
 
-Two variants (`mt_left`, `mt_right`) differ only in `hold-trigger-key-positions` — which keys trigger the hold action. This enables:
+The layers bind the stock `&mt` (tapping-term 150ms). Two unbound variants (`mt_left`, `mt_right`, kept for now, see #37) differ only in `hold-trigger-key-positions` — which keys trigger the hold action. They would enable:
 - Left-hand mods activate when the other hand's keys are pressed (right-hand roll)
 - Right-hand mods activate when the left hand's keys are pressed
 
