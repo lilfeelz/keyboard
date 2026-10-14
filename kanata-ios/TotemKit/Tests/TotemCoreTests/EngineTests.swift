@@ -233,7 +233,9 @@ final class Harness {
     h.down("w", after: 20)
     h.up("w", after: 20)
     h.up("lmet", after: 20)
-    #expect(h.typed == "2")
+    // held: layer-switch left stays after the release, so w is 2 again
+    h.tap("w")
+    #expect(h.typed == "22")
   }
 
   @Test func tapHoldReleasePressOnlyIsTap() {
@@ -242,8 +244,9 @@ final class Harness {
     h.down("w", after: 20)
     h.up("lmet", after: 20)
     h.up("w", after: 20)
-    // tapped: a one-shot nav layer, so w is 2
-    #expect(h.typed == "2")
+    // tapped: a one-shot nav layer, spent by the first w
+    h.tap("w")
+    #expect(h.typed == "2w")
   }
 
   @Test func oneShotShift() {
