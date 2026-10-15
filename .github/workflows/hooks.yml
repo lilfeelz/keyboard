@@ -11,7 +11,7 @@ on:
 
 jobs:
   prek:
-    uses: JakobMelchard/.github/.github/workflows/hooks.yml@dc944884b137d7f6b96628189bdf041bffc27d93 # v2.2.0
+    uses: JakobMelchard/.github/.github/workflows/hooks.yml@531b4dcb30293e6219d67e312e164cc262a69955 # v2.3.1
     with:
       # swift-format is linted on macOS by the kanata-ios workflow
       skip: swift-format
