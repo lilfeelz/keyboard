@@ -508,6 +508,32 @@ final class Harness {
     }
   }
 
+  // Two fingers can land on one key (a gap touch goes to the nearest key): the key stays
+  // held until the last finger lifts, and nothing it holds outlives it.
+  @Test func twoFingersOnOneKeyReleaseOnTheLast() throws {
+    let h = try Harness(
+      Config.parse(
+        """
+        (defsrc s l b)
+        (deflayer one lsft (layer-while-held two) b)
+        (deflayer two _ _ x)
+        """))
+    for (k, held) in [
+      ("s", { h.engine.state.mods == .shift }), ("l", { h.engine.state.layer == 1 }),
+    ] {
+      h.down(k)
+      h.down(k, after: 10)
+      h.up(k, after: 10)
+      #expect(held(), "\(k) after the first lift")
+      #expect(h.engine.state.pressed.contains(h.idx(k)))
+      h.up(k, after: 10)
+      #expect(!held(), "\(k) after the last lift")
+      #expect(h.engine.state.pressed.isEmpty)
+    }
+    h.tap("b")
+    #expect(h.typed == "b")
+  }
+
   func switchHarness(_ cases: String) throws -> Harness {
     try Harness(
       Config.parse(
