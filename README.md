@@ -38,7 +38,7 @@ cd kanata-ios && make test-core             # TotemKit unit tests; make test add
 | `kanata-ios` | every PR and push to main | `JakobMelchard/.github` xcode.yml in `kanata-ios/`: swift-format lint, TotemKit tests, XCUITest |
 | `hooks` | every PR and push to main | prek over all files with this repo's `.pre-commit-config.yaml` |
 
-Hooks: `brew install prek && prek install` (gitleaks, conventional commit subjects, swift-format;
+Hooks: `brew install prek && prek install` (gitleaks, conventional commit subjects, swift-format, actionlint with shellcheck on run: blocks;
 `xcodegen generate` on push). Renovate bumps the pinned hook revs.
 
 History: `zmk/` and `kanata-ios/` were the repos `lilfeelz/zmk` and `lilfeelz/kanata-ios`,

@@ -13,3 +13,8 @@ repos:
       - id: conventional-commit
       - id: swift-format
       - id: xcodegen
+  # Workflow lint, with shellcheck over every run: block.
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
