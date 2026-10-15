@@ -81,6 +81,9 @@ public final class Engine {
   private var capsLock = false
   private var held: [Int: Held] = [:]
   private var pressed: Set<Int> = []
+  /// Fingers down per key: a second finger on a held key joins the first, so the key is
+  /// pressed once and released when the last finger lifts.
+  private var fingers: [Int: Int] = [:]
   private var token = 0
   private var lastOutputs: [Output] = []
 
@@ -100,6 +103,8 @@ public final class Engine {
 
   public func press(_ key: Int, at t: Double) -> [Output] {
     run(t) {
+      fingers[key, default: 0] += 1
+      guard fingers[key] == 1 else { return }
       pressed.insert(key)
       feedRaw(Event(key: key, down: true, t: t))
     }
@@ -107,6 +112,9 @@ public final class Engine {
 
   public func release(_ key: Int, at t: Double) -> [Output] {
     run(t) {
+      guard let n = fingers[key] else { return }
+      fingers[key] = n > 1 ? n - 1 : nil
+      guard n == 1 else { return }
       pressed.remove(key)
       if cancelled.remove(key) != nil { return }
       feedRaw(Event(key: key, down: false, t: t))
