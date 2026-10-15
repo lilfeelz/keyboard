@@ -6,5 +6,5 @@ and branch. It reads and commits `config/totem.keymap` at the repo root.
 
 [Start Keymap Editor ↗](https://nickcoutsos.github.io/keymap-editor/)
 
-Its commits change only the ZMK copy. Carry layout changes into `DefaultConfig.swift` and the
-kanata dotfile by hand (see the repo `AGENTS.md`).
+Its commits change only the ZMK copy. Carry layout changes into
+`kanata-ios/TotemKit/Sources/TotemCore/default.kbd` and the kanata dotfile by hand (see the repo `AGENTS.md`).
