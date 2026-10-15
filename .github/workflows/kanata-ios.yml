@@ -14,7 +14,7 @@ jobs:
   # runner serves JakobMelchard repos only; hosted macOS minutes are free for public repos.
   # Not path-filtered: the ruleset requires it on every PR, and the layout is shared with zmk/.
   ci:
-    uses: JakobMelchard/.github/.github/workflows/xcode.yml@dc944884b137d7f6b96628189bdf041bffc27d93 # v2.2.0
+    uses: JakobMelchard/.github/.github/workflows/xcode.yml@da5c1f89e2029e3f3e7a39a5dc1c9f9d5ad2084e # v2.2.3
     with:
       working-directory: kanata-ios
       scheme: Totem
