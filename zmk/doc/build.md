@@ -17,13 +17,13 @@ Then build:
 
 ```sh
 # Left half
-west build -b xiao_ble -d build/left -s zmk/app -- -DSHIELD=totem_left
+west build -b xiao_ble//zmk -d build/left -s zmk/app -- -DSHIELD=totem_left
 
 # Right half
-west build -b xiao_ble -d build/right -s zmk/app -- -DSHIELD=totem_right
+west build -b xiao_ble//zmk -d build/right -s zmk/app -- -DSHIELD=totem_right
 
 # Settings reset (BT pairings, etc.)
-west build -b xiao_ble -d build/reset -s zmk/app -- -DSHIELD=settings_reset
+west build -b xiao_ble//zmk -d build/reset -s zmk/app -- -DSHIELD=settings_reset
 ```
 
 Firmware `.uf2` files land in `build/<side>/zephyr/zmk.uf2`. Flash by copying to the XIAO BLE's mass storage device (double-tap reset to enter bootloader).

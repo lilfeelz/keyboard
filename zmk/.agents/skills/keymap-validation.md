@@ -29,4 +29,4 @@ Common errors:
 
 ## CI
 
-Docs workflow (`docs.yml`) auto-generates SVG and deploys to GH Pages.
+Docs workflow (`../.github/workflows/zmk-docs.yml` at the repo root) auto-generates SVG and deploys to GH Pages.
