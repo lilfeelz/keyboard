@@ -22,7 +22,7 @@ mt_left: mt_left {
 };
 ```
 
-`mt_left` triggers hold only when the right hand's keys are pressed (positions 5-9, 15-19, 26-35, 37-36). Left-hand key + left-hand mod = tap (not hold), enabling fast rolling on the same hand.
+`mt_left` triggers hold only when the right hand's keys are pressed (positions 5-9, 15-19, 26-31 and all six thumbs 32-37). Left-hand key + left-hand mod = tap (not hold), enabling fast rolling on the same hand.
 
 `mt_right` mirrors: triggers hold only when left-hand keys are pressed.
 
