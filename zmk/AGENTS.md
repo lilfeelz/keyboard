@@ -75,7 +75,7 @@ keymap is valid.
 
 ```sh
 npm install honkit
-npx honkit serve          # http://localhost:4000
+npx honkit serve docs     # http://localhost:4000
 ```
 
 Docs deploy on push to `main` touching `docs/**` or `book.json`
@@ -89,6 +89,5 @@ keymap-drawer. To regenerate it locally into the docs tree:
 
 ## Known Issues
 
-- Shield keymap (`config/boards/shields/totem/totem.keymap`) is dead code
-- 3 empty .conf files in shield dir
+- Empty `totem.conf` in shield dir
 - `boards/shields/.gitkeep` is confusing/wrong

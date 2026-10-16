@@ -5,7 +5,7 @@
 
 # keyboard
 
-One layout, the TOTEM 36-key split, kept in step across the places it runs:
+One layout, the TOTEM 38-key split, kept in step across the places it runs:
 
 | dir | what |
 | --- | --- |
@@ -33,7 +33,7 @@ cd kanata-ios && make test-core             # TotemKit unit tests; make test add
 
 | workflow | runs | what |
 | --- | --- | --- |
-| `zmk-build` | changes under `zmk/` | west build per `zmk/build.yaml` entry, firmware as artifacts |
+| `zmk-build` | changes under `config/` or the `zmk/` build files | west build per `zmk/build.yaml` entry, firmware as artifacts |
 | `zmk-docs` | pushes to main touching `zmk/docs`, keymap | keymap SVG + honkit site to the `gh-pages` branch |
 | `kanata-ios` | every PR and push to main | `JakobMelchard/.github` xcode.yml in `kanata-ios/`: swift-format lint, TotemKit tests, XCUITest |
 | `hooks` | every PR and push to main | prek over all files with this repo's `.pre-commit-config.yaml` |

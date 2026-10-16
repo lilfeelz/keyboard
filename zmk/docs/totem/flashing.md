@@ -3,8 +3,8 @@
 ## Local Build
 
 ```sh
-west build -b xiao_ble -d build/left  -s zmk/app -- -DSHIELD=totem_left
-west build -b xiao_ble -d build/right -s zmk/app -- -DSHIELD=totem_right
+west build -b xiao_ble//zmk -d build/left  -s zmk/app -- -DSHIELD=totem_left
+west build -b xiao_ble//zmk -d build/right -s zmk/app -- -DSHIELD=totem_right
 ```
 
 ## GitHub Actions

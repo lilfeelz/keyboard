@@ -1,6 +1,6 @@
 ---
 name: layers
-description: Layer reference for TOTEM root keymap. 5 active layers (BASE/NAV/SYM/MOO/fun) plus combo-only layer 5.
+description: Layer reference for TOTEM root keymap. 4 layers (BASE/NAV/SYM/FUN).
 ---
 
 # Layer Reference
@@ -15,27 +15,16 @@ QWERTY alphas. See `docs/totem/keymap.md` for thumbs and the outer keys.
 
 ## NAV (1) — Numbers + Shortcuts
 
-Numbers 1-0 on homerow. Mod-shortcuts (Cmd+A, Cmd+S, etc.) via hold-tap.
-F21/F22 for app switching (WezTerm intercepts for alt-tab).
-Arrows on home row. Home/PgDn/PgUp/End on bottom row.
+Numbers 1-0 on the top row. Cmd+A/S/D/F on the left home row as hold-taps (hold Globe, Alt, Ctrl, Cmd).
+`cmd_tab`/`cmd_stb` (F21/F22 with Cmd held) for app switching.
+Arrows on the right home row. Home/PgDn/PgUp/End on the bottom row.
 
 ## SYM (2) — Symbols
 
-Shifted symbols (!@#$%^&* etc.). Brackets. Equal sign with mod-morphs for ≤, ≥, ←, →.
-Colon/semicolon, period/comma mod-morphs reversed.
+Shifted symbols (!@#$%^&* etc.). Braces and brackets, `=`, and `` ` `` `"` `'` `~` hold-taps on the right home row.
+Pipe, angle brackets and parens on the left bottom row; Cmd+N/M/,/./slash on the right.
 
-## MOO (3) — F-Keys + Sticky Mods
+## FUN (3) — F-Keys + Bluetooth + Media
 
-F1-F20 on homerow. Sticky modifiers (GUI, Ctrl, Alt, Shift) on both left and right hand.
-
-## FUN (4) — Bluetooth + Media
-
-BT0-BT4 select (left-right mirrored for both-hand reach). Brightness up/down.
-Mute, volume down/up. BT clear, output toggle.
-
-## Delete Layer (5, combo-only)
-
-Meant to be held via the `del` combo on positions 12+13 (D+F), but `bs_df` on the
-same positions is defined first and always wins, so the layer is unreachable.
-Alt, Delete, Backspace on the left home row; Shift+arrows on the right.
-Combo times out after chord-time; holding combos for `require-prior-idle-ms` may activate the combo behavior on the BASE layer instead.
+Held from either outer pinky. F1-F12. BT_SEL 0-3 (left-right mirrored for both-hand reach), BT clear.
+Brightness down/up, volume down/up, mute, output toggle.

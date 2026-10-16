@@ -38,7 +38,7 @@ west build -b xiao_ble//zmk -d build/right -s zmk/app -- -DSHIELD=totem_right
 
 ```sh
 npm install honkit
-npx honkit serve
+npx honkit serve docs
 # opens http://localhost:4000
 ```
 
@@ -48,7 +48,7 @@ npx honkit serve
 
 Numbers are ZMK key positions, the flat indices used by `key-positions` and
 `hold-trigger-key-positions`. The transform lives in
-[`config/boards/shields/totem/totem.dtsi`](config/boards/shields/totem/totem.dtsi).
+[`config/boards/shields/totem/totem.dtsi`](../config/boards/shields/totem/totem.dtsi).
 
 ```
      ┌────┬────┬────┬────┬────┐   ┌────┬────┬────┬────┬────┐
@@ -113,6 +113,5 @@ zmk/
 
 ## Known Issues
 
-- Shield keymap at `config/boards/shields/totem/totem.keymap` is dead code
-- 3 empty `.conf` files in shield dir
+- Empty `totem.conf` in shield dir
 - `boards/shields/.gitkeep` confusing/wrong location

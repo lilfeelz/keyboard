@@ -21,7 +21,7 @@ extension configured in kanata lisp. The layout also lives in `~/.config/kanata/
 ## zmk
 
 Validate with keymap-drawer before pushing (see `zmk/AGENTS.md`). CI builds every
-`zmk/build.yaml` entry on changes under `zmk/`; the docs site publishes from `zmk/docs` to the
+`zmk/build.yaml` entry on changes under `config/` or the `zmk/` build files; the docs site publishes from `zmk/docs` to the
 `gh-pages` branch on pushes to main.
 
 ## kanata-ios
